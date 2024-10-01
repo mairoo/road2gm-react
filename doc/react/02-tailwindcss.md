@@ -122,7 +122,7 @@ root.render(
 # Headless UI, 리액트 아이콘, classnames
 
 ```bash
-npm install --save-dev @headlessui/react @tailwindcss/forms @tailwindcss/typography classnames
+npm install --save-dev @headlessui/react @tailwindcss/forms @tailwindcss/typography classnames react-icons
 ```
 
 ## tailwindcss 플러그인 적용
