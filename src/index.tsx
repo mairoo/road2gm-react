@@ -1,6 +1,8 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import "./tailwind.css";
+import { RouterProvider } from "react-router-dom";
+import browserRouter from "./routes/BrowserRouter";
 
 const container = document.getElementById("root");
 
@@ -12,6 +14,6 @@ const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <h1 className="text-3xl font-bold underline">Road2GM</h1>
+    <RouterProvider router={browserRouter} />
   </React.StrictMode>,
 );

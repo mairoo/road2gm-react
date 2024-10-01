@@ -34,3 +34,72 @@ const config: webpack.Configuration = {
 
 // ... 생략
 ```
+
+# BrowserRouter 사용
+
+## `index.tsx` 파일 수정
+
+```
+import { RouterProvider } from "react-router-dom";
+import browserRouter from "./routes/BrowserRouter";
+
+
+    <RouterProvider router={browserRouter} />
+```
+
+## `routes/BrowserRouter.tsx` 파일 생성
+
+```tsx
+import { createBrowserRouter } from "react-router-dom";
+import React from "react";
+import Root from "../layouts/Root";
+import Home from "../pages/Home";
+
+const BrowserRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+    ],
+  },
+]);
+
+export default BrowserRouter;
+```
+
+## `layouts/Root.tsx` 레이아웃 파일 생성
+
+```tsx
+import { Outlet } from "react-router-dom";
+import React from "react";
+
+const Root = () => {
+  return (
+    <>
+      <Outlet />
+    </>
+  );
+};
+
+export default Root;
+```
+
+## `pages/Home.tsx` 페이지 파일 생성
+
+```tsx
+import React from "react";
+
+const Home = () => {
+    return (
+        <>
+            <h1 className="text-3xl font-bold underline">Road2GM</h1>
+        </>
+    );
+};
+
+export default Home;
+```
