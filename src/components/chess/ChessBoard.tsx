@@ -26,8 +26,6 @@ const ChessBoard = () => {
         <div className="grid grid-cols-8">
           {COORDINATES.map((square) => (
             <Square
-              file={square.file}
-              rank={square.rank}
               key={square.file + square.rank}
               onClick={() => {
                 setCoordinate(square.file + square.rank);
