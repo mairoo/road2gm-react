@@ -49,8 +49,8 @@ npm install --save file-loader
 
 `file-loader`는 이미지 파일 등을 불러오는데 사용한다. 이미지 전송은 CDN이나 s3 서비스 등을 이용할 경우 `file-loader`는 설치하지 않을 수 있다.
 
-
 # 타입스크립트 컴파일 - babel-loader
+
 개발 시 강력한 타입 검사로 `ts-loader`를 사용하고 운영 배포 시 `babel-loader`를 사용해서 빠른 컴파일 속도의 장점을 이용한다.
 
 ```bash
@@ -58,6 +58,7 @@ npm install --save-dev babel-loader @babel/core @babel/preset-react @babel/prese
 ```
 
 `babel.config.json` 파일 생성
+
 ```json
 {
   "presets": [
@@ -221,15 +222,15 @@ import {createRoot} from 'react-dom/client';
 const container = document.getElementById('root');
 
 if (container === null) {
-  throw new Error('#root element not found');
+    throw new Error('#root element not found');
 }
 
 const root = createRoot(container);
 
 root.render(
-        <React.StrictMode>
-          <h1>Road2GM</h1>
-        </React.StrictMode>
+    <React.StrictMode>
+        <h1>Road2GM</h1>
+    </React.StrictMode>
 );
 ```  
 

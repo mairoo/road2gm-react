@@ -4,6 +4,7 @@ import webpack from 'webpack';
 import webpackDevServer from 'webpack-dev-server';
 
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const prod = process.env.NODE_ENV === 'production';
 
@@ -36,10 +37,20 @@ const config: webpack.Configuration = {
                 },
                 exclude: /node_modules/,
                 use: prod ? 'babel-loader' : 'ts-loader',
+            }, {
+                test: /\.css$/i,
+                use: [
+                    prod ? MiniCssExtractPlugin.loader : 'style-loader', // 배포 시 CSS 파일 추출 분리
+                    'css-loader', // CSS 파일을 JS 모듈로 불러와 접근 가능
+                    'postcss-loader', // tailwind 처리
+                ],
             },
         ],
     },
-    plugins: [new HtmlWebpackPlugin({template: './index.html'})],
+    plugins: [
+        new HtmlWebpackPlugin({template: './index.html'}),
+        new MiniCssExtractPlugin(),
+    ],
     devServer,
 };
 
