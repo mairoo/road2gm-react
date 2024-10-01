@@ -12,7 +12,7 @@ const ChessBoard = () => {
   ).flat();
 
   return (
-    <div className="w-[32rem] relative">
+    <div className="mx-auto max-w-xl sm:px-6 lg:px-8 relative">
       <div className="bg-[url('https://road2gm.co.kr/assets/chess/boards/blue.svg')] bg-no-repeat bg-cover">
         <div className="grid grid-cols-8">
           {COORDINATES.map((square) => (
