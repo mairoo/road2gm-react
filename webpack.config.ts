@@ -1,5 +1,6 @@
 import path from "path";
 
+import dotenv from "dotenv";
 import webpack from "webpack";
 import webpackDevServer from "webpack-dev-server";
 
@@ -51,7 +52,22 @@ const config: webpack.Configuration = {
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: "./index.html" }),
+    // dotenv + Webpack.DefinePlugin = dotenv-webpack
+    new webpack.DefinePlugin({
+      "process.env": JSON.stringify(dotenv.config().parsed),
+      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+    }),
+    new HtmlWebpackPlugin({
+      template: "./index.html",
+      // .env에서 읽은 설정을 HTML 문서에 주입 가능
+      title: process.env.SITE_TITLE,
+      meta: {
+        viewport: "width=device-width, initial-scale=1",
+        "theme-color": process.env.SITE_THEME_COLOR!,
+      },
+      favicon: process.env.SITE_FAVICON,
+      minify: prod,
+    }),
     new MiniCssExtractPlugin(),
   ],
   devServer,

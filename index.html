@@ -2,7 +2,8 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Road2GM</title>
+    <!-- .env에서 읽은 설정값을 HTML 템플릿에 주입 -->
+    <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
 <noscript>애플리케이션 실행을 위해 반드시 자바스크립트를 허용해야 합니다.</noscript>
