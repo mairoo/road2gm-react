@@ -12,6 +12,15 @@ module.exports = {
       animation: {
         shimmer: "shimmer 1.5s infinite",
       },
+      width: {
+        "1/8": "12.5%",
+      },
+      height: {
+        "1/8": "12.5%",
+      },
+      backgroundSize: {
+        "100%": "100%",
+      },
     },
   },
   plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")],

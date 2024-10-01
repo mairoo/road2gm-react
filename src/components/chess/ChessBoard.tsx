@@ -35,6 +35,9 @@ const ChessBoard = () => {
             ></Square>
           ))}
         </div>
+        <div>
+          <div className="bg-100% h-1/8 w-1/8 overflow-hidden absolute left-0 top-0 will-change-transform bg-[url('https://road2gm.co.kr/assets/chess/pieces/staunty/br.svg')]"></div>
+        </div>
       </div>
       <div className="mt-2">
         <span className="isolate inline-flex rounded-md shadow-sm">

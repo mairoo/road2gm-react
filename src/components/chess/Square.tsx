@@ -9,12 +9,7 @@ const Square = ({
   rank: number;
   onClick: () => void;
 } & ComponentPropsWithoutRef<"div">) => {
-  return (
-    <div className="aspect-square text-gray-100" onClick={onClick}>
-      {file}
-      {rank}
-    </div>
-  );
+  return <div className="aspect-square text-gray-100" onClick={onClick} />;
 };
 
 export default Square;
