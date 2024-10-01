@@ -14,6 +14,7 @@ const devServer: webpackDevServer.Configuration = {
   hot: true, // HMR on
   compress: true, // 압축 번들링
   open: true, // 서버 시작 시 브라우저 자동 열기
+  historyApiFallback: true, // 리액트 라우터 - 새로고침 오류 방지
 };
 
 const config: webpack.Configuration = {
@@ -27,6 +28,7 @@ const config: webpack.Configuration = {
     // 번들링 main.js 파일 저장되는 경로 (예, dist/main.js)
     path: path.resolve(__dirname, "dist"),
     clean: true, // dist-clean 후 빌드
+    publicPath: "/", // 리액트 라우터 - 중첩 라우팅 지원 오류 방지
   },
   module: {
     rules: [
