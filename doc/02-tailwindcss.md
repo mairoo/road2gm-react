@@ -119,6 +119,54 @@ root.render(
 );
 ```
 
+# Headless UI, 리액트 아이콘, classnames
+
+```bash
+npm install --save-dev @headlessui/react @tailwindcss/forms @tailwindcss/typography classnames
+```
+
+## tailwindcss 플러그인 적용
+
+`tailwind.config.ts` 파일 수정
+
+```ts
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+    content: ['./src/**/*.{html,ts,tsx}'],
+    theme: {
+        extend: {},
+    },
+    // 아래 줄 추가
+    plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+};
+```
+
+## `animate-shimmer` 적용
+
+`tailwind.config.ts` 파일 수정
+
+```ts
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+    content: ['./src/**/*.{html,ts,tsx}'],
+    theme: {
+        extend: {
+            // 여기서부터 추가
+            keyframes: {
+                shimmer: {
+                    '100%': {transform: 'translateX(100%)'},
+                },
+            },
+            animation: {
+                shimmer: 'shimmer 1.5s infinite',
+            },
+            // 여기까지 추가
+        },
+    },
+    plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+};
+```
+
 # tailwind 실무
 
 https://medium.com/@imanshurathore/best-practises-for-tailwind-css-in-react-ae2f5e083980
