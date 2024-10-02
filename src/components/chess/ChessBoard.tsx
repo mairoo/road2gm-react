@@ -21,9 +21,12 @@ const ChessBoard = () => {
   const [coordinate, setCoordinate] = useState("");
 
   return (
-    <div className="mx-auto max-w-xl sm:px-6 lg:px-8">
-      <div className="bg-[url('https://road2gm.co.kr/assets/chess/boards/blue.svg')] bg-no-repeat bg-cover relative">
-        <div className="grid grid-cols-8">
+    <>
+      <div className="w-96 h-96 relative">
+        <div
+          className="grid grid-cols-8 
+        bg-[url('https://road2gm.co.kr/assets/chess/boards/blue.svg')] bg-no-repeat bg-cover"
+        >
           {COORDINATES.map((square) => (
             <Square
               key={square.file + square.rank}
@@ -34,7 +37,13 @@ const ChessBoard = () => {
           ))}
         </div>
         <div>
-          <div className="bg-100% h-1/8 w-1/8 overflow-hidden absolute left-0 top-0 will-change-transform bg-[url('https://road2gm.co.kr/assets/chess/pieces/staunty/br.svg')]"></div>
+          <div
+            className="bg-100% h-1/8 w-1/8 overflow-hidden absolute left-0 top-0 will-change-transform
+           bg-[url('https://road2gm.co.kr/assets/chess/pieces/staunty/br.svg')]"
+            onClick={()=>{
+              console.log('piece clicked');
+            }}
+          ></div>
         </div>
       </div>
       <div className="mt-2">
@@ -80,7 +89,7 @@ const ChessBoard = () => {
       <div>
         <input value={coordinate} readOnly={true} />
       </div>
-    </div>
+    </>
   );
 };
 
