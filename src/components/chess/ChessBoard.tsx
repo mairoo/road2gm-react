@@ -24,7 +24,7 @@ const ChessBoard = () => {
     <>
       <div className="w-96 h-96 relative">
         <div
-          className="grid grid-cols-8 
+          className="grid grid-cols-8
         bg-[url('https://road2gm.co.kr/assets/chess/boards/blue.svg')] bg-no-repeat bg-cover"
         >
           {COORDINATES.map((square) => (
@@ -44,6 +44,7 @@ const ChessBoard = () => {
             draggable={true}
             onDragStart={(e) => {
               console.log("drag start piece", e);
+              e.dataTransfer.effectAllowed = "move";
             }}
             onDragOver={(e) => {
               // Drop 이벤트를 발생시키려면 반드시 dragOver 이벤트에서 preventDefault() 무효화 처리를 해야 한다.
@@ -51,6 +52,7 @@ const ChessBoard = () => {
             }}
             onDrop={(e) => {
               console.log("dropped on piece", e);
+              e.dataTransfer.effectAllowed = "move";
             }}
             onClick={() => {
               console.log("piece clicked");
@@ -58,7 +60,7 @@ const ChessBoard = () => {
           ></div>
         </div>
       </div>
-      <div className="mt-2">
+      <div className="mt-10">
         <span className="isolate inline-flex rounded-md shadow-sm">
           <button
             type="button"
