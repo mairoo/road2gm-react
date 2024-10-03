@@ -22,7 +22,9 @@ const ChessBoard = () => {
 
   return (
     <>
-      <div className="w-96 h-96 relative">
+      {/* 보드 컨테이너 크기 지정 relative */}
+      <div className="w-[600px] h-[600px] relative">
+        {/* 보드 이미지 + 그리드 64칸 */}
         <div
           className="grid grid-cols-8
         bg-[url('https://road2gm.co.kr/assets/chess/boards/blue.svg')] bg-no-repeat bg-cover"
@@ -37,28 +39,83 @@ const ChessBoard = () => {
             ></Square>
           ))}
         </div>
-        <div>
-          <div
-            className="bg-100% h-1/8 w-1/8 overflow-hidden absolute left-0 top-0 will-change-transform
+
+        {/* 좌표 */}
+        <svg
+          viewBox="0 0 100 100"
+          className="w-full h-full absolute left-0 top-0"
+        >
+          <text x="0.75" y="3.5" fontSize="2.8" fill="#999">
+            1
+          </text>
+          <text x="0.75" y="15.75" fontSize="2.8" fill="#eee">
+            2
+          </text>
+          <text x="0.75" y="28.25" fontSize="2.8" fill="#999">
+            3
+          </text>
+          <text x="0.75" y="40.75" fontSize="2.8" fill="#eee">
+            4
+          </text>
+          <text x="0.75" y="53.25" fontSize="2.8" fill="#999">
+            5
+          </text>
+          <text x="0.75" y="65.75" fontSize="2.8" fill="#eee">
+            6
+          </text>
+          <text x="0.75" y="78.25" fontSize="2.8" fill="#999">
+            7
+          </text>
+          <text x="0.75" y="90.75" fontSize="2.8" fill="#eee">
+            8
+          </text>
+          <text x="10" y="99" fontSize="2.8" fill="#eee">
+            h
+          </text>
+          <text x="22.5" y="99" fontSize="2.8" fill="#999">
+            g
+          </text>
+          <text x="35" y="99" fontSize="2.8" fill="#eee">
+            f
+          </text>
+          <text x="47.5" y="99" fontSize="2.8" fill="#999">
+            e
+          </text>
+          <text x="60" y="99" fontSize="2.8" fill="#eee">
+            d
+          </text>
+          <text x="72.5" y="99" fontSize="2.8" fill="#999">
+            c
+          </text>
+          <text x="85" y="99" fontSize="2.8" fill="#eee">
+            b
+          </text>
+          <text x="97.5" y="99" fontSize="2.8" fill="#999">
+            a
+          </text>
+        </svg>
+
+        {/* 기물 */}
+        <div
+          className="bg-100% h-1/8 w-1/8 overflow-hidden absolute left-0 top-0 will-change-transform
            bg-[url('https://road2gm.co.kr/assets/chess/pieces/staunty/br.svg')]"
-            draggable={true}
-            onDragStart={(e) => {
-              console.log("drag start piece", e);
-              e.dataTransfer.effectAllowed = "move";
-            }}
-            onDragOver={(e) => {
-              // Drop 이벤트를 발생시키려면 반드시 dragOver 이벤트에서 preventDefault() 무효화 처리를 해야 한다.
-              e.preventDefault();
-            }}
-            onDrop={(e) => {
-              console.log("dropped on piece", e);
-              e.dataTransfer.effectAllowed = "move";
-            }}
-            onClick={() => {
-              console.log("piece clicked");
-            }}
-          ></div>
-        </div>
+          draggable={true}
+          onDragStart={(e) => {
+            console.log("drag start piece", e);
+            e.dataTransfer.effectAllowed = "move";
+          }}
+          onDragOver={(e) => {
+            // Drop 이벤트를 발생시키려면 반드시 dragOver 이벤트에서 preventDefault() 무효화 처리를 해야 한다.
+            e.preventDefault();
+          }}
+          onDrop={(e) => {
+            console.log("dropped on piece", e);
+            e.dataTransfer.effectAllowed = "move";
+          }}
+          onClick={() => {
+            console.log("piece clicked");
+          }}
+        ></div>
       </div>
       <div className="mt-10">
         <span className="isolate inline-flex rounded-md shadow-sm">
