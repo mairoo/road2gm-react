@@ -32,6 +32,7 @@ const ChessBoard = () => {
               key={square.file + square.rank}
               onClick={() => {
                 setCoordinate(square.file + square.rank);
+                console.log("square clicked");
               }}
             ></Square>
           ))}
@@ -40,8 +41,19 @@ const ChessBoard = () => {
           <div
             className="bg-100% h-1/8 w-1/8 overflow-hidden absolute left-0 top-0 will-change-transform
            bg-[url('https://road2gm.co.kr/assets/chess/pieces/staunty/br.svg')]"
-            onClick={()=>{
-              console.log('piece clicked');
+            draggable={true}
+            onDragStart={(e) => {
+              console.log("drag start piece", e);
+            }}
+            onDragOver={(e) => {
+              // Drop 이벤트를 발생시키려면 반드시 dragOver 이벤트에서 preventDefault() 무효화 처리를 해야 한다.
+              e.preventDefault();
+            }}
+            onDrop={(e) => {
+              console.log("dropped on piece", e);
+            }}
+            onClick={() => {
+              console.log("piece clicked");
             }}
           ></div>
         </div>
