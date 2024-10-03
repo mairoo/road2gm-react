@@ -23,7 +23,7 @@ const ChessBoard = () => {
   return (
     <>
       {/* 보드 컨테이너 크기 지정 relative */}
-      <div className="w-[600px] h-[600px] relative">
+      <div className="w-full h-full md:w-[400px] md:h-[400px] relative">
         {/* 보드 이미지 + 그리드 64칸 */}
         <div
           className="grid grid-cols-8
