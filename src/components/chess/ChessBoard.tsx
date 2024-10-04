@@ -22,13 +22,65 @@ const ChessBoard = () => {
 
   return (
     <>
-      {/* 보드 컨테이너 크기 지정 relative */}
+      {/* 보드 컨테이너 크기 지정 + relative */}
       <div className="w-full h-full md:w-[400px] md:h-[400px] relative">
-        {/* 보드 이미지 + 그리드 64칸 */}
-        <div
-          className="grid grid-cols-8
-        bg-[url('https://road2gm.co.kr/assets/chess/boards/blue.svg')] bg-no-repeat bg-cover"
-        >
+        {/* 보드 배경 이미지 */}
+        <div className=" bg-[url('https://road2gm.co.kr/assets/chess/boards/blue.svg')] bg-no-repeat bg-cover">
+          {/* 좌표 */}
+          <svg viewBox="0 0 100 100">
+            <text x="0.75" y="3.5" fontSize="2.8" fill="#999">
+              1
+            </text>
+            <text x="0.75" y="15.75" fontSize="2.8" fill="#eee">
+              2
+            </text>
+            <text x="0.75" y="28.25" fontSize="2.8" fill="#999">
+              3
+            </text>
+            <text x="0.75" y="40.75" fontSize="2.8" fill="#eee">
+              4
+            </text>
+            <text x="0.75" y="53.25" fontSize="2.8" fill="#999">
+              5
+            </text>
+            <text x="0.75" y="65.75" fontSize="2.8" fill="#eee">
+              6
+            </text>
+            <text x="0.75" y="78.25" fontSize="2.8" fill="#999">
+              7
+            </text>
+            <text x="0.75" y="90.75" fontSize="2.8" fill="#eee">
+              8
+            </text>
+            <text x="10" y="99" fontSize="2.8" fill="#eee">
+              h
+            </text>
+            <text x="22.5" y="99" fontSize="2.8" fill="#999">
+              g
+            </text>
+            <text x="35" y="99" fontSize="2.8" fill="#eee">
+              f
+            </text>
+            <text x="47.5" y="99" fontSize="2.8" fill="#999">
+              e
+            </text>
+            <text x="60" y="99" fontSize="2.8" fill="#eee">
+              d
+            </text>
+            <text x="72.5" y="99" fontSize="2.8" fill="#999">
+              c
+            </text>
+            <text x="85" y="99" fontSize="2.8" fill="#eee">
+              b
+            </text>
+            <text x="97.5" y="99" fontSize="2.8" fill="#999">
+              a
+            </text>
+          </svg>
+        </div>
+
+        {/* 그리드 64칸 */}
+        <div className="w-full h-full grid grid-cols-8 absolute top-0 left-0">
           {COORDINATES.map((square) => (
             <Square
               key={square.file + square.rank}
@@ -39,61 +91,6 @@ const ChessBoard = () => {
             ></Square>
           ))}
         </div>
-
-        {/* 좌표 */}
-        <svg
-          viewBox="0 0 100 100"
-          className="w-full h-full absolute left-0 top-0"
-        >
-          <text x="0.75" y="3.5" fontSize="2.8" fill="#999">
-            1
-          </text>
-          <text x="0.75" y="15.75" fontSize="2.8" fill="#eee">
-            2
-          </text>
-          <text x="0.75" y="28.25" fontSize="2.8" fill="#999">
-            3
-          </text>
-          <text x="0.75" y="40.75" fontSize="2.8" fill="#eee">
-            4
-          </text>
-          <text x="0.75" y="53.25" fontSize="2.8" fill="#999">
-            5
-          </text>
-          <text x="0.75" y="65.75" fontSize="2.8" fill="#eee">
-            6
-          </text>
-          <text x="0.75" y="78.25" fontSize="2.8" fill="#999">
-            7
-          </text>
-          <text x="0.75" y="90.75" fontSize="2.8" fill="#eee">
-            8
-          </text>
-          <text x="10" y="99" fontSize="2.8" fill="#eee">
-            h
-          </text>
-          <text x="22.5" y="99" fontSize="2.8" fill="#999">
-            g
-          </text>
-          <text x="35" y="99" fontSize="2.8" fill="#eee">
-            f
-          </text>
-          <text x="47.5" y="99" fontSize="2.8" fill="#999">
-            e
-          </text>
-          <text x="60" y="99" fontSize="2.8" fill="#eee">
-            d
-          </text>
-          <text x="72.5" y="99" fontSize="2.8" fill="#999">
-            c
-          </text>
-          <text x="85" y="99" fontSize="2.8" fill="#eee">
-            b
-          </text>
-          <text x="97.5" y="99" fontSize="2.8" fill="#999">
-            a
-          </text>
-        </svg>
 
         {/* 기물 */}
         <div
