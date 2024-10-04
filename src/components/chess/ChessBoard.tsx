@@ -8,6 +8,7 @@ import {
   MdSkipPrevious,
 } from "react-icons/md";
 import Coords from "./Coords";
+import Piece from "./Piece";
 
 const ChessBoard = () => {
   // 좌표 순서 일차원 배열: a8, b8, c8, ... f1, g1, h1
@@ -45,27 +46,7 @@ const ChessBoard = () => {
 
         {/* 기물 */}
         <div className="w-full h-full absolute left-0 top-0">
-          <div
-            className="bg-100% h-1/8 w-1/8 overflow-hidden cursor-grab will-change-transform
-           bg-[url('https://road2gm.co.kr/assets/chess/pieces/staunty/br.svg')] translate-x-[700%]"
-            draggable={true}
-            onDragStart={(e) => {
-              console.log("기물 드래그 시작", e);
-
-              e.dataTransfer.effectAllowed = "move";
-            }}
-            onDragOver={(e) => {
-              // Drop 이벤트를 발생시키려면 반드시 dragOver 이벤트에서 preventDefault() 무효화 처리를 해야 한다.
-              e.preventDefault();
-            }}
-            onDrop={(e) => {
-              console.log("기물에 드롭", e);
-              e.dataTransfer.effectAllowed = "move";
-            }}
-            onClick={() => {
-              console.log("기물 클릭");
-            }}
-          ></div>
+          <Piece color="WHITE" role="PAWN" file="e" rank="4" />
         </div>
       </div>
       <div className="mt-10">
