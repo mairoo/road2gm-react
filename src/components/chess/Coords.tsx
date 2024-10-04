@@ -9,7 +9,7 @@ const Coords = () => {
             x="0.5"
             y={3 + index * 12.5}
             fontSize="2.8"
-            fill={index % 2 === 0 ? "#999" : "#eee"}
+            fill={index % 2 === 0 ? "#7a9db2" : "#c5d5dc"}
             key={rank}
           >
             {rank}
@@ -22,7 +22,7 @@ const Coords = () => {
             x={10 + index * 12.5}
             y="99"
             fontSize="2.8"
-            fill={index % 2 === 0 ? "#eee" : "#999"}
+            fill={index % 2 === 0 ? "#7a9db2" : "#c5d5dc"}
             key={file}
           >
             {file}

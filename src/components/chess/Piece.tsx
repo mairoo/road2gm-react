@@ -67,7 +67,7 @@ const Piece = ({
   return (
     <div
       className={className(
-        "bg-100% h-1/8 w-1/8 overflow-hidden cursor-grab",
+        "bg-100% h-1/8 w-1/8 overflow-hidden cursor-grab absolute",
         IMAGE[color][role],
         FILE[file],
         RANK[rank],
