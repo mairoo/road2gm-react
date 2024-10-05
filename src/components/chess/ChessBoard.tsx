@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Chess } from "chess.js";
 import Square from "./Square";
 import {
   MdArrowBack,
@@ -21,6 +22,8 @@ const ChessBoard = () => {
   ).flat();
 
   const [coordinate, setCoordinate] = useState("");
+
+  const chess = new Chess();
 
   return (
     <>
@@ -47,75 +50,56 @@ const ChessBoard = () => {
         </div>
 
         {/* 기물 */}
-        <Piece color="BLACK" role="ROOK" file="a" rank="8" />
-        <Piece color="BLACK" role="KNIGHT" file="b" rank="8" />
-        <Piece color="BLACK" role="BISHOP" file="c" rank="8" />
-        <Piece color="BLACK" role="QUEEN" file="d" rank="8" />
-        <Piece color="BLACK" role="KING" file="e" rank="8" />
-        <Piece color="BLACK" role="BISHOP" file="f" rank="8" />
-        <Piece color="BLACK" role="KNIGHT" file="g" rank="8" />
-        <Piece color="BLACK" role="ROOK" file="h" rank="8" />
-        <Piece color="BLACK" role="PAWN" file="a" rank="7" />
-        <Piece color="BLACK" role="PAWN" file="b" rank="7" />
-        <Piece color="BLACK" role="PAWN" file="c" rank="7" />
-        <Piece color="BLACK" role="PAWN" file="d" rank="7" />
-        <Piece color="BLACK" role="PAWN" file="e" rank="7" />
-        <Piece color="BLACK" role="PAWN" file="f" rank="7" />
-        <Piece color="BLACK" role="PAWN" file="g" rank="7" />
-        <Piece color="BLACK" role="PAWN" file="h" rank="7" />
-
-        <Piece color="WHITE" role="ROOK" file="a" rank="1" />
-        <Piece color="WHITE" role="KNIGHT" file="b" rank="1" />
-        <Piece color="WHITE" role="BISHOP" file="c" rank="1" />
-        <Piece color="WHITE" role="QUEEN" file="d" rank="1" />
-        <Piece color="WHITE" role="KING" file="e" rank="1" />
-        <Piece color="WHITE" role="BISHOP" file="f" rank="1" />
-        <Piece color="WHITE" role="KNIGHT" file="g" rank="1" />
-        <Piece color="WHITE" role="ROOK" file="h" rank="1" />
-        <Piece color="WHITE" role="PAWN" file="a" rank="2" />
-        <Piece color="WHITE" role="PAWN" file="b" rank="2" />
-        <Piece color="WHITE" role="PAWN" file="c" rank="2" />
-        <Piece color="WHITE" role="PAWN" file="d" rank="2" />
-        <Piece color="WHITE" role="PAWN" file="e" rank="2" />
-        <Piece color="WHITE" role="PAWN" file="f" rank="2" />
-        <Piece color="WHITE" role="PAWN" file="g" rank="2" />
-        <Piece color="WHITE" role="PAWN" file="h" rank="2" />
+        {chess.board().map((line) =>
+          line
+            .filter((s) => s !== null)
+            .map((i, j) => {
+              return (
+                <Piece
+                  color={i.color}
+                  type={i.type}
+                  square={i.square}
+                  key={j}
+                />
+              );
+            }),
+        )}
       </div>
       <div className="mt-10">
         <span className="isolate inline-flex rounded-md shadow-sm">
           <button
             type="button"
-            className="relative inline-flex items-center rounded-l-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+            className="relative inline-flex items-center rounded-l-md bg-w px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
           >
             <MdSkipPrevious />
           </button>
           <button
             type="button"
-            className="relative -ml-px inline-flex items-center bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+            className="relative -ml-px inline-flex items-center bg-w px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
           >
             <MdArrowBack />
           </button>
           <button
             type="button"
-            className="relative -ml-px inline-flex items-center bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+            className="relative -ml-px inline-flex items-center bg-w px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
           >
             <MdPlayArrow />
           </button>
           <button
             type="button"
-            className="relative -ml-px inline-flex items-center bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+            className="relative -ml-px inline-flex items-center bg-w px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
           >
             <MdArrowForward />
           </button>
           <button
             type="button"
-            className="relative -ml-px inline-flex items-center bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+            className="relative -ml-px inline-flex items-center bg-w px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
           >
             <MdSkipNext />
           </button>
           <button
             type="button"
-            className="relative -ml-px inline-flex items-center rounded-r-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+            className="relative -ml-px inline-flex items-center rounded-r-md bg-w px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
           >
             flip
           </button>

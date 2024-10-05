@@ -3,14 +3,12 @@ import className from "classnames";
 
 const Piece = ({
   color,
-  role,
-  file,
-  rank,
+  type,
+  square,
 }: {
   color: string;
-  role: string;
-  file: string;
-  rank: string;
+  type: string;
+  square: string;
 }) => {
   // tailwind가 동적 클래스 이름을 지원하지 않는 이유
   // 수많은 CSS 클래스가 있어서 최적화를 위해 애플리케이션에서 사용하지 않는 클래스는 모두 제거하고 정적 CSS 파일을 생성한다.
@@ -18,27 +16,27 @@ const Piece = ({
   // 해결 방법은 정적 클래스 이름만 사용하도록 코드를 수정하거나 `tailwind.config.js` 파일에서 safelist를 두는 것이다.
 
   const IMAGE: { [key: string]: { [key: string]: string } } = {
-    BLACK: {
-      KING: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/bk.svg)]",
-      QUEEN:
+    b: {
+      k: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/bk.svg)]",
+      q:
         "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/bq.svg)]",
-      ROOK: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/br.svg)]",
-      BISHOP:
+      r: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/br.svg)]",
+      b:
         "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/bb.svg)]",
-      KNIGHT:
+      n:
         "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/bn.svg)]",
-      PAWN: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/bp.svg)]",
+      p: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/bp.svg)]",
     },
-    WHITE: {
-      KING: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/wk.svg)]",
-      QUEEN:
+    w: {
+      k: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/wk.svg)]",
+      q:
         "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/wq.svg)]",
-      ROOK: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/wr.svg)]",
-      BISHOP:
+      r: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/wr.svg)]",
+      b:
         "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/wb.svg)]",
-      KNIGHT:
+      n:
         "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/wn.svg)]",
-      PAWN: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/wp.svg)]",
+      p: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/wp.svg)]",
     },
   };
 
@@ -68,13 +66,16 @@ const Piece = ({
     <div
       className={className(
         "bg-100% h-1/8 w-1/8 overflow-hidden cursor-grab absolute left-0 top-0",
-        IMAGE[color][role],
-        FILE[file],
-        RANK[rank],
+        IMAGE[color][type],
+        FILE[square.charAt(0)],
+        RANK[square.charAt(1)],
       )}
       draggable={true}
       onDragStart={(e) => {
-        console.log(`${file}${rank} 기물 드래그 시작`, e);
+        console.log(
+          `${square.charAt(0)}${square.charAt(1)} 기물 드래그 시작`,
+          e,
+        );
         e.dataTransfer.effectAllowed = "move";
       }}
       onDragOver={(e) => {
@@ -82,7 +83,7 @@ const Piece = ({
         e.preventDefault();
       }}
       onDrop={(e) => {
-        console.log(`${file}${rank} 기물 자리에 드롭`);
+        console.log(`${square.charAt(0)}${square.charAt(1)} 기물 자리에 드롭`);
         e.dataTransfer.effectAllowed = "move";
       }}
       onClick={() => {
