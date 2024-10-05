@@ -9,6 +9,7 @@ const Square = ({
     <div
       className="aspect-square"
       onClick={onClick}
+      draggable={true}
       onDragStart={(e) => {
         console.log("빈 칸 드래그 시작", e);
         e.dataTransfer.effectAllowed = "move";
@@ -16,7 +17,7 @@ const Square = ({
       onDragOver={(e) => {
         // Drop 이벤트를 발생시키려면 반드시 dragOver 이벤트에서 preventDefault() 무효화 처리를 해야 한다.
         // Drop 안 되면 되돌아가는 건 e.preventDefault()로 처리가 가능하다.
-        // e.preventDefault();
+        e.preventDefault();
       }}
       onDrop={(e) => {
         console.log("빈 칸에 드롭", e);

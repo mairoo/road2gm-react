@@ -67,7 +67,7 @@ const Piece = ({
   return (
     <div
       className={className(
-        "bg-100% h-1/8 w-1/8 overflow-hidden cursor-grab absolute",
+        "bg-100% h-1/8 w-1/8 overflow-hidden cursor-grab absolute left-0 top-0",
         IMAGE[color][role],
         FILE[file],
         RANK[rank],
@@ -75,7 +75,6 @@ const Piece = ({
       draggable={true}
       onDragStart={(e) => {
         console.log("기물 드래그 시작", e);
-
         e.dataTransfer.effectAllowed = "move";
       }}
       onDragOver={(e) => {
