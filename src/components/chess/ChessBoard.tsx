@@ -25,7 +25,7 @@ const ChessBoard = () => {
   return (
     <>
       {/* 보드 컨테이너 크기 지정 + relative */}
-      <div className="w-full h-full md:w-[400px] md:h-[400px] relative">
+      <div className="w-full h-full md:w-[600px] md:h-[600px] relative">
         {/* 보드 배경 이미지 + 좌표 축 */}
         <div className="bg-[url('https://road2gm.co.kr/assets/chess/boards/green.svg')] bg-no-repeat bg-cover">
           <Coords />
@@ -36,6 +36,8 @@ const ChessBoard = () => {
           {COORDINATES.map((square) => (
             <Square
               key={square.file + square.rank}
+              file={square.file}
+              rank={square.rank}
               onClick={() => {
                 setCoordinate(square.file + square.rank);
                 console.log("빈 칸 클릭");

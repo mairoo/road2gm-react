@@ -1,8 +1,12 @@
 import React, { ComponentPropsWithoutRef } from "react";
 
 const Square = ({
+  file,
+  rank,
   onClick,
 }: {
+  file: string;
+  rank: number;
   onClick: () => void;
 } & ComponentPropsWithoutRef<"div">) => {
   return (
@@ -20,7 +24,7 @@ const Square = ({
         e.preventDefault();
       }}
       onDrop={(e) => {
-        console.log("빈 칸에 드롭", e);
+        console.log(`${file}${rank} 빈 칸에 드롭`);
         e.dataTransfer.effectAllowed = "move";
       }}
     />

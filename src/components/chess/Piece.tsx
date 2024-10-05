@@ -82,7 +82,7 @@ const Piece = ({
         e.preventDefault();
       }}
       onDrop={(e) => {
-        console.log("기물에 드롭", e);
+        console.log(`${file}${rank} 기물 자리에 드롭`);
         e.dataTransfer.effectAllowed = "move";
       }}
       onClick={() => {

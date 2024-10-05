@@ -3,7 +3,7 @@ import React from "react";
 const Coords = () => {
   return (
     <svg viewBox="0 0 100 100">
-      {[1, 2, 3, 4, 5, 6, 7, 8].map((rank, index) => {
+      {[8, 7, 6, 5, 4, 3, 2, 1].map((rank, index) => {
         return (
           <text
             x="0.5"
@@ -16,7 +16,7 @@ const Coords = () => {
           </text>
         );
       })}
-      {["h", "g", "f", "e", "d", "c", "b", "a"].map((file, index) => {
+      {["a", "b", "c", "d", "e", "f", "g", "h"].map((file, index) => {
         return (
           <text
             x={10 + index * 12.5}
