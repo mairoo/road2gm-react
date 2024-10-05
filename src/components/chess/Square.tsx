@@ -15,7 +15,7 @@ const Square = ({
       onClick={onClick}
       draggable={true}
       onDragStart={(e) => {
-        console.log("빈 칸 드래그 시작", e);
+        console.log(`${file}${rank} 칸 드래그 시작`, e);
         e.dataTransfer.effectAllowed = "move";
       }}
       onDragOver={(e) => {
@@ -24,7 +24,7 @@ const Square = ({
         e.preventDefault();
       }}
       onDrop={(e) => {
-        console.log(`${file}${rank} 빈 칸에 드롭`);
+        console.log(`${file}${rank} 칸에 드롭`);
         e.dataTransfer.effectAllowed = "move";
       }}
     />

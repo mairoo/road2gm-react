@@ -74,7 +74,7 @@ const Piece = ({
       )}
       draggable={true}
       onDragStart={(e) => {
-        console.log("기물 드래그 시작", e);
+        console.log(`${file}${rank} 기물 드래그 시작`, e);
         e.dataTransfer.effectAllowed = "move";
       }}
       onDragOver={(e) => {
