@@ -5,12 +5,12 @@ const Piece = ({
   color,
   type,
   square,
-  flipped,
+  flip,
 }: {
   color: string;
   type: string;
   square: string;
-  flipped: boolean;
+  flip: boolean;
 }) => {
   // tailwind가 동적 클래스 이름을 지원하지 않는 이유
   // 수많은 CSS 클래스가 있어서 최적화를 위해 애플리케이션에서 사용하지 않는 클래스는 모두 제거하고 정적 CSS 파일을 생성한다.
@@ -36,7 +36,7 @@ const Piece = ({
     },
   };
 
-  const FILE: { [key: string]: string } = flipped
+  const FILE: { [key: string]: string } = flip
     ? {
         h: "",
         g: "translate-x-[100%]",
@@ -57,7 +57,7 @@ const Piece = ({
         g: "translate-x-[600%]",
         h: "translate-x-[700%]",
       };
-  const RANK: { [key: string]: string } = flipped
+  const RANK: { [key: string]: string } = flip
     ? {
         1: "",
         2: "translate-y-[100%]",

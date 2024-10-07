@@ -11,18 +11,15 @@ import {
 import Piece from "./Piece";
 import Coords from "./Coords";
 
-const ChessBoard = ({ flipped = false }: { flipped?: boolean }) => {
-  // 좌표 순서 일차원 배열: a8, b8, c8, ... f1, g1, h1
+const ChessBoard = ({ flip = false }: { flip?: boolean }) => {
+  const [coordinate, setCoordinate] = useState("");
+  const [chess, setChess] = useState<Chess>(new Chess());
+  const [flipped, setFlipped] = useState(flip);
 
   const FILES = flipped
     ? ["h", "g", "f", "e", "d", "c", "b", "a"]
     : ["a", "b", "c", "d", "e", "f", "g", "h"];
   const RANKS = flipped ? [1, 2, 3, 4, 5, 6, 7, 8] : [8, 7, 6, 5, 4, 3, 2, 1];
-
-  const [coordinate, setCoordinate] = useState("");
-  const [chess, setChess] = useState<Chess>(new Chess());
-
-  console.log(flipped);
 
   return (
     <>
@@ -52,7 +49,7 @@ const ChessBoard = ({ flipped = false }: { flipped?: boolean }) => {
           })}
         </div>
 
-        {/* 기물 놓기 */}
+        {/* 3. 기물 놓기 */}
         {chess
           .board()
           .map((line) =>
@@ -63,11 +60,17 @@ const ChessBoard = ({ flipped = false }: { flipped?: boolean }) => {
                   color={i.color}
                   type={i.type}
                   square={i.square}
-                  flipped={flipped}
+                  flip={flipped}
                   key={j}
                 />
               )),
           )}
+
+        {/* 4. 화살표 */}
+
+        {/* 5. 하이라이트 */}
+
+        {/* 6. 합법적인 수 */}
       </div>
       <div className="mt-10">
         <span className="isolate inline-flex rounded-md shadow-sm">
@@ -104,6 +107,9 @@ const ChessBoard = ({ flipped = false }: { flipped?: boolean }) => {
           <button
             type="button"
             className="relative -ml-px inline-flex items-center rounded-r-md bg-w px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+            onClick={() => {
+              setFlipped(!flipped);
+            }}
           >
             flip
           </button>
