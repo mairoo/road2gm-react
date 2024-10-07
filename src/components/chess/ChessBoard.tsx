@@ -8,48 +8,51 @@ import {
   MdSkipNext,
   MdSkipPrevious,
 } from "react-icons/md";
-import Coords from "./Coords";
 import Piece from "./Piece";
+import Coords from "./Coords";
 
-const ChessBoard = () => {
+const ChessBoard = ({ flipped = false }: { flipped?: boolean }) => {
   // 좌표 순서 일차원 배열: a8, b8, c8, ... f1, g1, h1
 
-  const FILES = ["a", "b", "c", "d", "e", "f", "g", "h"];
-  const RANKS = [8, 7, 6, 5, 4, 3, 2, 1];
-
-  const COORDINATES = RANKS.map((rank) =>
-    FILES.map((file) => ({ file, rank })),
-  ).flat();
+  const FILES = flipped
+    ? ["h", "g", "f", "e", "d", "c", "b", "a"]
+    : ["a", "b", "c", "d", "e", "f", "g", "h"];
+  const RANKS = flipped ? [1, 2, 3, 4, 5, 6, 7, 8] : [8, 7, 6, 5, 4, 3, 2, 1];
 
   const [coordinate, setCoordinate] = useState("");
   const [chess, setChess] = useState<Chess>(new Chess());
+
+  console.log(flipped);
 
   return (
     <>
       {/* 보드 컨테이너 크기 지정 + relative */}
       <div className="w-full h-full md:w-[600px] md:h-[600px] relative">
-        {/* 보드 배경 이미지 + 좌표축 */}
+        {/* 1. 보드 배경 이미지 + 좌표축 */}
         <div className="bg-[url('https://road2gm.co.kr/assets/chess/boards/green.svg')] bg-no-repeat bg-cover">
-          <Coords />
+          <Coords ranks={RANKS} files={FILES} />
         </div>
 
-        {/* 그리드 64칸 */}
+        {/* 2. 그리드 64칸 */}
         <div className="w-full h-full absolute top-0 left-0 grid grid-cols-8">
-          {COORDINATES.map((square) => (
-            <Square
-              key={square.file + square.rank}
-              file={square.file}
-              rank={square.rank}
-              onClick={() => {
-                setCoordinate(square.file + square.rank);
-                console.log("빈 칸 클릭");
-              }}
-            ></Square>
-          ))}
+          {RANKS.map((rank) => {
+            return FILES.map((file) => {
+              return (
+                <Square
+                  key={file + rank}
+                  file={file}
+                  rank={rank}
+                  onClick={() => {
+                    setCoordinate(file + rank);
+                    console.log(`${file}${rank} 클릭`);
+                  }}
+                ></Square>
+              );
+            });
+          })}
         </div>
 
-        {/* 기물 */}
-
+        {/* 기물 놓기 */}
         {chess
           .board()
           .map((line) =>
@@ -60,6 +63,7 @@ const ChessBoard = () => {
                   color={i.color}
                   type={i.type}
                   square={i.square}
+                  flipped={flipped}
                   key={j}
                 />
               )),

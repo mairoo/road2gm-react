@@ -5,10 +5,12 @@ const Piece = ({
   color,
   type,
   square,
+  flipped,
 }: {
   color: string;
   type: string;
   square: string;
+  flipped: boolean;
 }) => {
   // tailwind가 동적 클래스 이름을 지원하지 않는 이유
   // 수많은 CSS 클래스가 있어서 최적화를 위해 애플리케이션에서 사용하지 않는 클래스는 모두 제거하고 정적 CSS 파일을 생성한다.
@@ -18,49 +20,64 @@ const Piece = ({
   const IMAGE: { [key: string]: { [key: string]: string } } = {
     b: {
       k: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/bk.svg)]",
-      q:
-        "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/bq.svg)]",
+      q: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/bq.svg)]",
       r: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/br.svg)]",
-      b:
-        "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/bb.svg)]",
-      n:
-        "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/bn.svg)]",
+      b: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/bb.svg)]",
+      n: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/bn.svg)]",
       p: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/bp.svg)]",
     },
     w: {
       k: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/wk.svg)]",
-      q:
-        "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/wq.svg)]",
+      q: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/wq.svg)]",
       r: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/wr.svg)]",
-      b:
-        "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/wb.svg)]",
-      n:
-        "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/wn.svg)]",
+      b: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/wb.svg)]",
+      n: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/wn.svg)]",
       p: "bg-[url(https://road2gm.co.kr/assets/chess/pieces/staunty/wp.svg)]",
     },
   };
 
-  const FILE: { [key: string]: string } = {
-    a: "",
-    b: "translate-x-[100%]",
-    c: "translate-x-[200%]",
-    d: "translate-x-[300%]",
-    e: "translate-x-[400%]",
-    f: "translate-x-[500%]",
-    g: "translate-x-[600%]",
-    h: "translate-x-[700%]",
-  };
-
-  const RANK: { [key: string]: string } = {
-    8: "",
-    7: "translate-y-[100%]",
-    6: "translate-y-[200%]",
-    5: "translate-y-[300%]",
-    4: "translate-y-[400%]",
-    3: "translate-y-[500%]%",
-    2: "translate-y-[600%]",
-    1: "translate-y-[700%]",
-  };
+  const FILE: { [key: string]: string } = flipped
+    ? {
+        h: "",
+        g: "translate-x-[100%]",
+        f: "translate-x-[200%]",
+        e: "translate-x-[300%]",
+        d: "translate-x-[400%]",
+        c: "translate-x-[500%]",
+        b: "translate-x-[600%]",
+        a: "translate-x-[700%]",
+      }
+    : {
+        a: "",
+        b: "translate-x-[100%]",
+        c: "translate-x-[200%]",
+        d: "translate-x-[300%]",
+        e: "translate-x-[400%]",
+        f: "translate-x-[500%]",
+        g: "translate-x-[600%]",
+        h: "translate-x-[700%]",
+      };
+  const RANK: { [key: string]: string } = flipped
+    ? {
+        1: "",
+        2: "translate-y-[100%]",
+        3: "translate-y-[200%]",
+        4: "translate-y-[300%]",
+        5: "translate-y-[400%]",
+        6: "translate-y-[500%]",
+        7: "translate-y-[600%]",
+        8: "translate-y-[700%]",
+      }
+    : {
+        8: "",
+        7: "translate-y-[100%]",
+        6: "translate-y-[200%]",
+        5: "translate-y-[300%]",
+        4: "translate-y-[400%]",
+        3: "translate-y-[500%]",
+        2: "translate-y-[600%]",
+        1: "translate-y-[700%]",
+      };
 
   return (
     <div
@@ -87,7 +104,7 @@ const Piece = ({
         e.dataTransfer.effectAllowed = "move";
       }}
       onClick={() => {
-        console.log("기물 클릭");
+        console.log("기물 클릭, 합법적인 수 표시");
       }}
     ></div>
   );
