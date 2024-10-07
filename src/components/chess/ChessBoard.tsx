@@ -22,14 +22,13 @@ const ChessBoard = () => {
   ).flat();
 
   const [coordinate, setCoordinate] = useState("");
-
-  const chess = new Chess();
+  const [chess, setChess] = useState<Chess>(new Chess());
 
   return (
     <>
       {/* 보드 컨테이너 크기 지정 + relative */}
       <div className="w-full h-full md:w-[600px] md:h-[600px] relative">
-        {/* 보드 배경 이미지 + 좌표 축 */}
+        {/* 보드 배경 이미지 + 좌표축 */}
         <div className="bg-[url('https://road2gm.co.kr/assets/chess/boards/green.svg')] bg-no-repeat bg-cover">
           <Coords />
         </div>
@@ -50,20 +49,21 @@ const ChessBoard = () => {
         </div>
 
         {/* 기물 */}
-        {chess.board().map((line) =>
-          line
-            .filter((s) => s !== null)
-            .map((i, j) => {
-              return (
+
+        {chess
+          .board()
+          .map((line) =>
+            line
+              .filter((s) => s !== null)
+              .map((i, j) => (
                 <Piece
                   color={i.color}
                   type={i.type}
                   square={i.square}
                   key={j}
                 />
-              );
-            }),
-        )}
+              )),
+          )}
       </div>
       <div className="mt-10">
         <span className="isolate inline-flex rounded-md shadow-sm">

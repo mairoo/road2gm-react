@@ -9,6 +9,12 @@
 - 전술
 - 복기
 
+분류
+- 전술
+- 엔딩
+- 전략
+- 오프닝
+
 대국
 
 - 대회
@@ -42,6 +48,7 @@ Road2GM
 * lichess.org
 * chessable.com
 * chessbook.com
+* papachess.com
 * chess-results.com
 
 ## 프로그램/앱
