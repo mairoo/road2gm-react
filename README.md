@@ -58,8 +58,10 @@ Road2GM
 - PGN Viewer
 
 ## 라이브러리
-- [chessboard.js](https://www.npmjs.com/package/@chrisoakman/chessboardjs): 체스판 GUI 조작 / jQuery 기반
+- [react-chessboard](https://github.com/Clariity/react-chessboard): chessboardjsx 프로젝트를 이어서 개발 ChessOpenings.co.uk에서 사용
+- [chessboardjsx](https://chessboardjsx.com/):  chessboard.js 라이브러리를 리액트로 포팅 (개발 중지)
+- [chessboard.js](https://www.npmjs.com/package/@chrisoakman/chessboardjs): jQuery 기반
 - [chess.js](https://github.com/jhlywa/chess.js): 수 생성, 검증, 기물 이동, 체크, 체크메이트, 스테일메이트 감지 등 조작
-- [리체스 체스판 GUI](https://github.com/lichess-org/chessground)
+- [리체스 체스판 GUI](https://github.com/lichess-org/chessground) - GPL 3.0 라이센스 제약
 - [stockfish.js](https://www.npmjs.com/package/stockfish)
 - [vscode-markdown-chess](https://github.com/eronnen/vscode-markdown-chess) PGN/FEN 마크다운 에디터
