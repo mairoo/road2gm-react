@@ -1,22 +1,18 @@
 import React, { useMemo, useState } from "react";
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
-import _ from "lodash";
 
 const Home = () => {
-  const [game, setGame] = useState(new Chess());
+  const game = useMemo(() => new Chess(), []);
+  const [gamePosition, setGamePosition] = useState(game.fen());
 
   const onDrop = (
     sourceSquare: string,
     targetSquare: string,
     piece: string,
   ) => {
-    // 객체 복사
-    const gameCopy = _.cloneDeep(game);
-
-    // 수를 두기
     try {
-      gameCopy.move({
+      game.move({
         from: sourceSquare,
         to: targetSquare,
         promotion: piece[1].toLowerCase() ?? "q",
@@ -25,7 +21,7 @@ const Home = () => {
       console.debug(error);
       return false;
     } finally {
-      setGame(gameCopy);
+      setGamePosition(game.fen());
     }
     return true;
   };
@@ -73,7 +69,7 @@ const Home = () => {
       <div className="md:w-96">
         <Chessboard
           boardOrientation="white"
-          position={game.fen()}
+          position={gamePosition}
           onPieceDrop={onDrop}
           customBoardStyle={{
             borderRadius: "4px",
