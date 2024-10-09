@@ -61,6 +61,11 @@ const Home = () => {
     return pieceComponents;
   }, []);
 
+  // 보드: 어두운 칸 / 밝은 칸
+  // blue: #8ca2ad / #dee3e6
+  // green: #86a666 / #ffffdd
+  // brown: #b58863 / #f0d9b5
+
   return (
     <>
       <h1 className="text-3xl font-bold underline">Road2GM</h1>
@@ -75,10 +80,10 @@ const Home = () => {
             boxShadow: "0 2px 10px rgba(0, 0, 0, 0.5)",
           }}
           customDarkSquareStyle={{
-            backgroundColor: "#779952",
+            backgroundColor: "#8ca2ad",
           }}
           customLightSquareStyle={{
-            backgroundColor: "#edeed1",
+            backgroundColor: "#dee3e6",
           }}
           customPieces={customPieces}
         />
