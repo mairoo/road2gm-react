@@ -6,6 +6,8 @@ import {
   MdArrowRight,
   MdKeyboardDoubleArrowLeft,
   MdKeyboardDoubleArrowRight,
+  MdOutlineFileDownload,
+  MdOutlineFileUpload,
   MdOutlinePowerSettingsNew,
   MdRotateLeft,
 } from "react-icons/md";
@@ -140,16 +142,28 @@ const Home = () => {
         </div>
         <div className="flex flex-row gap-x-4">
           <div className="flex-1">
-            <button>PGN 내보내기</button>
+            <button>
+              <MdOutlineFileDownload />
+              PGN
+            </button>
           </div>
           <div className="flex-1">
-            <button>PGN 불러오기</button>
+            <button>
+              <MdOutlineFileUpload />
+              PGN
+            </button>
           </div>
           <div className="flex-1">
-            <button>FEN 내보내기</button>
+            <button>
+              <MdOutlineFileDownload />
+              FEN
+            </button>
           </div>
           <div className="flex-1">
-            <button>FEN 불러오기</button>
+            <button>
+              <MdOutlineFileUpload />
+              FEN
+            </button>
           </div>
         </div>
       </div>
