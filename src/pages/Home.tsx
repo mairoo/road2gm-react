@@ -1,9 +1,10 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
 import {
   MdArrowLeft,
   MdArrowRight,
+  MdDelete,
   MdKeyboardDoubleArrowLeft,
   MdKeyboardDoubleArrowRight,
   MdOutlineFileDownload,
@@ -16,6 +17,12 @@ const Home = () => {
   const game = useMemo(() => new Chess(), []);
   const [gamePosition, setGamePosition] = useState(game.fen());
   const [orientation, setOrientation] = useState<"white" | "black">("white");
+  const [historyNumber, setHistoryNumber] = useState<number>(0);
+
+  useEffect(() => {
+    console.log(game.history({ verbose: true }));
+    console.log("historyNumber: ", historyNumber);
+  }, [gamePosition]);
 
   const onDrop = (
     sourceSquare: string,
@@ -36,7 +43,11 @@ const Home = () => {
       return false;
     } finally {
       setGamePosition(game.fen());
+      setHistoryNumber(historyNumber + 1);
     }
+
+    console.log(game.history({ verbose: true }));
+
     return true;
   };
 
@@ -99,28 +110,85 @@ const Home = () => {
         />
         <div className="flex flex-row gap-x-4 m-4">
           <div className="flex-1">
-            <button className="rounded bg-indigo-600 px-2 py-1 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            <button
+              className="rounded bg-teal-700 px-2 py-1 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+              onClick={() => {
+                const history = game.history({ verbose: true });
+
+                if (historyNumber > 0 && history.length > 0) {
+                  // 첫수
+                  setGamePosition(history[0].before);
+                }
+
+                setHistoryNumber(0);
+              }}
+            >
               <MdKeyboardDoubleArrowLeft />
             </button>
           </div>
           <div className="flex-1">
-            <button className="rounded bg-indigo-600 px-2 py-1 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            <button
+              className="rounded bg-teal-700 px-2 py-1 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+              onClick={() => {
+                const history = game.history({ verbose: true });
+
+                if (historyNumber > 0 && history.length > 0) {
+                  // 이전
+                  setGamePosition(history[historyNumber - 1].before);
+                  setHistoryNumber(historyNumber - 1);
+                }
+              }}
+            >
               <MdArrowLeft />
             </button>
           </div>
           <div className="flex-1">
-            <button className="rounded bg-indigo-600 px-2 py-1 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            <button
+              className="rounded bg-teal-700 px-2 py-1 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+              onClick={() => {
+                const history = game.history({ verbose: true });
+
+                if (historyNumber < history.length) {
+                  // 다음
+                  setGamePosition(history[historyNumber].after);
+                  setHistoryNumber(historyNumber + 1);
+                }
+              }}
+            >
               <MdArrowRight />
             </button>
           </div>
           <div className="flex-1">
-            <button className="rounded bg-indigo-600 px-2 py-1 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            <button
+              className="rounded bg-teal-700 px-2 py-1 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+              onClick={() => {
+                // 마지막
+                const history = game.history({ verbose: true });
+                if (historyNumber < history.length) {
+                  // 다음
+                  setGamePosition(history[history.length - 1].after);
+                  setHistoryNumber(history.length);
+                }
+              }}
+            >
               <MdKeyboardDoubleArrowRight />
             </button>
           </div>
-          <div className="flex-1 text-center">
+          <div className="flex-1">
             <button
-              className="rounded bg-indigo-600 px-2 py-1 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="rounded bg-teal-700 px-2 py-1 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+              onClick={() => {
+                game.undo();
+                setGamePosition(game.fen());
+                setHistoryNumber(history.length - 1);
+              }}
+            >
+              <MdDelete />
+            </button>
+          </div>
+          <div className="flex-1">
+            <button
+              className="rounded bg-teal-700 px-2 py-1 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
               onClick={() => {
                 setOrientation(orientation === "white" ? "black" : "white");
               }}
@@ -130,7 +198,7 @@ const Home = () => {
           </div>
           <div className="flex-1 text-center">
             <button
-              className="rounded bg-indigo-600 px-2 py-1 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="rounded bg-teal-700 px-2 py-1 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
               onClick={() => {
                 game.reset();
                 setGamePosition(game.fen());
@@ -140,27 +208,27 @@ const Home = () => {
             </button>
           </div>
         </div>
-        <div className="flex flex-row gap-x-4">
+        <div className="flex flex-row gap-x-4 text-center">
           <div className="flex-1">
-            <button>
+            <button className="inline-flex items-center gap-x-1.5 rounded bg-teal-700 px-2 py-1 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700">
               <MdOutlineFileDownload />
               PGN
             </button>
           </div>
           <div className="flex-1">
-            <button>
+            <button className="inline-flex items-center gap-x-1.5 rounded bg-teal-700 px-2 py-1 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700">
               <MdOutlineFileUpload />
               PGN
             </button>
           </div>
           <div className="flex-1">
-            <button>
+            <button className="inline-flex items-center gap-x-1.5 rounded bg-teal-700 px-2 py-1 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700">
               <MdOutlineFileDownload />
               FEN
             </button>
           </div>
           <div className="flex-1">
-            <button>
+            <button className="inline-flex items-center gap-x-1.5 rounded bg-teal-700 px-2 py-1 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700">
               <MdOutlineFileUpload />
               FEN
             </button>
