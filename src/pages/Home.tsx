@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
 import {
@@ -18,11 +18,6 @@ const Home = () => {
   const [gamePosition, setGamePosition] = useState(game.fen());
   const [orientation, setOrientation] = useState<"white" | "black">("white");
   const [historyNumber, setHistoryNumber] = useState<number>(0);
-
-  useEffect(() => {
-    console.log(game.history({ verbose: true }));
-    console.log("historyNumber: ", historyNumber);
-  }, [gamePosition]);
 
   const onDrop = (
     sourceSquare: string,
@@ -45,8 +40,6 @@ const Home = () => {
       setGamePosition(game.fen());
       setHistoryNumber(historyNumber + 1);
     }
-
-    console.log(game.history({ verbose: true }));
 
     return true;
   };
@@ -147,8 +140,7 @@ const Home = () => {
               className="rounded bg-teal-700 px-2 py-1 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
               onClick={() => {
                 const history = game.history({ verbose: true });
-
-                if (historyNumber < history.length) {
+                if (history.length > 0 && historyNumber < history.length) {
                   // 다음
                   setGamePosition(history[historyNumber].after);
                   setHistoryNumber(historyNumber + 1);
@@ -162,10 +154,9 @@ const Home = () => {
             <button
               className="rounded bg-teal-700 px-2 py-1 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
               onClick={() => {
-                // 마지막
                 const history = game.history({ verbose: true });
-                if (historyNumber < history.length) {
-                  // 다음
+                if (history.length > 0 && historyNumber < history.length) {
+                  // 마지막
                   setGamePosition(history[history.length - 1].after);
                   setHistoryNumber(history.length);
                 }
@@ -178,6 +169,7 @@ const Home = () => {
             <button
               className="rounded bg-teal-700 px-2 py-1 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
               onClick={() => {
+                const history = game.history({ verbose: true });
                 game.undo();
                 setGamePosition(game.fen());
                 setHistoryNumber(history.length - 1);
@@ -202,6 +194,7 @@ const Home = () => {
               onClick={() => {
                 game.reset();
                 setGamePosition(game.fen());
+                setHistoryNumber(0);
               }}
             >
               <MdOutlinePowerSettingsNew />
