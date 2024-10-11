@@ -18,6 +18,7 @@ const Home = () => {
   const [gamePosition, setGamePosition] = useState(game.fen());
   const [orientation, setOrientation] = useState<"white" | "black">("white");
   const [historyNumber, setHistoryNumber] = useState<number>(0);
+  const [history, setHistory] = useState(game.history({ verbose: true }));
 
   const onDrop = (
     sourceSquare: string,
@@ -38,6 +39,7 @@ const Home = () => {
       return false;
     } finally {
       setGamePosition(game.fen());
+      setHistory(game.history({ verbose: true }));
       setHistoryNumber(historyNumber + 1);
     }
 
@@ -106,8 +108,6 @@ const Home = () => {
             <button
               className="rounded bg-teal-700 px-2 py-1 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
               onClick={() => {
-                const history = game.history({ verbose: true });
-
                 if (historyNumber > 0 && history.length > 0) {
                   // 첫수
                   setGamePosition(history[0].before);
@@ -123,8 +123,6 @@ const Home = () => {
             <button
               className="rounded bg-teal-700 px-2 py-1 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
               onClick={() => {
-                const history = game.history({ verbose: true });
-
                 if (historyNumber > 0 && history.length > 0) {
                   // 이전
                   setGamePosition(history[historyNumber - 1].before);
@@ -139,7 +137,6 @@ const Home = () => {
             <button
               className="rounded bg-teal-700 px-2 py-1 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
               onClick={() => {
-                const history = game.history({ verbose: true });
                 if (history.length > 0 && historyNumber < history.length) {
                   // 다음
                   setGamePosition(history[historyNumber].after);
@@ -154,7 +151,6 @@ const Home = () => {
             <button
               className="rounded bg-teal-700 px-2 py-1 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
               onClick={() => {
-                const history = game.history({ verbose: true });
                 if (history.length > 0 && historyNumber < history.length) {
                   // 마지막
                   setGamePosition(history[history.length - 1].after);
@@ -169,9 +165,9 @@ const Home = () => {
             <button
               className="rounded bg-teal-700 px-2 py-1 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
               onClick={() => {
-                const history = game.history({ verbose: true });
                 game.undo();
                 setGamePosition(game.fen());
+                setHistory(game.history({ verbose: true }));
                 setHistoryNumber(history.length - 1);
               }}
             >
@@ -194,6 +190,7 @@ const Home = () => {
               onClick={() => {
                 game.reset();
                 setGamePosition(game.fen());
+                setHistory(game.history({ verbose: true }));
                 setHistoryNumber(0);
               }}
             >
