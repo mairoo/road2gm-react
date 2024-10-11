@@ -12,6 +12,7 @@ import {
   MdOutlinePowerSettingsNew,
   MdRotateLeft,
 } from "react-icons/md";
+import ReactMarkdown from "react-markdown";
 
 const Home = () => {
   const game = useMemo(() => new Chess(), []);
@@ -19,6 +20,18 @@ const Home = () => {
   const [orientation, setOrientation] = useState<"white" | "black">("white");
   const [historyNumber, setHistoryNumber] = useState<number>(0);
   const [history, setHistory] = useState(game.history({ verbose: true }));
+
+  const markdown = `
+# 기본 마크다운 예제
+
+이것은 **굵은** 텍스트이고, 이것은 *기울어진* 텍스트입니다.
+
+- 목록 항목 1
+- 목록 항목 2
+  - 중첩된 항목
+
+[링크 예제](https://www.example.com)
+  `;
 
   const onDrop = (
     sourceSquare: string,
@@ -223,6 +236,9 @@ const Home = () => {
               FEN
             </button>
           </div>
+        </div>
+        <div>
+          <ReactMarkdown>{markdown}</ReactMarkdown>
         </div>
       </div>
     </>
