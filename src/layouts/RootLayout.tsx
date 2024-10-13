@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import React from "react";
 
-const Root = () => {
+const RootLayout = () => {
   return (
     <>
       <Outlet />
@@ -9,4 +9,4 @@ const Root = () => {
   );
 };
 
-export default Root;
+export default RootLayout;
