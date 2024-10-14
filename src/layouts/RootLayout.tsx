@@ -25,7 +25,7 @@ const RootLayout = () => {
             content.
           </p>
           {/* 스크롤 테스트를 위한 더미 컨텐츠 */}
-          {[...Array(60)].map((_, i) => (
+          {[...Array(10)].map((_, i) => (
             <p key={i} className="my-2">
               This is paragraph {i + 1}
             </p>

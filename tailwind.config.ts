@@ -4,6 +4,9 @@ module.exports = {
   theme: {
     extend: {
       // 여기서부터 추가
+      fontFamily: {
+        sans: ['Nanum Gothic', 'sans-serif'],
+      },
       keyframes: {
         shimmer: {
           "100%": { transform: "translateX(100%)" },
