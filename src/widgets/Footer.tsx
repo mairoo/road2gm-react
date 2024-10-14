@@ -1,11 +1,18 @@
-import React from "react";
+import React, { ComponentPropsWithoutRef, ReactNode } from "react";
+import className from "classnames";
 
-const Footer = () => {
-  return (
-    <footer className="bg-gray-800 text-white text-center">
-      <p>&copy; {new Date().getFullYear()} Road2GM. All rights reserved.</p>
-    </footer>
+const Footer = ({
+  children,
+  ...rest
+}: {
+  children?: ReactNode;
+} & ComponentPropsWithoutRef<"footer">) => {
+  const classes = className(
+    rest.className,
+    "bg-gray-800 text-white text-center",
   );
+
+  return <footer className={classes}>{children}</footer>;
 };
 
 export default Footer;
