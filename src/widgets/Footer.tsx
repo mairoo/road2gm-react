@@ -7,10 +7,7 @@ const Footer = ({
 }: {
   children?: ReactNode;
 } & ComponentPropsWithoutRef<"footer">) => {
-  const classes = className(
-    rest.className,
-    "bg-gray-800 text-white text-center",
-  );
+  const classes = className(rest.className);
 
   return <footer className={classes}>{children}</footer>;
 };
