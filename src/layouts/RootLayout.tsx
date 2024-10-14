@@ -3,6 +3,9 @@ import Header from "../widgets/Header";
 import Main from "../widgets/Main";
 import Footer from "../widgets/Footer";
 import ContainerFixed from "../widgets/ContainerFixed";
+import Button from "../widgets/Button";
+
+import { MdCamera } from "react-icons/md";
 
 const RootLayout = () => {
   // 헤더, 본문, 푸터 3단 레이아웃
@@ -14,12 +17,31 @@ const RootLayout = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header className="bg-[#ebf2ea] shadow-sm shadow-green-600/20 z-10">
-        <h1 className="text-2xl font-bold">Road2GM</h1>
+        <nav className="bg-gray-800">
+          <ContainerFixed className="flex justify-between items-center">
+            <div className="text-white font-bold text-xl">Road2GM</div>
+            <div className="space-x-4">
+              <a href="#" className="text-white hover:text-gray-300">
+                마이페이지
+              </a>
+              <a href="#" className="text-white hover:text-gray-300">
+                로그인
+              </a>
+              <a href="#" className="text-white hover:text-gray-300">
+                회원가입
+              </a>
+            </div>
+          </ContainerFixed>
+        </nav>
       </Header>
 
       <Main>
         <ContainerFixed>
           <h2 className="text-xl font-semibold mb-4">Welcome to Road2GM</h2>
+          <Button size="medium" preset="primary" rounded="medium" inline={true}>
+            <MdCamera size={20} />
+            <span>찰칵</span>
+          </Button>
           <p>
             This is the main content area. It will scroll if there's too much
             content.
