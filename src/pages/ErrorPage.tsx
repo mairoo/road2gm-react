@@ -15,7 +15,7 @@ const ErrorPage = () => {
     errorMessage = error;
   } else {
     console.error(error);
-    errorMessage = "Unknown error";
+    errorMessage = "서버에 문제가 있습니다. 관리자에게 연락바랍니다.";
   }
 
   return (
