@@ -37,7 +37,7 @@ const RootLayout = () => {
 
       <Main>
         <ContainerFixed>
-          <h2 className="text-xl font-semibold mb-4">Welcome to Road2GM</h2>
+          <h2 className="text-xl font-semibold">Welcome to Road2GM</h2>
           <Button size="medium" preset="primary" rounded="medium" inline={true}>
             <MdCamera size={20} />
             <span>찰칵</span>
