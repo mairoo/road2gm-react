@@ -5,15 +5,14 @@ import Footer from "../widgets/Footer";
 import ContainerFixed from "../widgets/ContainerFixed";
 import Button from "../widgets/Button";
 import { MdMenu } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
 
 import type { RootState } from "../store";
 import { setViewportSize } from "../store/slices/uiSlice";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 
 const RootLayout = () => {
-  const dispatch = useDispatch();
-
-  const { isMobile } = useSelector((state: RootState) => state.ui);
+  const dispatch = useAppDispatch();
+  const { isMobile } = useAppSelector((state: RootState) => state.ui);
 
   const handleWindowResize = useCallback(() => {
     dispatch(
