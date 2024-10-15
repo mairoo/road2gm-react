@@ -17,7 +17,11 @@ const ContainerFixed = ({
     "mx-auto w-full max-w-none md:max-w-7xl",
   );
 
-  return <main className={classes}>{children}</main>;
+  return (
+    <div {...rest} className={classes}>
+      {children}
+    </div>
+  );
 };
 
 export default ContainerFixed;

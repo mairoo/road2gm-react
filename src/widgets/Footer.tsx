@@ -9,7 +9,11 @@ const Footer = ({
 } & ComponentPropsWithoutRef<"footer">) => {
   const classes = className(rest.className);
 
-  return <footer className={classes}>{children}</footer>;
+  return (
+    <footer {...rest} className={classes}>
+      {children}
+    </footer>
+  );
 };
 
 export default Footer;

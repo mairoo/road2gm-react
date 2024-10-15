@@ -61,7 +61,11 @@ const Button = ({
     inline && "inline-flex gap-x-1 items-center",
   );
 
-  return <button className={classes}>{children}</button>;
+  return (
+    <button {...rest} className={classes}>
+      {children}
+    </button>
+  );
 };
 
 export default Button;

@@ -9,7 +9,11 @@ const Main = ({
 } & ComponentPropsWithoutRef<"main">) => {
   const classes = className(rest.className, "flex-grow");
 
-  return <main className={classes}>{children}</main>;
+  return (
+    <main {...rest} className={classes}>
+      {children}
+    </main>
+  );
 };
 
 export default Main;

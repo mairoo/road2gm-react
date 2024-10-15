@@ -16,23 +16,8 @@ const RootLayout = () => {
   // 푸터: 내용이 적을 때는 화면 하단 고정, 내용이 많아 스크롤이 생기면 스크롤의 맨 아래에 위치
   return (
     <div className="flex flex-col min-h-screen">
-      <Header className="bg-[#ebf2ea] shadow-sm shadow-green-600/20 z-10">
-        <nav className="bg-gray-800">
-          <ContainerFixed className="flex justify-between items-center">
-            <div className="text-white font-bold text-xl">Road2GM</div>
-            <div className="space-x-4">
-              <a href="#" className="text-white hover:text-gray-300">
-                마이페이지
-              </a>
-              <a href="#" className="text-white hover:text-gray-300">
-                로그인
-              </a>
-              <a href="#" className="text-white hover:text-gray-300">
-                회원가입
-              </a>
-            </div>
-          </ContainerFixed>
-        </nav>
+      <Header>
+        <nav>navbar</nav>
       </Header>
 
       <Main>
@@ -54,27 +39,22 @@ const RootLayout = () => {
           ))}
         </ContainerFixed>
       </Main>
-      <Footer>
-        <div className="bg-[#ebf2ea] text-green-950 text-sm">
-          <ContainerFixed className="md:py-1 md:px-0 p-1 space-y-2">
-            <div className="flex flex-wrap gap-y-0.5 gap-x-4 md:gap-y-0 md:gap-x-8">
-              <span>이용약관</span>
-              <span>개인정보처리방침</span>
-              <span>도움말</span>
-              <span>제안 &middot; 제휴 &middot; 광고</span>
-            </div>
+      <Footer className="bg-teal-50 text-sm text-cyan-900 space-y-2">
+        <ContainerFixed className="space-y-1">
+          <div>
+            광고 &middot; 제휴 &middot; 문의 권리침해신고센터 이용약관
+            개인정보처리방침 청소년보호정책
+          </div>
+          <div className="font-bold">로드투지엠</div>
+          <div>
+            대표: OOO 사업자번호 : 123-45-12345 통신판매번호:
+            제0000-서울서초-0000 주소: 서울 서초구 방배로 OO길 OO-O 1234호
+            연락처: help@road2gm.co.kr (1234-5678)
+          </div>
+        </ContainerFixed>
 
-            <div className="flex flex-col md:flex-row gap-y-0.5 md:gap-y-0 md:gap-x-8">
-              <span className="font-bold">로드투지엠</span>
-              <span>대표: OOO</span>
-              <span>주소: 서울 서초구 서초대로 OO길 OO OO빌딩 000호</span>
-              <span>사업자등록번호: 123-xx-1234</span>
-              <span>통신판매업신고: 20xx-서울서초-0000</span>
-            </div>
-          </ContainerFixed>
-        </div>
-        <div className="bg-green-950 text-white text-center text-sm p-1">
-          {window.location.hostname} &copy; {new Date().getFullYear()} . All
+        <div className="text-center">
+          {window.location.hostname} &copy; {new Date().getFullYear()}. All
           rights reserved.
         </div>
       </Footer>
