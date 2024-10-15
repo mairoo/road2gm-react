@@ -45,9 +45,12 @@ const RootLayout = () => {
               {isMobile && (
                 <div className="flex items-center">
                   <Button
-                    className="text-lg focus:outline-none text-gray-900"
+                    className="text-2xl focus:outline-none text-gray-900"
                     preset="outline"
                     rounded="small"
+                    onClick={() => {
+                      console.log("menu clicked");
+                    }}
                   >
                     <MdMenu />
                   </Button>
