@@ -4,8 +4,7 @@ import Main from "../widgets/Main";
 import Footer from "../widgets/Footer";
 import ContainerFixed from "../widgets/ContainerFixed";
 import Button from "../widgets/Button";
-
-import { MdCamera } from "react-icons/md";
+import { MdMenu } from "react-icons/md";
 
 const RootLayout = () => {
   // 헤더, 본문, 푸터 3단 레이아웃
@@ -17,18 +16,32 @@ const RootLayout = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header>
-        <ContainerFixed>
-          <nav>navbar</nav>
-        </ContainerFixed>
+        <div className="bg-teal-50 py-2 px-2 md:px-0">
+          <ContainerFixed>
+            {/* justify-between: 가로방향 진행 축 정렬 배치 - 로고와 메뉴를 양 끝에 배치 */}
+            {/* items-center: 세로방향 교차 축 정렬 배치 - 수직 중앙 정렬 */}
+            <nav className="flex justify-between items-center">
+              <div className="font-bold text-lg">Road2GM</div>
+              {/* 데스크탑 메뉴 */}
+              <div className="hidden md:flex gap-x-4">
+                <Button>마이페이지</Button>
+                <Button>로그아웃</Button>
+                <Button>회원가입</Button>
+                <Button>로그인</Button>
+              </div>
+              {/* 모바일 메뉴 */}
+              <div className="md:hidden flex items-center">
+                <Button className="text-lg focus:outline-none text-gray-900" preset="outline" rounded="small">
+                  <MdMenu />
+                </Button>
+              </div>
+            </nav>
+          </ContainerFixed>
+        </div>
       </Header>
-
       <Main>
         <ContainerFixed>
           <h2 className="text-xl font-semibold">Welcome to Road2GM</h2>
-          <Button size="medium" preset="primary" rounded="medium" inline={true}>
-            <MdCamera size={20} />
-            <span>찰칵</span>
-          </Button>
           <p>
             This is the main content area. It will scroll if there's too much
             content.
@@ -42,9 +55,9 @@ const RootLayout = () => {
         </ContainerFixed>
       </Main>
       <Footer className="bg-teal-50 text-sm text-cyan-900">
-        <ContainerFixed className="space-y-1 py-2">
+        <ContainerFixed className="space-y-1 py-2 px-2 md:px-0">
           {/* 가로로 나열하다가 화면 차면 줄이 넘어감 */}
-          <div className="flex flex-row flex-wrap gap-x-4 gap-y-0.5">
+          <div className="flex flex-wrap gap-x-4 gap-y-0.5">
             <span>광고 &middot; 제휴 &middot; 문의</span>
             <span>권리침해신고센터</span>
             <span>이용약관</span>

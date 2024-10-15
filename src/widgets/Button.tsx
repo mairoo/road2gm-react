@@ -11,6 +11,8 @@ type ButtonPreset =
   | "ghost";
 type ButtonRounded = "base" | "small" | "medium" | "large" | "full";
 
+type ButtonFontWeight = "normal" | "semibold" | "bold";
+
 const sizeClasses: Record<ButtonSize, string> = {
   small: "px-1 py-0.5 text-sm",
   medium: "px-2 py-1 text-base",
@@ -35,11 +37,18 @@ const roundedClasses: Record<ButtonRounded, string> = {
   full: "rounded-full",
 };
 
+const fontWeightClasses: Record<ButtonFontWeight, string> = {
+  normal: "font-normal",
+  semibold: "font-semibold",
+  bold: "font-bold",
+};
+
 const Button = ({
   children,
   size,
   preset,
   rounded,
+  fontWeight,
   fullWidth = false,
   inline = false,
   ...rest
@@ -48,15 +57,17 @@ const Button = ({
   size?: ButtonSize;
   preset?: ButtonPreset;
   rounded?: ButtonRounded;
+  fontWeight?: ButtonFontWeight;
   fullWidth?: boolean;
   inline?: boolean;
 } & ComponentPropsWithoutRef<"button">) => {
   const classes = className(
     rest.className,
-    "font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200 ease-in-out",
+    "focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200 ease-in-out",
     size && sizeClasses[size],
     preset && presetClasses[preset],
     rounded && roundedClasses[rounded],
+    fontWeight && fontWeightClasses[fontWeight],
     fullWidth && "w-full",
     inline && "inline-flex gap-x-1 items-center",
   );
