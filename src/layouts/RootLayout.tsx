@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import Header from "../widgets/Header";
 import Main from "../widgets/Main";
 import Footer from "../widgets/Footer";
@@ -8,11 +8,26 @@ import { MdMenu } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 
 import type { RootState } from "../store";
-import { decrement, increment } from "../store/slices/counterSlice";
+import { setViewportSize } from "../store/slices/uiSlice";
 
 const RootLayout = () => {
-  const count = useSelector((state: RootState) => state.counter.value);
   const dispatch = useDispatch();
+
+  const { isMobile } = useSelector((state: RootState) => state.ui);
+
+  const handleWindowResize = useCallback(() => {
+    dispatch(
+      setViewportSize({ width: window.innerWidth, height: window.innerHeight }),
+    );
+  }, [dispatch]);
+
+  useEffect(() => {
+    // 최상단 레이아웃에서 윈도우 객체 뷰 포트의 크기가 변경되는 이벤트 리스너를 등록
+    // 뷰 포트 크기가 변경될 때 가로 크기를 측정하여 반응형 모바일기기 여부 판단
+    handleWindowResize();
+    window.addEventListener("resize", handleWindowResize);
+    return () => window.removeEventListener("resize", handleWindowResize);
+  }, [handleWindowResize]);
 
   // 헤더, 본문, 푸터 3단 레이아웃
   // flex flex-col: 세로 방향 flex 컨테이너
@@ -29,23 +44,26 @@ const RootLayout = () => {
             {/* items-center: 세로방향 교차 축 정렬 배치 - 수직 중앙 정렬 */}
             <nav className="flex justify-between items-center">
               <div className="font-bold text-lg">Road2GM</div>
-              {/* 데스크탑 메뉴 */}
-              <div className="hidden md:flex gap-x-4">
-                <Button>마이페이지</Button>
-                <Button>로그아웃</Button>
-                <Button>회원가입</Button>
-                <Button>로그인</Button>
-              </div>
-              {/* 모바일 메뉴 */}
-              <div className="md:hidden flex items-center">
-                <Button
-                  className="text-lg focus:outline-none text-gray-900"
-                  preset="outline"
-                  rounded="small"
-                >
-                  <MdMenu />
-                </Button>
-              </div>
+              {/* 모바일 기기 사이즈인지 식별하여 불필요한 HTML DOM 객체가 중복되어 생성되지 않도록 한다. */}
+              {isMobile && (
+                <div className="flex items-center">
+                  <Button
+                    className="text-lg focus:outline-none text-gray-900"
+                    preset="outline"
+                    rounded="small"
+                  >
+                    <MdMenu />
+                  </Button>
+                </div>
+              )}
+              {!isMobile && (
+                <div className="flex gap-x-4">
+                  <Button>마이페이지</Button>
+                  <Button>로그아웃</Button>
+                  <Button>회원가입</Button>
+                  <Button>로그인</Button>
+                </div>
+              )}
             </nav>
           </ContainerFixed>
         </div>
@@ -53,21 +71,6 @@ const RootLayout = () => {
       <Main>
         <ContainerFixed>
           <h2 className="text-xl font-semibold">Welcome to Road2GM</h2>
-          <p>
-            <button
-              aria-label="Increment value"
-              onClick={() => dispatch(increment())}
-            >
-              Increment
-            </button>
-            <span>{count}</span>
-            <button
-              aria-label="Decrement value"
-              onClick={() => dispatch(decrement())}
-            >
-              Decrement
-            </button>
-          </p>
           {/* 스크롤 테스트를 위한 더미 컨텐츠 */}
           {[...Array(10)].map((_, i) => (
             <p key={i} className="my-2">

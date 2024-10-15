@@ -18,10 +18,10 @@ const store = configureStore({
   devTools: process.env.NODE_ENV !== "production",
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
+// 스토어 자체에서 `RootState`, `AppDispatch` 타입을 추론한다.
 export type RootState = ReturnType<typeof store.getState>;
 
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+// 추론된 타입: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
 
 export default store;
@@ -93,10 +93,10 @@ const store = configureStore({
   devTools: process.env.NODE_ENV !== "production",
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
+// 스토어 자체에서 `RootState`, `AppDispatch` 타입을 추론한다.
 export type RootState = ReturnType<typeof store.getState>;
 
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+// 추론된 타입: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
 
 export default store;

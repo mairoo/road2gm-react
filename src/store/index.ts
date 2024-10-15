@@ -1,15 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./slices/counterSlice";
+import { uiSlice } from "./slices/uiSlice";
 
 const store = configureStore({
-  reducer: { counter: counterReducer },
+  reducer: { ui: uiSlice.reducer },
   devTools: process.env.NODE_ENV !== "production",
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
+// 스토어 자체에서 `RootState`, `AppDispatch` 타입을 추론한다.
 export type RootState = ReturnType<typeof store.getState>;
 
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+// 추론된 타입: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
 
 export default store;
