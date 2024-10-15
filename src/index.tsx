@@ -1,8 +1,12 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import "./tailwind.css";
 import { RouterProvider } from "react-router-dom";
+import { Provider } from "react-redux";
+
 import browserRouter from "./routes/BrowserRouter";
+import store from "./store";
+
+import "./tailwind.css";
 
 const container = document.getElementById("root");
 
@@ -14,6 +18,8 @@ const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={browserRouter} />
+    <Provider store={store}>
+      <RouterProvider router={browserRouter} />
+    </Provider>
   </React.StrictMode>,
 );

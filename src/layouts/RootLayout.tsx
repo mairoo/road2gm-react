@@ -5,8 +5,15 @@ import Footer from "../widgets/Footer";
 import ContainerFixed from "../widgets/ContainerFixed";
 import Button from "../widgets/Button";
 import { MdMenu } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+
+import type { RootState } from "../store";
+import { decrement, increment } from "../store/slices/counterSlice";
 
 const RootLayout = () => {
+  const count = useSelector((state: RootState) => state.counter.value);
+  const dispatch = useDispatch();
+
   // 헤더, 본문, 푸터 3단 레이아웃
   // flex flex-col: 세로 방향 flex 컨테이너
   // min-h-screen: 최소 높이를 화면 전체 높이로 지정
@@ -31,7 +38,11 @@ const RootLayout = () => {
               </div>
               {/* 모바일 메뉴 */}
               <div className="md:hidden flex items-center">
-                <Button className="text-lg focus:outline-none text-gray-900" preset="outline" rounded="small">
+                <Button
+                  className="text-lg focus:outline-none text-gray-900"
+                  preset="outline"
+                  rounded="small"
+                >
                   <MdMenu />
                 </Button>
               </div>
@@ -43,8 +54,19 @@ const RootLayout = () => {
         <ContainerFixed>
           <h2 className="text-xl font-semibold">Welcome to Road2GM</h2>
           <p>
-            This is the main content area. It will scroll if there's too much
-            content.
+            <button
+              aria-label="Increment value"
+              onClick={() => dispatch(increment())}
+            >
+              Increment
+            </button>
+            <span>{count}</span>
+            <button
+              aria-label="Decrement value"
+              onClick={() => dispatch(decrement())}
+            >
+              Decrement
+            </button>
           </p>
           {/* 스크롤 테스트를 위한 더미 컨텐츠 */}
           {[...Array(10)].map((_, i) => (
