@@ -17,7 +17,9 @@ const RootLayout = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header>
-        <nav>navbar</nav>
+        <ContainerFixed>
+          <nav>navbar</nav>
+        </ContainerFixed>
       </Header>
 
       <Main>
@@ -39,21 +41,27 @@ const RootLayout = () => {
           ))}
         </ContainerFixed>
       </Main>
-      <Footer className="bg-teal-50 text-sm text-cyan-900 space-y-2">
-        <ContainerFixed className="space-y-1">
-          <div>
-            광고 &middot; 제휴 &middot; 문의 권리침해신고센터 이용약관
-            개인정보처리방침 청소년보호정책
+      <Footer className="bg-teal-50 text-sm text-cyan-900">
+        <ContainerFixed className="space-y-1 py-2">
+          {/* 가로로 나열하다가 화면 차면 줄이 넘어감 */}
+          <div className="flex flex-row flex-wrap gap-x-4 gap-y-0.5">
+            <span>광고 &middot; 제휴 &middot; 문의</span>
+            <span>권리침해신고센터</span>
+            <span>이용약관</span>
+            <span>개인정보처리방침</span>
+            <span>청소년보호정책</span>
           </div>
           <div className="font-bold">로드투지엠</div>
-          <div>
-            대표: OOO 사업자번호 : 123-45-12345 통신판매번호:
-            제0000-서울서초-0000 주소: 서울 서초구 방배로 OO길 OO-O 1234호
-            연락처: help@road2gm.co.kr (1234-5678)
+          {/* 태블릿 이상: 가로로 나열, 모바일 세로로 나열 */}
+          <div className="flex flex-col gap-y-0.5 md:flex-row md:gap-x-4">
+            <span>대표: OOO</span>
+            <span>사업자번호 : 123-45-12345</span>
+            <span>통신판매번호: 제0000-서울서초-0000</span>
+            <span>주소: 서울 서초구 방배로 OO길 OO-O OOOO호</span>
+            <span>연락처: help@road2gm.co.kr (1234-5678)</span>
           </div>
         </ContainerFixed>
-
-        <div className="text-center">
+        <div className="bg-cyan-900 text-gray-100 text-center py-2">
           {window.location.hostname} &copy; {new Date().getFullYear()}. All
           rights reserved.
         </div>
