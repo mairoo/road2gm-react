@@ -7,7 +7,9 @@ const InfiniteSwipeSlide = ({
 }: {
   images: { width: number; height: number; color: string }[];
 }) => {
-  const [slides, setSlides] = useState<{ width: number; height: number; color: string }[]>([]);
+  const [slides, setSlides] = useState<
+    { width: number; height: number; color: string }[]
+  >([]);
   const [currentIndex, setCurrentIndex] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -19,16 +21,25 @@ const InfiniteSwipeSlide = ({
     }
   }, [images]);
 
-  const goToSlide = useCallback((index: number) => {
-    setIsTransitioning(true);
-    setCurrentIndex(index);
-  }, []);
+  const goToSlide = useCallback(
+    (index: number) => {
+      setIsTransitioning(true);
+      setCurrentIndex((_) => {
+        if (index < 0) return slides.length - 2;
+        if (index >= slides.length) return 1;
+        return index;
+      });
+    },
+    [slides.length],
+  );
 
   const nextSlide = useCallback(() => {
+    console.log(currentIndex, isTransitioning);
     goToSlide(currentIndex + 1);
   }, [currentIndex, goToSlide]);
 
   const prevSlide = useCallback(() => {
+    console.log(currentIndex, isTransitioning);
     goToSlide(currentIndex - 1);
   }, [currentIndex, goToSlide]);
 
@@ -36,12 +47,12 @@ const InfiniteSwipeSlide = ({
     if (isTransitioning) {
       const timer = setTimeout(() => {
         setIsTransitioning(false);
-        if (currentIndex === 0) {
-          setCurrentIndex(slides.length - 2);
-        } else if (currentIndex === slides.length - 1) {
-          setCurrentIndex(1);
-        }
-      }, 300); // This should match the transition duration in the CSS
+        setCurrentIndex((prevIndex) => {
+          if (prevIndex === 0) return slides.length - 2;
+          if (prevIndex === slides.length - 1) return 1;
+          return prevIndex;
+        });
+      }, 300); // 트랜지션 `duration-xxx` 값과 일치해야 한다. 트랜지션 중에 버튼이 너무 빨리 눌리면 버그가 발생할 수 있다.
       return () => clearTimeout(timer);
     }
   }, [currentIndex, isTransitioning, slides.length]);
