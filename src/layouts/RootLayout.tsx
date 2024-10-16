@@ -5,7 +5,7 @@ import Footer from "../widgets/Footer";
 import ContainerFixed from "../widgets/ContainerFixed";
 import { setViewportSize } from "../store/slices/uiSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { Link } from "react-router-dom";
+import {Link, Outlet} from "react-router-dom";
 import Drawer from "../widgets/Drawer";
 import DrawerHeading from "../widgets/DrawerHeading";
 
@@ -91,13 +91,7 @@ const RootLayout = () => {
       </Header>
       <Main>
         <ContainerFixed>
-          <h2 className="text-xl font-semibold">Welcome to Road2GM</h2>
-          {/* 스크롤 테스트를 위한 더미 컨텐츠 */}
-          {[...Array(10)].map((_, i) => (
-            <p key={i} className="my-2">
-              This is paragraph {i + 1}
-            </p>
-          ))}
+          <Outlet />
         </ContainerFixed>
       </Main>
       <Footer className="bg-teal-50 text-sm text-cyan-900">
@@ -129,13 +123,23 @@ const RootLayout = () => {
       {isMobile && (
         <div className="fixed bottom-6 left-6">
           <Drawer
-            isOpen={drawerIsOpen}
-            onOpen={handleDrawerOpen}
-            onClose={handleDrawerClose}
-            buttonColor="text-white"
-            buttonBackgroundColor="bg-teal-500"
-            modalBackgroundColor="bg-white"
+              isOpen={drawerIsOpen}
+              onOpen={handleDrawerOpen}
+              onClose={handleDrawerClose}
+              buttonColor="text-white"
+              buttonBackgroundColor="bg-teal-500"
+              modalBackgroundColor="bg-white"
           >
+            <DrawerHeading className="border-green-600 bg-[#ebf2ea] text-[#1d915c]">
+              아이디
+            </DrawerHeading>
+            <div className="flex flex-col h-[calc(100vh_-_66px)] overflow-y-auto">
+              {[...Array(20)].map((_, i) => (
+                  <p key={i} className="my-2">
+                    This is paragraph {i + 1}
+                  </p>
+              ))}
+            </div>
             <DrawerHeading className="border-green-600 bg-[#ebf2ea] text-[#1d915c]">
               {window.location.hostname}
             </DrawerHeading>
