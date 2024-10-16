@@ -8,12 +8,18 @@ import { MdMenu } from "react-icons/md";
 import { setViewportSize } from "../store/slices/uiSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { Link } from "react-router-dom";
+import Drawer from "../widgets/Drawer";
 
 const RootLayout = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
-  const openDrawer = () => setIsOpen(true);
-  const closeDrawer = () => setIsOpen(false);
+  const handleDrawerOpen = () => {
+    setDrawerIsOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setDrawerIsOpen(false);
+  };
 
   const dispatch = useAppDispatch();
   const { isMobile } = useAppSelector((state) => state.ui);
@@ -57,11 +63,19 @@ const RootLayout = () => {
                     preset="outline"
                     rounded="small"
                     onClick={() => {
-                      console.log("menu clicked");
+                      setDrawerIsOpen(true);
                     }}
                   >
                     <MdMenu />
                   </Button>
+                  <div className="fixed bottom-6 left-6">
+                    {/* Drawer 하단 고정 위치에 FAB 버튼을 렌더링한다. */}
+                    <Drawer
+                      isOpen={drawerIsOpen}
+                      onOpen={handleDrawerOpen}
+                      onClose={handleDrawerClose}
+                    />
+                  </div>
                 </div>
               )}
               {!isMobile && (
@@ -107,7 +121,7 @@ const RootLayout = () => {
             <span>연락처: help@road2gm.co.kr (1234-5678)</span>
           </div>
         </ContainerFixed>
-        <div className="bg-cyan-900 text-gray-100 text-center py-2">
+        <div className="bg-cyan-900 text-gray-100 text-center pt-2 pb-24 md:pb-2">
           {window.location.hostname} &copy; {new Date().getFullYear()}. All
           rights reserved.
         </div>
