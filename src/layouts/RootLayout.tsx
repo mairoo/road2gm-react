@@ -7,6 +7,7 @@ import { setViewportSize } from "../store/slices/uiSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { Link } from "react-router-dom";
 import Drawer from "../widgets/Drawer";
+import DrawerHeading from "../widgets/DrawerHeading";
 
 const RootLayout = () => {
   // 1. URL 파라미터 가져오기
@@ -124,14 +125,21 @@ const RootLayout = () => {
           rights reserved.
         </div>
       </Footer>
-      {/* 하단 고정 위치에 서랍 메뉴 FAB 버튼을 렌더링 */}
+      {/* 좌측 하단 고정 위치에 서랍 메뉴 floating action button 렌더링 */}
       {isMobile && (
         <div className="fixed bottom-6 left-6">
           <Drawer
             isOpen={drawerIsOpen}
             onOpen={handleDrawerOpen}
             onClose={handleDrawerClose}
-          />
+            buttonColor="text-white"
+            buttonBackgroundColor="bg-teal-500"
+            modalBackgroundColor="bg-white"
+          >
+            <DrawerHeading className="border-green-600 bg-[#ebf2ea] text-[#1d915c]">
+              {window.location.hostname}
+            </DrawerHeading>
+          </Drawer>
         </div>
       )}
     </div>

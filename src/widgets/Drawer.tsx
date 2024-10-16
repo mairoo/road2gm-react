@@ -1,15 +1,29 @@
-import React, { ComponentPropsWithoutRef, Fragment } from "react";
+import React, { ComponentPropsWithoutRef, Fragment, ReactNode } from "react";
 import Button from "./Button";
 
-import {Dialog, DialogPanel, Transition, TransitionChild} from "@headlessui/react";
+import {
+  Dialog,
+  DialogPanel,
+  Transition,
+  TransitionChild,
+} from "@headlessui/react";
 
 import { MdOutlineMenu } from "react-icons/md";
+import className from "classnames";
 
 const Drawer = ({
+  children,
+  buttonColor = "text-black",
+  buttonBackgroundColor = "bg-white",
+  modalBackgroundColor = "bg-white",
   isOpen,
   onOpen,
   onClose,
 }: {
+  children?: ReactNode;
+  buttonColor?: string;
+  buttonBackgroundColor?: string;
+  modalBackgroundColor?: string;
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
@@ -19,7 +33,11 @@ const Drawer = ({
       {/* FAB 버튼 */}
       <Button
         onClick={onOpen}
-        className="text-2xl bg-teal-500 text-white w-14 h-14 inline-flex justify-center items-center shadow-lg"
+        className={className(
+          "text-2xl w-14 h-14 inline-flex justify-center items-center shadow-lg",
+          buttonColor,
+          buttonBackgroundColor,
+        )}
         rounded="full"
       >
         <MdOutlineMenu />
@@ -59,8 +77,13 @@ const Drawer = ({
             {/* pr-32: 우측 여백으로 백드롭 터치 시 모달 서랍 사라지기 가능 */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none pr-32">
               {/* 모달 내용 속성 */}
-              <DialogPanel className="flex flex-col h-screen overflow-y-scroll pointer-events-auto bg-white shadow-xl">
-                <h1>{window.location.hostname}</h1>
+              <DialogPanel
+                className={className(
+                  "flex flex-col h-screen overflow-y-scroll pointer-events-auto shadow-xl",
+                  modalBackgroundColor,
+                )}
+              >
+                {children}
               </DialogPanel>
             </div>
           </TransitionChild>
