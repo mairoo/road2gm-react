@@ -1,7 +1,7 @@
 import React, { ComponentPropsWithoutRef, Fragment } from "react";
 import Button from "./Button";
 
-import { Dialog, Transition } from "@headlessui/react";
+import {Dialog, DialogPanel, Transition, TransitionChild} from "@headlessui/react";
 
 import { MdOutlineMenu } from "react-icons/md";
 
@@ -16,6 +16,7 @@ const Drawer = ({
 } & ComponentPropsWithoutRef<"div">) => {
   return (
     <>
+      {/* FAB 버튼 */}
       <Button
         onClick={onOpen}
         className="text-2xl bg-teal-500 text-white w-14 h-14 inline-flex justify-center items-center shadow-lg"
@@ -24,12 +25,12 @@ const Drawer = ({
         <MdOutlineMenu />
       </Button>
       {/* 트랜지션 효과 2개를 감쌀 것 */}
-      <Transition.Root show={isOpen} as={Fragment}>
+      <Transition show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-20" onClose={onClose}>
           {/* 백드롭 오버레이: 트랜지션 효과 - ease-in-out(천천히 나타났다 사라짐) */}
           {/* position: fixed - modal, sticky header, sticky footer */}
           {/* 백드롭 터치 시 모달 사라짐 */}
-          <Transition.Child
+          <TransitionChild
             as={Fragment}
             enter="ease-in-out duration-50"
             enterFrom="opacity-0"
@@ -39,10 +40,10 @@ const Drawer = ({
             leaveTo="opacity-0"
           >
             <div className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" />
-          </Transition.Child>
+          </TransitionChild>
           {/* 실제 서랍 메뉴: 트랜지션 효과 - transition (좌에서 우로 슬라이드) */}
           {/* https://headlessui.com/react/transition#co-ordinating-multiple-transitions */}
-          <Transition.Child
+          <TransitionChild
             as={Fragment}
             enter="transform transition ease-in-out duration-100"
             enterFrom="-translate-x-full"
@@ -58,13 +59,13 @@ const Drawer = ({
             {/* pr-32: 우측 여백으로 백드롭 터치 시 모달 서랍 사라지기 가능 */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none pr-32">
               {/* 모달 내용 속성 */}
-              <Dialog.Panel className="flex flex-col h-screen overflow-y-scroll pointer-events-auto bg-white shadow-xl">
+              <DialogPanel className="flex flex-col h-screen overflow-y-scroll pointer-events-auto bg-white shadow-xl">
                 <h1>{window.location.hostname}</h1>
-              </Dialog.Panel>
+              </DialogPanel>
             </div>
-          </Transition.Child>
+          </TransitionChild>
         </Dialog>
-      </Transition.Root>
+      </Transition>
     </>
   );
 };

@@ -3,14 +3,24 @@ import Header from "../widgets/Header";
 import Main from "../widgets/Main";
 import Footer from "../widgets/Footer";
 import ContainerFixed from "../widgets/ContainerFixed";
-import Button from "../widgets/Button";
-import { MdMenu } from "react-icons/md";
 import { setViewportSize } from "../store/slices/uiSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { Link } from "react-router-dom";
 import Drawer from "../widgets/Drawer";
 
 const RootLayout = () => {
+  // 1. URL 파라미터 가져오기
+
+  // 2. 리덕스 스토어 객체 가져오기
+
+  const dispatch = useAppDispatch();
+  const { isMobile } = useAppSelector((state) => state.ui);
+
+  // 3. 리액트 라우터 네비게이션 객체 가져오기
+  // 4. RTK Query 객체 가져오기
+  // 5. 리액트 훅 폼 정의
+  // 6. 주요 상태 선언 (useState, useReducer 및 커스텀 훅) 및 함수 정의
+
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
   const handleDrawerOpen = () => {
@@ -21,15 +31,13 @@ const RootLayout = () => {
     setDrawerIsOpen(false);
   };
 
-  const dispatch = useAppDispatch();
-  const { isMobile } = useAppSelector((state) => state.ui);
-
   const handleWindowResize = useCallback(() => {
     dispatch(
       setViewportSize({ width: window.innerWidth, height: window.innerHeight }),
     );
   }, [dispatch]);
 
+  // 7. useEffect 호출
   useEffect(() => {
     // 최상단 레이아웃에서 윈도우 객체 뷰 포트의 크기가 변경되는 이벤트 리스너를 등록
     // 뷰 포트 크기가 변경될 때 가로 크기를 측정하여 반응형 모바일기기 여부 판단
@@ -37,6 +45,12 @@ const RootLayout = () => {
     window.addEventListener("resize", handleWindowResize);
     return () => window.removeEventListener("resize", handleWindowResize);
   }, [handleWindowResize]);
+
+  // 8. onValid 폼 제출 핸들러 정의
+  // 9. 이벤트 핸들러 정의
+  // 10. 출력 데이터 구성
+
+  // 11. JSX 반환
 
   // 헤더, 본문, 푸터 3단 레이아웃
   // flex flex-col: 세로 방향 flex 컨테이너
@@ -57,25 +71,9 @@ const RootLayout = () => {
               </div>
               {/* 모바일 기기 사이즈인지 식별하여 불필요한 HTML DOM 객체가 중복되어 생성되지 않도록 한다. */}
               {isMobile && (
-                <div className="flex items-center">
-                  <Button
-                    className="text-2xl focus:outline-none text-gray-900"
-                    preset="outline"
-                    rounded="small"
-                    onClick={() => {
-                      setDrawerIsOpen(true);
-                    }}
-                  >
-                    <MdMenu />
-                  </Button>
-                  <div className="fixed bottom-6 left-6">
-                    {/* Drawer 하단 고정 위치에 FAB 버튼을 렌더링한다. */}
-                    <Drawer
-                      isOpen={drawerIsOpen}
-                      onOpen={handleDrawerOpen}
-                      onClose={handleDrawerClose}
-                    />
-                  </div>
+                <div className="flex gap-x-2 items-center">
+                  <span>회원가입</span>
+                  <span>로그인</span>
                 </div>
               )}
               {!isMobile && (
@@ -126,6 +124,16 @@ const RootLayout = () => {
           rights reserved.
         </div>
       </Footer>
+      {/* 하단 고정 위치에 서랍 메뉴 FAB 버튼을 렌더링 */}
+      {isMobile && (
+        <div className="fixed bottom-6 left-6">
+          <Drawer
+            isOpen={drawerIsOpen}
+            onOpen={handleDrawerOpen}
+            onClose={handleDrawerClose}
+          />
+        </div>
+      )}
     </div>
   );
 };

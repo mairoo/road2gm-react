@@ -63,7 +63,7 @@ const Button = ({
 } & ComponentPropsWithoutRef<"button">) => {
   const classes = className(
     rest.className,
-    "focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200 ease-in-out",
+    "focus:outline-none transition-colors duration-200 ease-in-out",
     size && sizeClasses[size],
     preset && presetClasses[preset],
     rounded && roundedClasses[rounded],
