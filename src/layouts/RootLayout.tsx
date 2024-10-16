@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Header from "../widgets/Header";
 import Main from "../widgets/Main";
 import Footer from "../widgets/Footer";
@@ -7,8 +7,14 @@ import Button from "../widgets/Button";
 import { MdMenu } from "react-icons/md";
 import { setViewportSize } from "../store/slices/uiSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { Link } from "react-router-dom";
 
 const RootLayout = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openDrawer = () => setIsOpen(true);
+  const closeDrawer = () => setIsOpen(false);
+
   const dispatch = useAppDispatch();
   const { isMobile } = useAppSelector((state) => state.ui);
 
@@ -40,7 +46,9 @@ const RootLayout = () => {
             {/* justify-between: 가로방향 진행 축 정렬 배치 - 로고와 메뉴를 양 끝에 배치 */}
             {/* items-center: 세로방향 교차 축 정렬 배치 - 수직 중앙 정렬 */}
             <nav className="flex justify-between items-center">
-              <div className="font-bold text-lg">Road2GM</div>
+              <div className="font-bold text-lg">
+                <Link to="/">Road2GM</Link>
+              </div>
               {/* 모바일 기기 사이즈인지 식별하여 불필요한 HTML DOM 객체가 중복되어 생성되지 않도록 한다. */}
               {isMobile && (
                 <div className="flex items-center">
@@ -58,10 +66,10 @@ const RootLayout = () => {
               )}
               {!isMobile && (
                 <div className="flex gap-x-4">
-                  <Button>마이페이지</Button>
-                  <Button>로그아웃</Button>
-                  <Button>회원가입</Button>
-                  <Button>로그인</Button>
+                  <Link to="#">마이페이지</Link>
+                  <Link to="#">로그아웃</Link>
+                  <Link to="#">회원가입</Link>
+                  <Link to="#">로그인</Link>
                 </div>
               )}
             </nav>
