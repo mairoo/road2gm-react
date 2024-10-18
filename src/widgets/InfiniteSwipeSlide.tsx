@@ -47,6 +47,7 @@ const InfiniteSwipeSlide = ({
 
   useEffect(() => {
     if (isTransitioning) {
+      // 화면전환 중일 때만 트랜지션 상태 종료 처리
       const timer = setTimeout(() => {
         setIsTransitioning(false);
         setCurrentIndex((prevIndex) => {
@@ -54,7 +55,7 @@ const InfiniteSwipeSlide = ({
           if (prevIndex === slides.length - 1) return 1;
           return prevIndex;
         });
-      }, 300); // 트랜지션 `duration-xxx` 값과 일치해야 한다.
+      }, 200); // 트랜지션 `duration-xxx` 값과 일치해야 한다.
       return () => clearTimeout(timer);
     }
   }, [currentIndex, isTransitioning, slides.length]);
@@ -80,7 +81,7 @@ const InfiniteSwipeSlide = ({
       {...handlers}
     >
       <div
-        className={`flex ${isTransitioning ? "transition-transform duration-300 ease-in-out" : ""}`}
+        className={`flex ${isTransitioning ? "transition-transform duration-200 ease-in-out" : ""}`}
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
         {slides.map((image, index) => (
