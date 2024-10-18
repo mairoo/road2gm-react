@@ -5,9 +5,10 @@ import Footer from "../widgets/Footer";
 import ContainerFixed from "../widgets/ContainerFixed";
 import { setViewportSize } from "../store/slices/uiSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import {Link, Outlet} from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import Drawer from "../widgets/Drawer";
 import DrawerHeading from "../widgets/DrawerHeading";
+import { MdCheck } from "react-icons/md";
 
 const RootLayout = () => {
   // 1. URL 파라미터 가져오기
@@ -123,26 +124,55 @@ const RootLayout = () => {
       {isMobile && (
         <div className="fixed bottom-6 left-6">
           <Drawer
-              isOpen={drawerIsOpen}
-              onOpen={handleDrawerOpen}
-              onClose={handleDrawerClose}
-              buttonColor="text-white"
-              buttonBackgroundColor="bg-teal-500"
-              modalBackgroundColor="bg-white"
+            isOpen={drawerIsOpen}
+            onOpen={handleDrawerOpen}
+            onClose={handleDrawerClose}
+            buttonColor="text-white"
+            buttonBackgroundColor="bg-teal-500"
+            modalBackgroundColor="bg-white"
           >
             <DrawerHeading className="border-green-600 bg-[#ebf2ea] text-[#1d915c]">
-              아이디
+              고정 영역
             </DrawerHeading>
-            <div className="flex flex-col h-[calc(100dvh_-_66px)] overflow-y-auto">
-              {[...Array(20)].map((_, i) => (
-                  <p key={i} className="my-2">
-                    This is paragraph {i + 1}
-                  </p>
+            {/* 스크롤 없는 고정 영역*/}
+            <div className="border-b flex flex-col">
+              {[...Array(5)].map((_, i) => (
+                <Link
+                  to="/"
+                  className="inline-flex gap-x-2 items-center px-3 py-1"
+                  onClick={handleDrawerClose}
+                  key={i}
+                >
+                  <MdCheck />
+                  메뉴 {i + 1}
+                </Link>
               ))}
             </div>
-            <DrawerHeading className="border-green-600 bg-[#ebf2ea] text-[#1d915c]">
-              {window.location.hostname}
-            </DrawerHeading>
+            {/* 스크롤 가능하게 한 번 감싸줄 것 /*/}
+            <div className="flex flex-col h-[calc(100dvh_-_248px)] overflow-y-auto">
+              <DrawerHeading className="border-green-600 bg-[#ebf2ea] text-[#1d915c]">
+                스크롤 영역
+              </DrawerHeading>
+              {[...Array(15)].map((_, i) => (
+                <Link
+                  to="/"
+                  className="inline-flex gap-x-2 items-center px-3 py-1"
+                  onClick={handleDrawerClose}
+                  key={i}
+                >
+                  <MdCheck />
+                  메뉴 {i + 1}
+                </Link>
+              ))}
+            </div>
+            <div className="border-green-600 bg-[#ebf2ea] text-[#1d915c]  border-l-4 border-b px-2 py-1">
+              <div className="flex justify-around">
+                <div className="flex-1 text-center">커뮤니티</div>
+                <div className="flex-1 text-center">학습</div>
+                <div className="flex-1 text-center">예약</div>
+              </div>
+              <div className="text-center text-sm"> {window.location.hostname}</div>
+            </div>
           </Drawer>
         </div>
       )}
