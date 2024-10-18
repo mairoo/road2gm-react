@@ -133,7 +133,7 @@ const RootLayout = () => {
             <DrawerHeading className="border-green-600 bg-[#ebf2ea] text-[#1d915c]">
               아이디
             </DrawerHeading>
-            <div className="flex flex-col h-[calc(100vh_-_66px)] overflow-y-auto">
+            <div className="flex flex-col h-[calc(100dvh_-_66px)] overflow-y-auto">
               {[...Array(20)].map((_, i) => (
                   <p key={i} className="my-2">
                     This is paragraph {i + 1}
