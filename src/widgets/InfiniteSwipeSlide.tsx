@@ -15,6 +15,7 @@ const InfiniteSwipeSlide = ({
 
   useEffect(() => {
     if (images.length > 1) {
+      // 마지막 슬라이드 + 슬라이드 전체 + 첫 슬라이드
       setSlides([images[images.length - 1], ...images, images[0]]);
     } else {
       setSlides(images);
@@ -23,6 +24,7 @@ const InfiniteSwipeSlide = ({
 
   const goToSlide = useCallback(
     (index: number) => {
+      console.log("goToSlide func", index, isTransitioning);
       setIsTransitioning(true);
       setCurrentIndex((_) => {
         if (index < 0) return slides.length - 2;
@@ -34,20 +36,22 @@ const InfiniteSwipeSlide = ({
   );
 
   const nextSlide = useCallback(() => {
-    console.log(currentIndex, isTransitioning);
+    console.log("next slide func", currentIndex, isTransitioning);
     goToSlide(currentIndex + 1);
   }, [currentIndex, goToSlide]);
 
   const prevSlide = useCallback(() => {
-    console.log(currentIndex, isTransitioning);
+    console.log("prev slide func", currentIndex, isTransitioning);
     goToSlide(currentIndex - 1);
   }, [currentIndex, goToSlide]);
 
   useEffect(() => {
+    console.log("useEffect func", isTransitioning);
     if (isTransitioning) {
       const timer = setTimeout(() => {
         setIsTransitioning(false);
         setCurrentIndex((prevIndex) => {
+          console.log("useEffect func", isTransitioning, prevIndex);
           if (prevIndex === 0) return slides.length - 2;
           if (prevIndex === slides.length - 1) return 1;
           return prevIndex;
@@ -96,12 +100,14 @@ const InfiniteSwipeSlide = ({
           <button
             onClick={prevSlide}
             className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            disabled={isTransitioning}
           >
             <LuChevronLeft className="w-6 h-6 text-gray-800" />
           </button>
           <button
             onClick={nextSlide}
             className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            disabled={isTransitioning}
           >
             <LuChevronRight className="w-6 h-6 text-gray-800" />
           </button>
