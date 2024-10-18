@@ -25,6 +25,7 @@ const InfiniteSwipeSlide = ({
   const goToSlide = useCallback(
     (index: number) => {
       if (!isTransitioning) {
+        // 화면전환 중에 재진입 불가
         setIsTransitioning(true);
         setCurrentIndex((_) => {
           if (index < 0) return slides.length - 2;
@@ -33,7 +34,7 @@ const InfiniteSwipeSlide = ({
         });
       }
     },
-    [slides.length],
+    [slides.length, isTransitioning],
   );
 
   const nextSlide = useCallback(() => {
@@ -53,7 +54,7 @@ const InfiniteSwipeSlide = ({
           if (prevIndex === slides.length - 1) return 1;
           return prevIndex;
         });
-      }, 300); // 트랜지션 `duration-xxx` 값과 일치해야 한다. 트랜지션 중에 버튼이 너무 빨리 눌리면 버그가 발생할 수 있다.
+      }, 300); // 트랜지션 `duration-xxx` 값과 일치해야 한다.
       return () => clearTimeout(timer);
     }
   }, [currentIndex, isTransitioning, slides.length]);
@@ -97,14 +98,12 @@ const InfiniteSwipeSlide = ({
           <button
             onClick={prevSlide}
             className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            disabled={isTransitioning}
           >
             <LuChevronLeft className="w-6 h-6 text-gray-800" />
           </button>
           <button
             onClick={nextSlide}
             className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            disabled={isTransitioning}
           >
             <LuChevronRight className="w-6 h-6 text-gray-800" />
           </button>
