@@ -24,7 +24,6 @@ const InfiniteSwipeSlide = ({
 
   const goToSlide = useCallback(
     (index: number) => {
-      console.log("goToSlide func", index, isTransitioning);
       setIsTransitioning(true);
       setCurrentIndex((_) => {
         if (index < 0) return slides.length - 2;
@@ -36,22 +35,18 @@ const InfiniteSwipeSlide = ({
   );
 
   const nextSlide = useCallback(() => {
-    console.log("next slide func", currentIndex, isTransitioning);
     goToSlide(currentIndex + 1);
   }, [currentIndex, goToSlide]);
 
   const prevSlide = useCallback(() => {
-    console.log("prev slide func", currentIndex, isTransitioning);
     goToSlide(currentIndex - 1);
   }, [currentIndex, goToSlide]);
 
   useEffect(() => {
-    console.log("useEffect func", isTransitioning);
     if (isTransitioning) {
       const timer = setTimeout(() => {
         setIsTransitioning(false);
         setCurrentIndex((prevIndex) => {
-          console.log("useEffect func", isTransitioning, prevIndex);
           if (prevIndex === 0) return slides.length - 2;
           if (prevIndex === slides.length - 1) return 1;
           return prevIndex;
@@ -64,7 +59,7 @@ const InfiniteSwipeSlide = ({
   const handlers = useSwipeable({
     onSwipedLeft: nextSlide,
     onSwipedRight: prevSlide,
-
+    preventScrollOnSwipe: true,
     trackMouse: true,
   });
 
