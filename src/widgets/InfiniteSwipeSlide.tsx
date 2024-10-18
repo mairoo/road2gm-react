@@ -24,12 +24,14 @@ const InfiniteSwipeSlide = ({
 
   const goToSlide = useCallback(
     (index: number) => {
-      setIsTransitioning(true);
-      setCurrentIndex((_) => {
-        if (index < 0) return slides.length - 2;
-        if (index >= slides.length) return 1;
-        return index;
-      });
+      if (!isTransitioning) {
+        setIsTransitioning(true);
+        setCurrentIndex((_) => {
+          if (index < 0) return slides.length - 2;
+          if (index >= slides.length) return 1;
+          return index;
+        });
+      }
     },
     [slides.length],
   );
