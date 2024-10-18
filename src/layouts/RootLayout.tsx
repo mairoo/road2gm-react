@@ -131,11 +131,11 @@ const RootLayout = () => {
             buttonBackgroundColor="bg-teal-500"
             modalBackgroundColor="bg-white"
           >
-            <DrawerHeading className="border-green-600 bg-[#ebf2ea] text-[#1d915c]">
-              고정 영역
-            </DrawerHeading>
             {/* 스크롤 없는 고정 영역*/}
-            <div className="border-b flex flex-col">
+            <div className="border-b border-b-gray-300 flex flex-col">
+              <DrawerHeading className="border-green-600 bg-[#ebf2ea] text-[#1d915c]">
+                고정 영역
+              </DrawerHeading>
               {[...Array(5)].map((_, i) => (
                 <Link
                   to="/"
@@ -149,7 +149,7 @@ const RootLayout = () => {
               ))}
             </div>
             {/* 스크롤 가능하게 한 번 감싸줄 것 /*/}
-            <div className="flex flex-col h-[calc(100dvh_-_248px)] overflow-y-auto">
+            <div className="flex flex-col h-[calc(100dvh_-_249px)] overflow-y-auto">
               <DrawerHeading className="border-green-600 bg-[#ebf2ea] text-[#1d915c]">
                 스크롤 영역
               </DrawerHeading>
@@ -165,13 +165,21 @@ const RootLayout = () => {
                 </Link>
               ))}
             </div>
-            <div className="border-green-600 bg-[#ebf2ea] text-[#1d915c]  border-l-4 border-b px-2 py-1">
-              <div className="flex justify-around">
-                <div className="flex-1 text-center">커뮤니티</div>
-                <div className="flex-1 text-center">학습</div>
-                <div className="flex-1 text-center">예약</div>
+            <div className="bg-[#ebf2ea] text-[#1d915c] border-l-4 border-b">
+              <div className="flex justify-around font-bold">
+                <div className="flex-1 text-center border-t-green-600 border-t-4 py-1">
+                  커뮤니티
+                </div>
+                <div className="flex-1 text-center border-t-gray-200 border-t-4 py-1">
+                  학습
+                </div>
+                <div className="flex-1 text-center border-t-gray-200 border-t-4 py-1">
+                  예약
+                </div>
               </div>
-              <div className="text-center text-sm"> {window.location.hostname}</div>
+              <div className="text-center text-sm text-gray-400">
+                {window.location.hostname}
+              </div>
             </div>
           </Drawer>
         </div>
