@@ -128,7 +128,7 @@ const RootLayout = () => {
             onOpen={handleDrawerOpen}
             onClose={handleDrawerClose}
             buttonColor="text-white"
-            buttonBackgroundColor="bg-shadow-4"
+            buttonBackgroundColor="bg-shade-3"
             modalBackgroundColor="bg-white"
           >
             {/* 스크롤 없는 고정 영역*/}
