@@ -63,7 +63,7 @@ const RootLayout = () => {
   return (
     <div className="flex flex-col min-h-dvh">
       <Header>
-        <div className="bg-teal-50 py-2 px-2 md:px-0">
+        <div className="bg-natural-3 py-2 px-2 md:px-0">
           <ContainerFixed>
             {/* justify-between: 가로방향 진행 축 정렬 배치 - 로고와 메뉴를 양 끝에 배치 */}
             {/* items-center: 세로방향 교차 축 정렬 배치 - 수직 중앙 정렬 */}
@@ -95,7 +95,7 @@ const RootLayout = () => {
           <Outlet />
         </ContainerFixed>
       </Main>
-      <Footer className="bg-teal-50 text-sm text-cyan-900">
+      <Footer className="bg-natural-3 text-sm text-cyan-900">
         <ContainerFixed className="space-y-1 py-2 px-2 md:px-0">
           {/* 가로로 나열하다가 화면 차면 줄이 넘어감 */}
           <div className="flex flex-wrap gap-x-4 gap-y-0.5">
@@ -115,7 +115,7 @@ const RootLayout = () => {
             <span>연락처: help@road2gm.co.kr (1234-5678)</span>
           </div>
         </ContainerFixed>
-        <div className="bg-cyan-900 text-gray-100 text-center pt-2 pb-24 md:pb-2">
+        <div className="bg-shade-1 text-gray-100 text-center pt-2 pb-24 md:pb-2">
           {window.location.hostname} &copy; {new Date().getFullYear()}. All
           rights reserved.
         </div>
@@ -128,12 +128,12 @@ const RootLayout = () => {
             onOpen={handleDrawerOpen}
             onClose={handleDrawerClose}
             buttonColor="text-white"
-            buttonBackgroundColor="bg-teal-500"
+            buttonBackgroundColor="bg-shadow-4"
             modalBackgroundColor="bg-white"
           >
             {/* 스크롤 없는 고정 영역*/}
             <div className="border-b border-b-gray-300 flex flex-col">
-              <DrawerHeading className="border-green-600 bg-[#ebf2ea] text-[#1d915c]">
+              <DrawerHeading className="border-green-600 bg-natural-1 text-natural-5">
                 고정 영역
               </DrawerHeading>
               {[...Array(5)].map((_, i) => (
@@ -150,7 +150,7 @@ const RootLayout = () => {
             </div>
             {/* 스크롤 가능하게 한 번 감싸줄 것 /*/}
             <div className="flex flex-col h-[calc(100dvh_-_249px)] overflow-y-auto">
-              <DrawerHeading className="border-green-600 bg-[#ebf2ea] text-[#1d915c]">
+              <DrawerHeading className="border-green-600 bg-natural-1 text-natural-5">
                 스크롤 영역
               </DrawerHeading>
               {[...Array(15)].map((_, i) => (
@@ -165,7 +165,7 @@ const RootLayout = () => {
                 </Link>
               ))}
             </div>
-            <div className="bg-[#ebf2ea] text-[#1d915c] border-l-4 border-b">
+            <div className="bg-natural-1 text-natural-5 border-l-4 border-b">
               <div className="flex justify-around font-bold">
                 <div className="flex-1 text-center border-t-green-600 border-t-4 py-1">
                   커뮤니티

@@ -98,13 +98,6 @@ const Home = () => {
   return (
     <>
       <h2 className="text-xl font-semibold">Welcome to Road2GM</h2>
-      {/* 스크롤 테스트를 위한 더미 컨텐츠 */}
-      {[...Array(10)].map((_, i) => (
-        <p key={i} className="my-2">
-          This is paragraph {i + 1}
-        </p>
-      ))}
-
       <div className="flex flex-col md:w-96">
         <Chessboard
           boardOrientation={orientation}
