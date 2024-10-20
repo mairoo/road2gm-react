@@ -10,7 +10,7 @@ const InfiniteSwipeSlide = ({
   const [slides, setSlides] = useState<
     { width: number; height: number; color: string }[]
   >([]);
-  const [currentIndex, setCurrentIndex] = useState(1);
+  const [currentIndex, setCurrentIndex] = useState(slides.length > 1 ? 1 : 0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const InfiniteSwipeSlide = ({
 
   const goToSlide = useCallback(
     (index: number) => {
-      if (!isTransitioning) {
+      if (slides.length > 1 && !isTransitioning) {
         // 화면전환 중에 재진입 불가
         setIsTransitioning(true);
         setCurrentIndex((_) => {
@@ -69,8 +69,8 @@ const InfiniteSwipeSlide = ({
 
   if (slides.length === 0) {
     return (
-      <div className="w-full max-w-2xl mx-auto h-64 bg-gray-200 flex items-center justify-center text-gray-500">
-        이미지가 없습니다
+      <div className="bg-danger-2 text-white text-center">
+        이미지가 없습니다.
       </div>
     );
   }

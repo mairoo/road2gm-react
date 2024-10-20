@@ -165,6 +165,7 @@ const RootLayout = () => {
                 </Link>
               ))}
             </div>
+            {/* 서랍 메뉴 바닥 탭 */}
             <div className="bg-natural-1 text-natural-5 border-l-4 border-b">
               <div className="flex justify-around font-bold">
                 <div className="flex-1 text-center border-t-green-600 border-t-4 py-1">
@@ -174,7 +175,7 @@ const RootLayout = () => {
                   학습
                 </div>
                 <div className="flex-1 text-center border-t-gray-200 border-t-4 py-1">
-                  예약
+                  모임
                 </div>
               </div>
               <div className="text-center text-sm text-gray-400">
