@@ -18,7 +18,7 @@ const SlideMenu = ({
       items: { id: number; text: string; link: string; icon?: string }[];
     }[]
   >([]);
-  const [currentIndex, setCurrentIndex] = useState(slides.length > 1 ? 1 : 0);
+  const [currentIndex, setCurrentIndex] = useState(menu.length > 1 ? 1 : 0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   // 메뉴 추가/삭제 변경 시 메뉴 구성 변경
@@ -90,7 +90,7 @@ const SlideMenu = ({
   }
 
   return (
-    <div className="w-full overflow-hidden" {...handlers}>
+    <div className="relative w-full overflow-hidden" {...handlers}>
       <div
         className={`flex ${isTransitioning ? "transition-transform duration-200 ease-in-out" : ""}`}
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -113,26 +113,33 @@ const SlideMenu = ({
                 </Link>
               ))}
             </div>
-            {/* 서랍 메뉴 바닥 탭 - indicators */}
-            <div className="bg-natural-1 text-natural-5 border-l-4 border-b">
-              <div className="flex justify-around font-bold">
-                <div className="flex-1 text-center border-t-green-600 border-t-4 py-1">
-                  커뮤니티
-                </div>
-                <div className="flex-1 text-center border-t-gray-200 border-t-4 py-1">
-                  학습
-                </div>
-                <div className="flex-1 text-center border-t-gray-200 border-t-4 py-1">
-                  모임
-                </div>
-              </div>
-              <div className="text-center text-sm text-gray-400">
-                {window.location.hostname}
-              </div>
-            </div>
           </div>
         ))}
       </div>
+      {/* 서랍 메뉴 바닥 탭 - indicators */}
+      {slides.length > 1 && (
+        <div className="bg-natural-1 text-natural-5 border-l-4 border-b">
+          <div className="flex justify-around font-bold">
+            {menu.map((slide, index) => (
+              <div
+                key={index}
+                onClick={() => goToSlide(index + 1)}
+                className={`flex-1 text-center border-t-4 py-1 ${
+                  index === (currentIndex - 1 + menu.length) % menu.length
+                    ? "border-t-green-600"
+                    : "border-t-gray-200"
+                }`}
+              >
+                {slide.heading}
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center text-sm text-gray-400">
+            {window.location.hostname}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

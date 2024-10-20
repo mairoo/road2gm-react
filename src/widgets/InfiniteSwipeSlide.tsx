@@ -10,7 +10,7 @@ const InfiniteSwipeSlide = ({
   const [slides, setSlides] = useState<
     { width: number; height: number; color: string }[]
   >([]);
-  const [currentIndex, setCurrentIndex] = useState(slides.length > 1 ? 1 : 0);
+  const [currentIndex, setCurrentIndex] = useState(images.length > 1 ? 1 : 0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
