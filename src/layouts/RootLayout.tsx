@@ -24,6 +24,18 @@ const RootLayout = () => {
           text: "질문",
           link: "/",
         },
+        {
+          text: "학원찾기",
+          link: "/",
+        },
+        {
+          text: "강사찾기",
+          link: "/",
+        },
+        {
+          text: "공지",
+          link: "/",
+        },
       ],
     },
     {
