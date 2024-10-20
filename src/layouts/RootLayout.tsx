@@ -9,8 +9,60 @@ import { Link, Outlet } from "react-router-dom";
 import Drawer from "../widgets/Drawer";
 import DrawerHeading from "../widgets/DrawerHeading";
 import { MdCheck } from "react-icons/md";
+import SlideMenu from "../widgets/SlideMenu";
 
 const RootLayout = () => {
+  const drawerMenuItems = [
+    {
+      heading: "커뮤니티",
+      items: [
+        {
+          text: "자유",
+          link: "/",
+        },
+        {
+          text: "질문",
+          link: "/",
+        },
+      ],
+    },
+    {
+      heading: "학습",
+      items: [
+        {
+          text: "강좌",
+          link: "/",
+        },
+        {
+          text: "퍼즐",
+          link: "/",
+        },
+        {
+          text: "복기",
+          link: "/",
+        },
+
+        {
+          text: "오답노트",
+          link: "/",
+        },
+      ],
+    },
+    {
+      heading: "모임",
+      items: [
+        {
+          text: "자유",
+          link: "/",
+        },
+        {
+          text: "대회",
+          link: "/",
+        },
+      ],
+    },
+  ];
+
   // 1. URL 파라미터 가져오기
 
   // 2. 리덕스 스토어 객체 가져오기
@@ -148,40 +200,7 @@ const RootLayout = () => {
                 </Link>
               ))}
             </div>
-            {/* 스크롤 가능하게 한 번 감싸줄 것 /*/}
-            <div className="flex flex-col h-[calc(100dvh_-_249px)] overflow-y-auto">
-              <DrawerHeading className="border-green-600 bg-natural-1 text-natural-5">
-                스크롤 영역
-              </DrawerHeading>
-              {[...Array(15)].map((_, i) => (
-                <Link
-                  to="/"
-                  className="inline-flex gap-x-2 items-center px-3 py-1"
-                  onClick={handleDrawerClose}
-                  key={i}
-                >
-                  <MdCheck />
-                  메뉴 {i + 1}
-                </Link>
-              ))}
-            </div>
-            {/* 서랍 메뉴 바닥 탭 */}
-            <div className="bg-natural-1 text-natural-5 border-l-4 border-b">
-              <div className="flex justify-around font-bold">
-                <div className="flex-1 text-center border-t-green-600 border-t-4 py-1">
-                  커뮤니티
-                </div>
-                <div className="flex-1 text-center border-t-gray-200 border-t-4 py-1">
-                  학습
-                </div>
-                <div className="flex-1 text-center border-t-gray-200 border-t-4 py-1">
-                  모임
-                </div>
-              </div>
-              <div className="text-center text-sm text-gray-400">
-                {window.location.hostname}
-              </div>
-            </div>
+            <SlideMenu menu={drawerMenuItems} />
           </Drawer>
         </div>
       )}

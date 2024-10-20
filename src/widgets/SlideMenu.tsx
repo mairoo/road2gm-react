@@ -9,13 +9,13 @@ const SlideMenu = ({
 }: {
   menu: {
     heading: string;
-    items: { id: number; text: string; link: string; icon?: string }[];
+    items: { text: string; link: string; icon?: string }[];
   }[];
 }) => {
   const [slides, setSlides] = useState<
     {
       heading: string;
-      items: { id: number; text: string; link: string; icon?: string }[];
+      items: { text: string; link: string; icon?: string }[];
     }[]
   >([]);
   const [currentIndex, setCurrentIndex] = useState(menu.length > 1 ? 1 : 0);
@@ -98,18 +98,18 @@ const SlideMenu = ({
         {slides.map((slide, index) => (
           <div key={index} className="w-full flex-shrink-0">
             {/* 스크롤 가능하게 한 번 감싸줄 것 /*/}
-            <div className="flex flex-col h-[200px] overflow-y-auto">
+            <div className="flex flex-col h-[calc(100dvh_-_249px)] overflow-y-auto">
               <DrawerHeading className="border-green-600 bg-natural-1 text-natural-5">
                 {slide.heading}
               </DrawerHeading>
-              {[...Array(15)].map((_, i) => (
+              {slide.items.map((item, i) => (
                 <Link
-                  to="/"
+                  to={item.link}
                   className="inline-flex gap-x-2 items-center px-3 py-1"
                   key={i}
                 >
                   <MdCheck />
-                  메뉴 {i + 1}
+                  {item.text}
                 </Link>
               ))}
             </div>

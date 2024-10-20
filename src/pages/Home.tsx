@@ -13,7 +13,6 @@ import {
   MdRotateLeft,
 } from "react-icons/md";
 import ReactMarkdown from "react-markdown";
-import SlideMenu from "../widgets/SlideMenu";
 
 const Home = () => {
   const game = useMemo(() => new Chess(), []);
@@ -99,13 +98,7 @@ const Home = () => {
   return (
     <>
       <h2 className="text-xl font-semibold">Welcome to Road2GM</h2>
-      <SlideMenu
-        menu={[
-          { heading: "커뮤니티", items: [] },
-          { heading: "학습", items: [] },
-          { heading: "모임", items: [] },
-        ]}
-      />
+
       <div className="flex flex-col md:w-96">
         <Chessboard
           boardOrientation={orientation}
