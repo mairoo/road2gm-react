@@ -1,10 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface UiSlice {
-  width?: number;
-  height?: number;
-  isMobile?: boolean;
-}
+import { UiSlice } from "../../types";
 
 const initialState: UiSlice = {};
 

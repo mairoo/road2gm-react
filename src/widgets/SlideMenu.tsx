@@ -4,20 +4,10 @@ import DrawerHeading from "./DrawerHeading";
 import { Link } from "react-router-dom";
 import { MdCheck } from "react-icons/md";
 
-const SlideMenu = ({
-  menu,
-}: {
-  menu: {
-    heading: string;
-    items: { text: string; link: string; icon?: string }[];
-  }[];
-}) => {
-  const [slides, setSlides] = useState<
-    {
-      heading: string;
-      items: { text: string; link: string; icon?: string }[];
-    }[]
-  >([]);
+import { DrawerMenuItem } from "../types";
+
+const SlideMenu = ({ menu }: { menu: DrawerMenuItem[] }) => {
+  const [slides, setSlides] = useState<DrawerMenuItem[]>([]);
   const [currentIndex, setCurrentIndex] = useState(menu.length > 1 ? 1 : 0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 

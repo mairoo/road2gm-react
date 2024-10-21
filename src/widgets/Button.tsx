@@ -1,17 +1,12 @@
 import React, { ComponentPropsWithoutRef, ReactNode } from "react";
 import className from "classnames";
 
-type ButtonSize = "small" | "medium" | "large";
-type ButtonPreset =
-  | "primary"
-  | "secondary"
-  | "danger"
-  | "warning"
-  | "outline"
-  | "ghost";
-type ButtonRounded = "base" | "small" | "medium" | "large" | "full";
-
-type ButtonFontWeight = "normal" | "semibold" | "bold";
+import {
+  ButtonFontWeight,
+  ButtonPreset,
+  ButtonRounded,
+  ButtonSize,
+} from "../types";
 
 const sizeClasses: Record<ButtonSize, string> = {
   small: "px-1 py-0.5 text-sm",
