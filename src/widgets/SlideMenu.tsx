@@ -98,7 +98,7 @@ const SlideMenu = ({
         {slides.map((slide, index) => (
           <div key={index} className="w-full flex-shrink-0">
             {/* 스크롤 가능하게 한 번 감싸줄 것 /*/}
-            <div className="flex flex-col h-[calc(100dvh_-_249px)] overflow-y-auto">
+            <div className="flex flex-col h-[calc(100dvh_-_257px)] overflow-y-auto">
               <DrawerHeading className="border-green-600 bg-natural-1 text-natural-5">
                 {slide.heading}
               </DrawerHeading>
@@ -118,7 +118,7 @@ const SlideMenu = ({
       </div>
       {/* 서랍 메뉴 바닥 탭 - indicators */}
       {slides.length > 1 && (
-        <div className="bg-natural-1 text-natural-5 border-l-4 border-b">
+        <div className="bg-natural-1 border-l-4">
           <div className="flex justify-around font-bold">
             {menu.map((slide, index) => (
               <div
@@ -126,8 +126,8 @@ const SlideMenu = ({
                 onClick={() => goToSlide(index + 1)}
                 className={`flex-1 text-center border-t-4 py-1 ${
                   index === (currentIndex - 1 + menu.length) % menu.length
-                    ? "border-t-green-600"
-                    : "border-t-gray-200"
+                    ? "border-t-green-600 text-natural-5"
+                    : "border-t-gray-200 text-generic-gradient-3"
                 }`}
               >
                 {slide.heading}
@@ -135,7 +135,7 @@ const SlideMenu = ({
             ))}
           </div>
 
-          <div className="text-center text-sm text-gray-400">
+          <div className="text-center text-sm text-generic-gradient-2 py-1">
             {window.location.hostname}
           </div>
         </div>

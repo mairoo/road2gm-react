@@ -25,11 +25,15 @@ const RootLayout = () => {
           link: "/",
         },
         {
-          text: "학원찾기",
+          text: "구인",
           link: "/",
         },
         {
-          text: "강사찾기",
+          text: "구직",
+          link: "/",
+        },
+        {
+          text: "장터",
           link: "/",
         },
         {
