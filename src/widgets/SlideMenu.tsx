@@ -136,7 +136,7 @@ const SlideMenu = ({
           </div>
 
           <div className="text-center text-sm text-generic-gradient-2 py-1">
-            {window.location.hostname}
+            &copy; Road2GM
           </div>
         </div>
       )}
