@@ -6,7 +6,13 @@ import { MdCheck } from "react-icons/md";
 
 import { DrawerMenuItem } from "../types";
 
-const SlideMenu = ({ menu }: { menu: DrawerMenuItem[] }) => {
+const SlideMenu = ({
+  menu,
+  onClick,
+}: {
+  menu: DrawerMenuItem[];
+  onClick: () => void;
+}) => {
   const [slides, setSlides] = useState<DrawerMenuItem[]>([]);
   const [currentIndex, setCurrentIndex] = useState(menu.length > 1 ? 1 : 0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -96,6 +102,7 @@ const SlideMenu = ({ menu }: { menu: DrawerMenuItem[] }) => {
                 <Link
                   to={item.link}
                   className="inline-flex gap-x-2 items-center px-3 py-1"
+                  onClick={onClick}
                   key={i}
                 >
                   <MdCheck />
@@ -108,7 +115,7 @@ const SlideMenu = ({ menu }: { menu: DrawerMenuItem[] }) => {
       </div>
       {/* 서랍 메뉴 바닥 탭 - indicators */}
       {slides.length > 1 && (
-        <div className="bg-natural-1 border-l-4">
+        <div className="bg-natural-1">
           <div className="flex justify-around font-bold">
             {menu.map((slide, index) => (
               <div

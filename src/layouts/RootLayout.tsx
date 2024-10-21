@@ -1,15 +1,17 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { Link, Outlet } from "react-router-dom";
+import { MdCheck } from "react-icons/md";
+
 import Header from "../widgets/Header";
 import Main from "../widgets/Main";
 import Footer from "../widgets/Footer";
 import ContainerFixed from "../widgets/ContainerFixed";
 import { setViewportSize } from "../store/slices/uiSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { Link, Outlet } from "react-router-dom";
+
+import SlideMenu from "../widgets/SlideMenu";
 import Drawer from "../widgets/Drawer";
 import DrawerHeading from "../widgets/DrawerHeading";
-import { MdCheck } from "react-icons/md";
-import SlideMenu from "../widgets/SlideMenu";
 
 const RootLayout = () => {
   const drawerMenuItems = [
@@ -216,7 +218,7 @@ const RootLayout = () => {
                 </Link>
               ))}
             </div>
-            <SlideMenu menu={drawerMenuItems} />
+            <SlideMenu menu={drawerMenuItems} onClick={handleDrawerClose} />
           </Drawer>
         </div>
       )}
