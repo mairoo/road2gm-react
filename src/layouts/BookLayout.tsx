@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import { MdChevronLeft, MdChevronRight, MdList } from "react-icons/md";
 import Button from "../widgets/Button";
 
-const BooksLayout = () => {
+const BookLayout = () => {
   return (
     <div>
       <h1>books</h1>
@@ -32,4 +32,4 @@ const BooksLayout = () => {
   );
 };
 
-export default BooksLayout;
+export default BookLayout;

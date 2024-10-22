@@ -44,7 +44,7 @@ const RootLayout = () => {
       items: [
         {
           text: "강좌",
-          link: "/books",
+          link: "/book",
         },
         {
           text: "퍼즐",
@@ -163,7 +163,7 @@ const RootLayout = () => {
       {/* 푸터는 모바일 화면의 경우 시작화면 등 일부 화면에서만 표시 */}
       {!(
         isMobile &&
-        ["/books"].filter((path) => pathname.startsWith(path)).length !== 0
+        ["/book"].filter((path) => pathname.startsWith(path)).length !== 0
       ) && (
         <Footer className="bg-natural-3 text-sm text-cyan-900">
           <ContainerFixed className="space-y-1 py-2 px-2 md:px-0">
@@ -197,7 +197,7 @@ const RootLayout = () => {
         <div
           className={className(
             "fixed left-6",
-            ["/books"].filter((path) => pathname.startsWith(path)).length === 0
+            ["/book"].filter((path) => pathname.startsWith(path)).length === 0
               ? "bottom-6"
               : "bottom-14",
           )}

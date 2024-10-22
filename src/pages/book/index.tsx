@@ -1,7 +1,7 @@
 import React from "react";
 import InfiniteSwipeSlide from "../../widgets/InfiniteSwipeSlide";
 
-const BooksPage = () => {
+const BookPage = () => {
   const images = [
     { width: 800, height: 400, color: "orange" },
     { width: 800, height: 400, color: "blue" },
@@ -17,4 +17,4 @@ const BooksPage = () => {
   );
 };
 
-export default BooksPage;
+export default BookPage;

@@ -3,11 +3,11 @@ import React from "react";
 import RootLayout from "../layouts/RootLayout";
 import Home from "../pages/Home";
 import ErrorPage from "../pages/ErrorPage";
-import BooksPage from "../pages/books";
-import BookDetailPage from "../pages/books/[id]";
-import BookPagesPage from "../pages/books/pages";
-import BookPageDetailPage from "../pages/books/pages/[id]";
-import BooksLayout from "../layouts/BooksLayout";
+import BookPage from "../pages/book";
+import BookDetailPage from "../pages/book/[id]";
+import BookPagesPage from "../pages/book/page";
+import BookPageDetailPage from "../pages/book/page/[id]";
+import BookLayout from "../layouts/BookLayout";
 
 const BrowserRouter = createBrowserRouter([
   {
@@ -26,12 +26,12 @@ const BrowserRouter = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/books",
-        element: <BooksLayout />,
+        path: "/book",
+        element: <BookLayout />,
         children: [
           {
             index: true,
-            element: <BooksPage />,
+            element: <BookPage />,
           },
           {
             path: ":bookId",
