@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import { MdChevronLeft, MdChevronRight, MdSearch } from "react-icons/md";
+import Card from '../../widgets/Card';
 
 const BookPage = () => {
   const books = [
@@ -73,9 +74,9 @@ const BookPage = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-6 px-1 md:px-0">
           {list.map((book, i) => (
-              <div
+              <Card
                   key={i}
-                  className="flex bg-gray-50 gap-x-2 rounded-sm shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-100"
+                  className="flex bg-gray-50 gap-x-2"
               >
                 {/* 썸네일 이미지: flex-shrink-0로 이미지 크기 고정, object-cover로 이미지 비율 유지 */}
                 <div className="flex-shrink-0">
@@ -102,7 +103,7 @@ const BookPage = () => {
                     </ul>
                   </div>
                 </div>
-              </div>
+              </Card>
           ))}
         </div>
         <div className="flex items-center justify-center w-full px-2 mb-4">
