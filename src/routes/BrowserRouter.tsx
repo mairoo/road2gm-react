@@ -1,13 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
 import React from "react";
 import RootLayout from "../layouts/RootLayout";
-import Home from "../pages/Home";
 import ErrorPage from "../pages/ErrorPage";
 import BookPage from "../pages/book";
 import BookDetailPage from "../pages/book/[id]";
 import BookPagesPage from "../pages/book/page";
 import BookPageDetailPage from "../pages/book/page/[id]";
 import BookLayout from "../layouts/BookLayout";
+import HomeLayout from "../layouts/HomeLayout";
+import HomePage from "../pages/HomePage";
 
 const BrowserRouter = createBrowserRouter([
   {
@@ -22,8 +23,14 @@ const BrowserRouter = createBrowserRouter([
       // 프로그래밍 방식으로 라우트를 조작하기 더 쉽다.
       // 복잡한 중첩 라우트 구조에서는 가독성이 떨어진다.
       {
-        index: true,
-        element: <Home />,
+        path: "/",
+        element: <HomeLayout />,
+        children: [
+          {
+            index: true,
+            element: <HomePage />,
+          },
+        ],
       },
       {
         path: "/book",

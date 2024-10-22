@@ -14,7 +14,7 @@ import {
 } from "react-icons/md";
 import ReactMarkdown from "react-markdown";
 
-const Home = () => {
+const HomePage = () => {
   const game = useMemo(() => new Chess(), []);
   const [gamePosition, setGamePosition] = useState(game.fen());
   const [orientation, setOrientation] = useState<"white" | "black">("white");
@@ -245,4 +245,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;
