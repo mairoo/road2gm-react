@@ -71,14 +71,14 @@ const BookLayout = () => {
         <div className="flex items-center justify-around py-1">
           <Button inline={true}>
             <MdChevronLeft className="w-8 h-8" />
-            <span className="text-xs font-medium">이전글</span>
+            <span className="text-sm">이전글</span>
           </Button>
           <Button inline={true}>
             <MdList className="w-8 h-8" />
-            <span className="text-xs font-medium">목록</span>
+            <span className="text-sm">목록</span>
           </Button>
           <Button inline={true}>
-            <span className="text-xs font-medium">다음글</span>
+            <span className="text-sm">다음글</span>
             <MdChevronRight className="w-8 h-8" />
           </Button>
         </div>
