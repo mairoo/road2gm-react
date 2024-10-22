@@ -37,52 +37,54 @@ const BookLayout = () => {
       <Road2GMFooter />
       {/* 좌측 하단 고정 위치에 서랍 메뉴 floating action button 렌더링 */}
       {isMobile && (
-        <div className="fixed left-6 bottom-14">
-          <Drawer
-            isOpen={drawerIsOpen}
-            onOpen={handleDrawerOpen}
-            onClose={handleDrawerClose}
-            buttonColor="text-white"
-            buttonBackgroundColor="bg-shade-3"
-            modalBackgroundColor="bg-white"
-          >
-            {/* 스크롤 없는 고정 영역*/}
-            <div className="border-b border-b-gray-300 flex flex-col">
-              <DrawerHeading className="border-green-600 bg-natural-1 text-natural-5">
-                고정 영역
-              </DrawerHeading>
-              {[...Array(5)].map((_, i) => (
-                <Link
-                  to="/"
-                  className="inline-flex gap-x-2 items-center px-3 py-1"
-                  onClick={handleDrawerClose}
-                  key={i}
-                >
-                  <MdCheck />
-                  메뉴 {i + 1}
-                </Link>
-              ))}
+        <>
+          <div className="fixed left-6 bottom-14">
+            <Drawer
+              isOpen={drawerIsOpen}
+              onOpen={handleDrawerOpen}
+              onClose={handleDrawerClose}
+              buttonColor="text-white"
+              buttonBackgroundColor="bg-shade-3"
+              modalBackgroundColor="bg-white"
+            >
+              {/* 스크롤 없는 고정 영역*/}
+              <div className="border-b border-b-gray-300 flex flex-col">
+                <DrawerHeading className="border-green-600 bg-natural-1 text-natural-5">
+                  고정 영역
+                </DrawerHeading>
+                {[...Array(5)].map((_, i) => (
+                  <Link
+                    to="/"
+                    className="inline-flex gap-x-2 items-center px-3 py-1"
+                    onClick={handleDrawerClose}
+                    key={i}
+                  >
+                    <MdCheck />
+                    메뉴 {i + 1}
+                  </Link>
+                ))}
+              </div>
+              <SlideMenu menu={DRAWER_MENU_ITEMS} onClick={handleDrawerClose} />
+            </Drawer>
+          </div>
+          <nav className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg">
+            <div className="flex items-center justify-around py-1">
+              <Button inline={true}>
+                <MdChevronLeft className="w-8 h-8" />
+                <span className="text-sm">이전글</span>
+              </Button>
+              <Button inline={true}>
+                <MdList className="w-8 h-8" />
+                <span className="text-sm">목록</span>
+              </Button>
+              <Button inline={true}>
+                <span className="text-sm">다음글</span>
+                <MdChevronRight className="w-8 h-8" />
+              </Button>
             </div>
-            <SlideMenu menu={DRAWER_MENU_ITEMS} onClick={handleDrawerClose} />
-          </Drawer>
-        </div>
+          </nav>
+        </>
       )}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg">
-        <div className="flex items-center justify-around py-1">
-          <Button inline={true}>
-            <MdChevronLeft className="w-8 h-8" />
-            <span className="text-sm">이전글</span>
-          </Button>
-          <Button inline={true}>
-            <MdList className="w-8 h-8" />
-            <span className="text-sm">목록</span>
-          </Button>
-          <Button inline={true}>
-            <span className="text-sm">다음글</span>
-            <MdChevronRight className="w-8 h-8" />
-          </Button>
-        </div>
-      </nav>
     </>
   );
 };
