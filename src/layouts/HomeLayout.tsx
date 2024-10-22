@@ -6,10 +6,10 @@ import { MdCheck } from "react-icons/md";
 import SlideMenu from "../widgets/SlideMenu";
 import { DRAWER_MENU_ITEMS } from "../constants/menu";
 import { useAppSelector } from "../store/hooks";
-import Header from '../widgets/Header';
-import ContainerFixed from '../widgets/ContainerFixed';
-import Main from '../widgets/Main';
-import Footer from '../widgets/Footer';
+import ContainerFixed from "../widgets/ContainerFixed";
+import Main from "../widgets/Main";
+import Road2GMFooter from "../components/Road2GMFooter";
+import Road2GMHeader from "../components/Road2GMHeader";
 
 const HomeLayout = () => {
   const { isMobile } = useAppSelector((state) => state.ui);
@@ -26,65 +26,13 @@ const HomeLayout = () => {
 
   return (
     <>
-      <Header>
-        <div className="bg-natural-3 py-2 px-2 md:px-0">
-          <ContainerFixed>
-            {/* justify-between: 가로방향 진행 축 정렬 배치 - 로고와 메뉴를 양 끝에 배치 */}
-            {/* items-center: 세로방향 교차 축 정렬 배치 - 수직 중앙 정렬 */}
-            <nav className="flex justify-between items-center">
-              <div className="font-bold text-lg">
-                <Link to="/">Road2GM</Link>
-              </div>
-              {/* 모바일 기기 사이즈인지 식별하여 불필요한 HTML DOM 객체가 중복되어 생성되지 않도록 한다. */}
-              {isMobile && (
-                  <div className="flex gap-x-2 items-center">
-                    <span>회원가입</span>
-                    <span>로그인</span>
-                  </div>
-              )}
-              {!isMobile && (
-                  <div className="flex gap-x-4">
-                    <Link to="#">마이페이지</Link>
-                    <Link to="#">로그아웃</Link>
-                    <Link to="#">회원가입</Link>
-                    <Link to="#">로그인</Link>
-                  </div>
-              )}
-            </nav>
-          </ContainerFixed>
-        </div>
-      </Header>
+      <Road2GMHeader />
       <Main>
         <ContainerFixed>
           <Outlet />
         </ContainerFixed>
       </Main>
-      {/* 푸터는 모바일 화면의 경우 시작화면 등 일부 화면에서만 표시 */}
-      <Footer className="bg-natural-3 text-sm text-cyan-900">
-        <ContainerFixed className="space-y-1 py-2 px-2 md:px-0">
-          {/* 가로로 나열하다가 화면 차면 줄이 넘어감 */}
-          <div className="flex flex-wrap gap-x-4 gap-y-0.5">
-            <span>광고 &middot; 제휴 &middot; 문의</span>
-            <span>권리침해신고센터</span>
-            <span>이용약관</span>
-            <span>개인정보처리방침</span>
-            <span>청소년보호정책</span>
-          </div>
-          <div className="font-bold">로드투지엠</div>
-          {/* 태블릿 이상: 가로로 나열, 모바일 세로로 나열 */}
-          <div className="flex flex-col gap-y-0.5 md:flex-row md:gap-x-4">
-            <span>대표: OOO</span>
-            <span>사업자번호 : 123-45-12345</span>
-            <span>통신판매번호: 제0000-서울서초-0000</span>
-            <span>주소: 서울 서초구 방배로 OO길 OO-O OOOO호</span>
-            <span>연락처: help@road2gm.co.kr (1234-5678)</span>
-          </div>
-        </ContainerFixed>
-        <div className="bg-gray-200 text-gray-900 text-center pt-2 pb-32 md:pb-2">
-          {window.location.hostname} &copy; {new Date().getFullYear()}. All
-          rights reserved.
-        </div>
-      </Footer>
+      <Road2GMFooter />
       {/* 좌측 하단 고정 위치에 서랍 메뉴 floating action button 렌더링 */}
       {isMobile && (
         <div className="fixed left-6 bottom-6">
