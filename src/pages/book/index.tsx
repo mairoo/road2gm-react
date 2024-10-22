@@ -105,7 +105,7 @@ const BookPage = () => {
               </div>
           ))}
         </div>
-        <div className="flex items-center justify-center w-full px-2 py-4">
+        <div className="flex items-center justify-center w-full px-2 mb-4">
           <nav className="flex items-center gap-1 text-sm">
             <button
                 onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
@@ -119,7 +119,7 @@ const BookPage = () => {
                 <button
                     key={number}
                     onClick={() => setCurrentPage(number)}
-                    className={`h-8 w-8 flex items-center justify-center rounded-md border
+                    className={`h-8 min-w-8 px-0.5 flex items-center justify-center rounded-md border
               ${currentPage === number
                         ? 'bg-blue-500 text-white border-blue-500'
                         : 'hover:bg-gray-100'
