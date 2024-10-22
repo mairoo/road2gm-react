@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { MdCheck } from "react-icons/md";
 
 import Header from "../widgets/Header";
@@ -12,14 +12,17 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import SlideMenu from "../widgets/SlideMenu";
 import Drawer from "../widgets/Drawer";
 import DrawerHeading from "../widgets/DrawerHeading";
+import className from "classnames";
 
 const RootLayout = () => {
+  const { pathname } = useLocation();
+
   const drawerMenuItems = [
     {
       heading: "커뮤니티",
       items: [
         {
-          text: "자유",
+          text: "잡담",
           link: "/",
         },
         {
@@ -27,15 +30,7 @@ const RootLayout = () => {
           link: "/",
         },
         {
-          text: "구인",
-          link: "/",
-        },
-        {
-          text: "구직",
-          link: "/",
-        },
-        {
-          text: "장터",
+          text: "홍보",
           link: "/",
         },
         {
@@ -49,7 +44,7 @@ const RootLayout = () => {
       items: [
         {
           text: "강좌",
-          link: "/",
+          link: "/books",
         },
         {
           text: "퍼즐",
@@ -165,34 +160,48 @@ const RootLayout = () => {
           <Outlet />
         </ContainerFixed>
       </Main>
-      <Footer className="bg-natural-3 text-sm text-cyan-900">
-        <ContainerFixed className="space-y-1 py-2 px-2 md:px-0">
-          {/* 가로로 나열하다가 화면 차면 줄이 넘어감 */}
-          <div className="flex flex-wrap gap-x-4 gap-y-0.5">
-            <span>광고 &middot; 제휴 &middot; 문의</span>
-            <span>권리침해신고센터</span>
-            <span>이용약관</span>
-            <span>개인정보처리방침</span>
-            <span>청소년보호정책</span>
+      {/* 푸터는 모바일 화면의 경우 시작화면 등 일부 화면에서만 표시 */}
+      {!(
+        isMobile &&
+        ["/books"].filter((path) => pathname.startsWith(path)).length !== 0
+      ) && (
+        <Footer className="bg-natural-3 text-sm text-cyan-900">
+          <ContainerFixed className="space-y-1 py-2 px-2 md:px-0">
+            {/* 가로로 나열하다가 화면 차면 줄이 넘어감 */}
+            <div className="flex flex-wrap gap-x-4 gap-y-0.5">
+              <span>광고 &middot; 제휴 &middot; 문의</span>
+              <span>권리침해신고센터</span>
+              <span>이용약관</span>
+              <span>개인정보처리방침</span>
+              <span>청소년보호정책</span>
+            </div>
+            <div className="font-bold">로드투지엠</div>
+            {/* 태블릿 이상: 가로로 나열, 모바일 세로로 나열 */}
+            <div className="flex flex-col gap-y-0.5 md:flex-row md:gap-x-4">
+              <span>대표: OOO</span>
+              <span>사업자번호 : 123-45-12345</span>
+              <span>통신판매번호: 제0000-서울서초-0000</span>
+              <span>주소: 서울 서초구 방배로 OO길 OO-O OOOO호</span>
+              <span>연락처: help@road2gm.co.kr (1234-5678)</span>
+            </div>
+          </ContainerFixed>
+          <div className="bg-shade-1 text-gray-100 text-center pt-2 pb-24 md:pb-2">
+            {window.location.hostname} &copy; {new Date().getFullYear()}. All
+            rights reserved.
           </div>
-          <div className="font-bold">로드투지엠</div>
-          {/* 태블릿 이상: 가로로 나열, 모바일 세로로 나열 */}
-          <div className="flex flex-col gap-y-0.5 md:flex-row md:gap-x-4">
-            <span>대표: OOO</span>
-            <span>사업자번호 : 123-45-12345</span>
-            <span>통신판매번호: 제0000-서울서초-0000</span>
-            <span>주소: 서울 서초구 방배로 OO길 OO-O OOOO호</span>
-            <span>연락처: help@road2gm.co.kr (1234-5678)</span>
-          </div>
-        </ContainerFixed>
-        <div className="bg-shade-1 text-gray-100 text-center pt-2 pb-24 md:pb-2">
-          {window.location.hostname} &copy; {new Date().getFullYear()}. All
-          rights reserved.
-        </div>
-      </Footer>
+        </Footer>
+      )}
+
       {/* 좌측 하단 고정 위치에 서랍 메뉴 floating action button 렌더링 */}
       {isMobile && (
-        <div className="fixed bottom-6 left-6">
+        <div
+          className={className(
+            "fixed left-6",
+            ["/books"].filter((path) => pathname.startsWith(path)).length === 0
+              ? "bottom-6"
+              : "bottom-14",
+          )}
+        >
           <Drawer
             isOpen={drawerIsOpen}
             onOpen={handleDrawerOpen}

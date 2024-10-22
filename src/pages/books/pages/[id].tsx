@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const usePageParams = () => {
   const { pageId } = useParams<{ pageId: string }>();
@@ -18,7 +18,6 @@ const BookPageDetailPage = () => {
   return (
     <>
       <h1>Page detail: {id}</h1>
-      <Outlet />
     </>
   );
 };

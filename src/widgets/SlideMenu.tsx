@@ -35,7 +35,6 @@ const SlideMenu = ({
         // 화면전환 중에 재진입 불가
         setIsTransitioning(true);
         setCurrentIndex((_) => {
-          console.log("goto slide", index);
           if (index < 0) return slides.length - 2;
           if (index >= slides.length) return 1;
           return index;
@@ -47,13 +46,11 @@ const SlideMenu = ({
 
   // 다음 슬라이드 함수
   const nextSlide = useCallback(() => {
-    console.log("next slide", currentIndex);
     goToSlide(currentIndex + 1);
   }, [currentIndex, goToSlide]);
 
   // 이전 슬라이드 함수
   const prevSlide = useCallback(() => {
-    console.log("prev slide", currentIndex);
     goToSlide(currentIndex - 1);
   }, [currentIndex, goToSlide]);
 
