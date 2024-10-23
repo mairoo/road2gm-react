@@ -3,7 +3,7 @@ import Footer from "../widgets/Footer";
 import ContainerFixed from "../widgets/ContainerFixed";
 import className from "classnames";
 
-const Road2GMFooter = ({ hasNavbar = false }: { hasNavbar?: boolean }) => {
+const Road2GMFooter = ({ hasBottomNavbar = false }: { hasBottomNavbar?: boolean }) => {
   return (
     <Footer className="bg-natural-3 text-sm text-cyan-900">
       <ContainerFixed className="space-y-1 py-2 px-2 md:px-0">
@@ -28,7 +28,7 @@ const Road2GMFooter = ({ hasNavbar = false }: { hasNavbar?: boolean }) => {
       <div
         className={className(
           "bg-gray-200 text-gray-900 text-center pt-2 md:pb-2",
-          hasNavbar ? "pb-32" : "pb-24",
+          hasBottomNavbar ? "pb-[120px]" : "pb-24",
         )}
       >
         {window.location.hostname} &copy; {new Date().getFullYear()}. All rights

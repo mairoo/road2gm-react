@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import {Link, Outlet, useLocation} from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { MdCheck, MdChevronLeft, MdChevronRight, MdList } from "react-icons/md";
 import Button from "../widgets/Button";
 import Drawer from "../widgets/Drawer";
@@ -12,13 +12,13 @@ import ContainerFixed from "../widgets/ContainerFixed";
 import Main from "../widgets/Main";
 import Road2GMFooter from "../components/Road2GMFooter";
 import Road2GMHeader from "../components/Road2GMHeader";
+import className from "classnames";
 
 const BookLayout = () => {
   const { isMobile } = useAppSelector((state) => state.ui);
 
-  const location =  useLocation();
-
-  console.log(location);
+  const { pathname } = useLocation();
+  const hasBottomNavbar = /^\/book\/\d+\/page(\/\d+)?$/.test(pathname);
 
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
@@ -38,11 +38,16 @@ const BookLayout = () => {
           <Outlet />
         </ContainerFixed>
       </Main>
-      <Road2GMFooter />
+      <Road2GMFooter hasBottomNavbar={hasBottomNavbar} />
       {/* 좌측 하단 고정 위치에 서랍 메뉴 floating action button 렌더링 */}
       {isMobile && (
         <>
-          <div className="fixed left-6 bottom-14">
+          <div
+            className={className(
+              "fixed left-6",
+              hasBottomNavbar ? "bottom-14" : "bottom-6",
+            )}
+          >
             <Drawer
               isOpen={drawerIsOpen}
               onOpen={handleDrawerOpen}
@@ -71,22 +76,24 @@ const BookLayout = () => {
               <SlideMenu menu={DRAWER_MENU_ITEMS} onClick={handleDrawerClose} />
             </Drawer>
           </div>
-          <nav className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg">
-            <div className="flex items-center justify-around py-1">
-              <Button inline={true}>
-                <MdChevronLeft className="w-8 h-8" />
-                <span className="text-sm">이전글</span>
-              </Button>
-              <Button inline={true}>
-                <MdList className="w-8 h-8" />
-                <span className="text-sm">목록</span>
-              </Button>
-              <Button inline={true}>
-                <span className="text-sm">다음글</span>
-                <MdChevronRight className="w-8 h-8" />
-              </Button>
-            </div>
-          </nav>
+          {hasBottomNavbar && (
+            <nav className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg">
+              <div className="flex items-center justify-around py-1">
+                <Button inline={true}>
+                  <MdChevronLeft className="w-8 h-8" />
+                  <span className="text-sm">이전글</span>
+                </Button>
+                <Button inline={true}>
+                  <MdList className="w-8 h-8" />
+                  <span className="text-sm">목록</span>
+                </Button>
+                <Button inline={true}>
+                  <span className="text-sm">다음글</span>
+                  <MdChevronRight className="w-8 h-8" />
+                </Button>
+              </div>
+            </nav>
+          )}
         </>
       )}
     </>
