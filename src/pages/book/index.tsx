@@ -60,9 +60,9 @@ const BookPage = () => {
               <MdSearch aria-hidden="true" className="h-5 w-5 text-gray-400" />
             </div>
             <input
-              id="email"
-              name="email"
-              type="email"
+              id="search"
+              name="search"
+              type="text"
               placeholder="책 검색"
               className="block w-full rounded-none rounded-l-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
@@ -77,8 +77,8 @@ const BookPage = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-6 px-1 md:px-0">
         {list.map((book, i) => (
-          <Link to={`/book/${i}`}>
-            <Card key={i} className="flex bg-gray-50 gap-x-2">
+          <Link to={`/book/${i}`} key={i}>
+            <Card className="flex bg-gray-50 gap-x-2">
               {/* 썸네일 이미지: flex-shrink-0로 이미지 크기 고정, object-cover로 이미지 비율 유지 */}
               <div className="flex-shrink-0 border-r border-r-gray-200">
                 <img

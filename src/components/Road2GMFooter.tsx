@@ -1,8 +1,9 @@
 import React from "react";
 import Footer from "../widgets/Footer";
 import ContainerFixed from "../widgets/ContainerFixed";
+import className from "classnames";
 
-const Road2GMFooter = () => {
+const Road2GMFooter = ({ hasNavbar = false }: { hasNavbar?: boolean }) => {
   return (
     <Footer className="bg-natural-3 text-sm text-cyan-900">
       <ContainerFixed className="space-y-1 py-2 px-2 md:px-0">
@@ -24,7 +25,12 @@ const Road2GMFooter = () => {
           <span>연락처: help@road2gm.co.kr (1234-5678)</span>
         </div>
       </ContainerFixed>
-      <div className="bg-gray-200 text-gray-900 text-center pt-2 pb-32 md:pb-2">
+      <div
+        className={className(
+          "bg-gray-200 text-gray-900 text-center pt-2 md:pb-2",
+          hasNavbar ? "pb-32" : "pb-24",
+        )}
+      >
         {window.location.hostname} &copy; {new Date().getFullYear()}. All rights
         reserved.
       </div>

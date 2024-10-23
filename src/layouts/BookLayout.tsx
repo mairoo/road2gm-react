@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Link, Outlet } from "react-router-dom";
+import {Link, Outlet, useLocation} from "react-router-dom";
 import { MdCheck, MdChevronLeft, MdChevronRight, MdList } from "react-icons/md";
 import Button from "../widgets/Button";
 import Drawer from "../widgets/Drawer";
@@ -15,6 +15,10 @@ import Road2GMHeader from "../components/Road2GMHeader";
 
 const BookLayout = () => {
   const { isMobile } = useAppSelector((state) => state.ui);
+
+  const location =  useLocation();
+
+  console.log(location);
 
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 

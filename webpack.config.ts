@@ -31,6 +31,12 @@ const config: webpack.Configuration = {
     clean: true, // dist-clean 후 빌드
     publicPath: "/", // 리액트 라우터 - 중첩 라우팅 지원 오류 방지
   },
+  optimization: {
+    splitChunks: { // 코드 스플릿
+      chunks: 'all',
+    },
+    runtimeChunk: "single", // 런타임 코드 분리
+  },
   module: {
     rules: [
       {

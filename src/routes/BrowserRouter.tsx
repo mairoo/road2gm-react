@@ -8,6 +8,7 @@ import BookPageDetailPage from "../pages/book/page/[id]";
 import BookLayout from "../layouts/BookLayout";
 import HomeLayout from "../layouts/HomeLayout";
 import HomePage from "../pages/HomePage";
+import BookDetailPage from "../pages/book/[id]";
 
 const BrowserRouter = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const BrowserRouter = createBrowserRouter([
           {
             path: ":bookId",
             children: [
+              {
+                index: true,
+                element: <BookDetailPage />,
+              },
               {
                 path: "page",
                 children: [
