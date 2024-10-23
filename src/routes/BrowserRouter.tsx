@@ -3,7 +3,6 @@ import React from "react";
 import RootLayout from "../layouts/RootLayout";
 import ErrorPage from "../pages/ErrorPage";
 import BookPage from "../pages/book";
-import BookDetailPage from "../pages/book/[id]";
 import BookPagesPage from "../pages/book/page";
 import BookPageDetailPage from "../pages/book/page/[id]";
 import BookLayout from "../layouts/BookLayout";
@@ -42,10 +41,9 @@ const BrowserRouter = createBrowserRouter([
           },
           {
             path: ":bookId",
-            element: <BookDetailPage />,
             children: [
               {
-                path: "pages",
+                path: "page",
                 children: [
                   {
                     index: true,
