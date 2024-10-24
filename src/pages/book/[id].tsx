@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useParams } from "react-router-dom";
+import className from "classnames";
 import { Section } from "../../types";
 import { useToc } from "../../hooks/useToc";
 import { flattenToc } from "../../utils/toc";
-import className from "classnames";
+import { useScrollToCenter } from "../../hooks/useScroll";
 
 const useBookParams = () => {
   const { bookId } = useParams<{ bookId: string }>();
@@ -305,27 +306,10 @@ const BookDetailPage = () => {
   }) => {
     const activeItemRef = useRef<HTMLLIElement>(null);
 
-    useEffect(() => {
-      if (activeItemRef.current && scrollContainerRef.current) {
-        // 선택된 항목의 위치 정보 가져오기
-        const itemRect = activeItemRef.current.getBoundingClientRect();
-        const containerRect =
-          scrollContainerRef.current.getBoundingClientRect();
-
-        // 스크롤 컨테이너의 중앙으로 스크롤 위치 계산
-        const scrollTop =
-          activeItemRef.current.offsetTop -
-          scrollContainerRef.current.offsetTop -
-          scrollContainerRef.current.clientHeight / 2 +
-          itemRect.height / 2;
-
-        // 부드러운 스크롤 적용
-        scrollContainerRef.current.scrollTo({
-          top: scrollTop,
-          behavior: "smooth",
-        });
-      }
-    }, [currentId]);
+    useScrollToCenter(scrollContainerRef, activeItemRef, [currentId], {
+      behavior: "smooth",
+      offset: 0,
+    });
 
     return (
       <ul className="text-sm space-y-1">
