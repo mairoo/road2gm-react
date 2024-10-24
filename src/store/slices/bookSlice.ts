@@ -6,25 +6,25 @@ import { flattenToc } from "../../utils/toc";
 const initialState: BookSlice = {};
 
 export const bookSlice = createSlice({
-  name: "uiSlice",
+  name: "bookSlice",
   initialState,
   reducers: {
-    setBook: (state, action) => {
+    setTableOfContents: (state, action) => {
       return {
         ...state,
-        book: action.payload.book,
-        flattenedSections: flattenToc(action.payload.book.chapters),
+        tableOfContents: action.payload.tableOfContents,
+        sections: flattenToc(action.payload.tableOfContents.chapters),
       };
     },
-    setCurrent: (state, action) => {
+    setCurrentSectionId: (state, action) => {
       return {
         ...state,
-        current: action.payload.current,
+        current: action.payload.currentSectionId,
       };
     },
   },
 });
 
-export const { setBook, setCurrent } = bookSlice.actions;
+export const { setTableOfContents, setCurrentSectionId } = bookSlice.actions;
 
 export default bookSlice.reducer;

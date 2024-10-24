@@ -13,7 +13,7 @@ export interface TableOfContents {
 }
 
 export interface BookSlice {
-  current?: number;
-  book?: TableOfContents;
-  flattenedSections?: Section[];
+  currentSectionId?: number;
+  tableOfContents?: TableOfContents;
+  sections?: Section[];
 }
