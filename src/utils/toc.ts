@@ -1,4 +1,4 @@
-import { Section, TableOfContents } from "../types";
+import { Section } from "../types";
 
 export const flattenToc = (chapters: Section[]): Section[] => {
   const result: Section[] = [];
@@ -43,20 +43,11 @@ export const addNumbering = (
   });
 
 export const findPreviousAndNext = (
-  tocData: TableOfContents,
-  currentId: string,
+  sections: Section[], // 반드시 평탄화 되어 있어야 함
+  currentId: number,
 ) => {
-  // 넘버링을 먼저 적용
-  const numberedToc = {
-    ...tocData,
-    chapters: addNumbering(tocData.chapters),
-  };
-
-  // 모든 섹션을 평탄화
-  const flattenedSections = flattenToc(numberedToc.chapters);
-
   // 현재 항목의 인덱스 찾기
-  const currentIndex = flattenedSections.findIndex(
+  const currentIndex = sections.findIndex(
     (section) => section.id === currentId,
   );
 
@@ -69,12 +60,9 @@ export const findPreviousAndNext = (
   }
 
   // 이전 항목과 다음 항목 찾기
-  const previous =
-    currentIndex > 0 ? flattenedSections[currentIndex - 1] : null;
+  const previous = currentIndex > 0 ? sections[currentIndex - 1] : null;
   const next =
-    currentIndex < flattenedSections.length - 1
-      ? flattenedSections[currentIndex + 1]
-      : null;
+    currentIndex < sections.length - 1 ? sections[currentIndex + 1] : null;
 
   return {
     previous,

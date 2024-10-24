@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from "react";
-import { TableOfContents } from "../types";
+import { Section, TableOfContents } from "../types";
 import { addNumbering, findPreviousAndNext } from "../utils/toc";
 
-export const useToc = (tocData: TableOfContents) => {
+export const useToc = (tocData: TableOfContents, sections: Section[]) => {
   const numberedToc = useMemo(
     () => ({
       ...tocData,
@@ -12,10 +12,10 @@ export const useToc = (tocData: TableOfContents) => {
   );
 
   const findNavigation = useCallback(
-    (currentId: string) => {
-      return findPreviousAndNext(tocData, currentId);
+    (currentId: number) => {
+      return findPreviousAndNext(sections, currentId);
     },
-    [tocData],
+    [sections],
   );
 
   return {

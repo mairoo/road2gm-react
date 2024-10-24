@@ -1,5 +1,5 @@
 export interface Section {
-  id: string;
+  id: number;
   title: string;
   page?: number; // 출력 페이지 수 온라인 책은 의미가 없어서 선택적
   level: number;
@@ -10,4 +10,10 @@ export interface Section {
 export interface TableOfContents {
   title: string;
   chapters: Section[];
+}
+
+export interface BookSlice {
+  current?: number;
+  book?: TableOfContents;
+  flattenedSections?: Section[];
 }

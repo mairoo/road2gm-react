@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { uiSlice } from "./slices/uiSlice";
+import { bookSlice } from "./slices/bookSlice";
 
 const store = configureStore({
-  reducer: { ui: uiSlice.reducer },
+  reducer: { ui: uiSlice.reducer, book: bookSlice.reducer },
   devTools: process.env.NODE_ENV !== "production",
 });
 
