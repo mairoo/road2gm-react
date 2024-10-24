@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { Section } from "../../types";
-import { useScrollToCenter } from "../../hooks/useScroll";
 import { useToc } from "../../hooks/useToc";
 import { flattenToc } from "../../utils/toc";
 import className from "classnames";
@@ -294,12 +293,8 @@ const BookDetailPage = () => {
 
   const currentSectionId = "ch5-2";
 
-  const { numberedToc, findNavigation } = useToc(tocData);
-  const { containerRef, activeItemRef, scrollToCenter } = useScrollToCenter();
-
-  useEffect(() => {
-    scrollToCenter();
-  }, []);
+  const { numberedToc } = useToc(tocData);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const ListToc = ({
     chapters,
@@ -308,7 +303,30 @@ const BookDetailPage = () => {
     chapters: Section[];
     currentId: string;
   }) => {
-    flattenToc(chapters);
+    const activeItemRef = useRef<HTMLLIElement>(null);
+
+    useEffect(() => {
+      if (activeItemRef.current && scrollContainerRef.current) {
+        // 선택된 항목의 위치 정보 가져오기
+        const itemRect = activeItemRef.current.getBoundingClientRect();
+        const containerRect =
+          scrollContainerRef.current.getBoundingClientRect();
+
+        // 스크롤 컨테이너의 중앙으로 스크롤 위치 계산
+        const scrollTop =
+          activeItemRef.current.offsetTop -
+          scrollContainerRef.current.offsetTop -
+          scrollContainerRef.current.clientHeight / 2 +
+          itemRect.height / 2;
+
+        // 부드러운 스크롤 적용
+        scrollContainerRef.current.scrollTo({
+          top: scrollTop,
+          behavior: "smooth",
+        });
+      }
+    }, [currentId]);
+
     return (
       <ul className="text-sm space-y-1">
         {flattenToc(chapters).map((chapter) => {
@@ -317,6 +335,7 @@ const BookDetailPage = () => {
           return (
             <li
               key={chapter.id}
+              ref={isActive ? activeItemRef : null}
               className={className(
                 "px-1 py-2",
                 isActive ? "text-white bg-natural-5" : "",
@@ -346,7 +365,7 @@ const BookDetailPage = () => {
       </h2>
       {/* 스크롤 가능한 컨테이너 추가 */}
       <div
-        ref={containerRef}
+        ref={scrollContainerRef}
         className="max-h-[500px] overflow-y-auto scroll-smooth"
       >
         {/* 넘버링이 적용된 목차 렌더링 */}
