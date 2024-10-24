@@ -7,5 +7,6 @@
 // 명시적인 import/export 필요한 타입
 
 export * from "./menu";
+export * from "./book";
 export * from "./widget";
 export * from "./ui";
