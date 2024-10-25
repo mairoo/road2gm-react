@@ -2,28 +2,11 @@ import React, { useState } from "react";
 import { MdChevronLeft, MdChevronRight, MdSearch } from "react-icons/md";
 import Card from "../../widgets/Card";
 import { Link } from "react-router-dom";
+import { useFetchBooksQuery } from "../../store/apis/bookApi";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const BookPage = () => {
-  const books = [
-    {
-      id: 1,
-      title: "The Design of Everyday Things",
-      author: "Don Norman",
-      publisher: "Basic Books",
-      year: "2013",
-      thumbnail:
-        "https://placehold.co/100x130/white/red?text=thumbnail\\n100x130",
-    },
-    {
-      id: 2,
-      title: "Clean Code",
-      author: "Robert C. Martin",
-      publisher: "Prentice Hall",
-      year: "2008",
-      thumbnail:
-        "https://placehold.co/100x130/white/blue?text=thumbnail\\n100x130",
-    },
-  ];
+  const { data: books, isLoading, error } = useFetchBooksQuery();
 
   const list = new Array(10).fill(books).flat();
 
@@ -47,6 +30,34 @@ const BookPage = () => {
     }
     return pageNumbers;
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500" />
+      </div>
+    );
+  }
+
+  if (error) {
+    if ("status" in error) {
+      const fetchError = error as FetchBaseQueryError; // FetchBaseQueryError 타입으로 좁히기
+      const errorData = fetchError.data as { message?: string };
+
+      return (
+        <div className="p-2 bg-red-100 border border-red-400 text-red-700 rounded">
+          <h3 className="font-bold">에러가 발생했습니다</h3>
+          <p>{`상태 코드: ${fetchError.status}`}</p>
+          <p>{`메시지: ${errorData?.message || "알 수 없는 에러"}`}</p>
+        </div>
+      );
+    }
+    return (
+      <div className="p-2 bg-red-100 border border-red-400 text-red-700 rounded">
+        <p>데이터를 불러오는 중 문제가 발생했습니다.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-y-4 p-1 md:p-0">

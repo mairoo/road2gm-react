@@ -17,3 +17,12 @@ export interface BookSlice {
   tableOfContents?: TableOfContents;
   sections?: Section[];
 }
+
+export interface Book {
+  id: number;
+  title: string;
+  author: string;
+  publisher: string;
+  year: string;
+  thumbnail: string;
+}

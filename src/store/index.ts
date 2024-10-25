@@ -1,9 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { uiSlice } from "./slices/uiSlice";
 import { bookSlice } from "./slices/bookSlice";
+import { bookApi } from "./apis/bookApi";
 
 const store = configureStore({
-  reducer: { ui: uiSlice.reducer, book: bookSlice.reducer },
+  reducer: {
+    ui: uiSlice.reducer,
+    book: bookSlice.reducer,
+    [bookApi.reducerPath]: bookApi.reducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(bookApi.middleware),
   devTools: process.env.NODE_ENV !== "production",
 });
 
