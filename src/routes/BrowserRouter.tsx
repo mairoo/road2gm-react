@@ -3,7 +3,6 @@ import React from "react";
 import RootLayout from "../layouts/RootLayout";
 import ErrorPage from "../pages/ErrorPage";
 import BookPage from "../pages/book";
-import BookPagesPage from "../pages/book/page";
 import BookPageDetailPage from "../pages/book/page/[id]";
 import BookLayout from "../layouts/BookLayout";
 import HomeLayout from "../layouts/HomeLayout";
@@ -38,25 +37,21 @@ const BrowserRouter = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <BookPage />,
+            element: <BookPage />, // 책 목록
           },
           {
             path: ":bookId",
             children: [
               {
                 index: true,
-                element: <BookDetailPage />,
+                element: <BookDetailPage />, // 책 상세 & 페이지 목록(목차)
               },
               {
                 path: "page",
                 children: [
                   {
-                    index: true,
-                    element: <BookPagesPage />,
-                  },
-                  {
                     path: ":pageId",
-                    element: <BookPageDetailPage />,
+                    element: <BookPageDetailPage />, // 페이지 상세
                   },
                 ],
               },

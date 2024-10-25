@@ -1,8 +1,7 @@
 import React, { useRef } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import className from "classnames";
 import { useScrollToCenter } from "../../hooks/useScroll";
-import { useAppDispatch } from "../../store/hooks";
 import { flattenToc } from "../../utils/toc";
 
 const useBookParams = () => {
@@ -290,13 +289,12 @@ const tocData = {
 
 const BookDetailPage = () => {
   const { id } = useBookParams();
-  const dispatch = useAppDispatch();
 
   const currentSectionId = 25;
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const ListToc = ({ currentId }: { currentId: number }) => {
+  const RenderToc = ({ currentId }: { currentId: number }) => {
     const activeItemRef = useRef<HTMLLIElement>(null);
 
     useScrollToCenter(scrollContainerRef, activeItemRef, [currentId], {
@@ -318,7 +316,10 @@ const BookDetailPage = () => {
                 isActive ? "text-white bg-natural-5" : "",
               )}
             >
-              <span className="line-clamp-1">
+              <Link
+                to={`/book/${id}/page/${chapter.id}`}
+                className="line-clamp-1"
+              >
                 {chapter.number}. {chapter.title}
                 {chapter.page && (
                   <span
@@ -327,7 +328,7 @@ const BookDetailPage = () => {
                     ({chapter.page})
                   </span>
                 )}
-              </span>
+              </Link>
             </li>
           );
         })}
@@ -346,7 +347,7 @@ const BookDetailPage = () => {
         className="max-h-[500px] overflow-y-auto scroll-smooth"
       >
         {/* 넘버링이 적용된 목차 렌더링 */}
-        <ListToc currentId={currentSectionId} />
+        <RenderToc currentId={currentSectionId} />
       </div>
     </div>
   );
