@@ -4,19 +4,15 @@
       "id": 1,
       "title": "The Design of Everyday Things",
       "author": "Don Norman",
-      "publisher": "Basic Books",
-      "year": "2013",
-      "thumbnail":
-      "https://placehold.co/100x130/white/red?text=thumbnail\\n100x130"
+      "modified": "2013",
+      "thumbnail": "https://placehold.co/100x130/white/red?text=thumbnail\\n100x130"
     },
     {
       "id": 2,
       "title": "Clean Code",
       "author": "Robert C. Martin",
-      "publisher": "Prentice Hall",
-      "year": "2008",
-      "thumbnail":
-      "https://placehold.co/100x130/white/blue?text=thumbnail\\n100x130"
+      "modified": "2008",
+      "thumbnail": "https://placehold.co/100x130/white/blue?text=thumbnail\\n100x130"
     }
   ],
   "book": {

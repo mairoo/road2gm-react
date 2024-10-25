@@ -110,8 +110,7 @@ const BookPage = () => {
                   {/* 메타 정보 그리드 */}
                   <ul className="list-disc ml-4 gap-y-2 text-sm text-gray-900">
                     <li>{book.author}</li>
-                    <li>{book.publisher}</li>
-                    <li>{book.year}</li>
+                    <li>{book.modified}</li>
                   </ul>
                 </div>
               </div>
