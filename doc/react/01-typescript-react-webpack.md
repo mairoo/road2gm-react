@@ -1,3 +1,36 @@
+# nvm on Mac
+
+```
+brew install nvm
+```
+
+LTS 버전 설치
+
+```
+nvm install --lts
+nvm alias default lts/*
+nvm use default
+```
+
+설치 버전 목록 확인
+
+```
+nvm ls
+```
+
+현재 사용 중 버전 확인
+
+```
+nvm current
+```
+
+nodejs 및 npm 버전 확인
+
+```
+node -v
+npm -v
+```
+
 # Git 저장소 준비
 
 ## 이미 원격 저장소가 있는 경우

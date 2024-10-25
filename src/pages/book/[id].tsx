@@ -292,6 +292,13 @@ const BookDetailPage = () => {
 
   const currentSectionId = 25;
 
+  // useRef: 값이 바뀌어도 렌더링하지 않는다. 값이 변경되는 즉시, 변경된 값 조회 가능
+  //
+  // useRef로 만든 변수 사용 예시
+  // - 스크롤 위치
+  // - setTimeout, setInterval 을 통해서 만들어진 id
+  // - 외부 라이브러리를 사용하여 생성된 인스턴스
+
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const RenderToc = ({ currentId }: { currentId: number }) => {
