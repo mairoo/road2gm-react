@@ -8,6 +8,7 @@ import BookLayout from "../layouts/BookLayout";
 import HomeLayout from "../layouts/HomeLayout";
 import HomePage from "../pages/HomePage";
 import BookDetailPage from "../pages/book/[id]";
+import LoginPage from '../pages/auth/LoginPage';
 
 const BrowserRouter = createBrowserRouter([
   {
@@ -30,6 +31,16 @@ const BrowserRouter = createBrowserRouter([
             element: <HomePage />,
           },
         ],
+      },
+      {
+        path: "/auth",
+        element: <BookLayout />,
+        children: [
+          {
+            path: "login",
+            element: <LoginPage />,
+          }
+        ]
       },
       {
         path: "/book",

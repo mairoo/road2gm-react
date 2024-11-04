@@ -21,7 +21,7 @@ const Road2GMHeader = () => {
             {isMobile && (
               <div className="flex gap-x-2 items-center">
                 <span>회원가입</span>
-                <span>로그인</span>
+                <Link to="/auth/login">로그인</Link>
               </div>
             )}
             {!isMobile && (
@@ -29,7 +29,7 @@ const Road2GMHeader = () => {
                 <Link to="#">마이페이지</Link>
                 <Link to="#">로그아웃</Link>
                 <Link to="#">회원가입</Link>
-                <Link to="#">로그인</Link>
+                <Link to="/auth/login">로그인</Link>
               </div>
             )}
           </nav>
