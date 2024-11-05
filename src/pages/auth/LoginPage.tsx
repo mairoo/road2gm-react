@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MdEmail, MdLock } from "react-icons/md";
 import { useSignInMutation } from "../../store/apis/authApi";
 import { useAppDispatch } from "../../store/hooks";
-import { setAccessToken } from "../../store/slices/authSlice";
+import { setCredentials } from "../../store/slices/authSlice";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -15,8 +15,12 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      const userData = await signIn({ username, password }).unwrap();
-      dispatch(setAccessToken(userData));
+      const userData = await signIn({
+        username,
+        password,
+        rememberMe: true,
+      }).unwrap();
+      dispatch(setCredentials(userData));
       console.log("logged in");
     } catch (err) {
       console.error("Failed to login:", err);
