@@ -11,12 +11,12 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex justify-center p-8 md:mt-8 ">
+    <div className="flex justify-center p-8 md:mt-[10vh]">
       <div className="w-full max-w-md bg-gray-50 rounded-lg shadow-md">
         <div className="p-6">
           <div className="space-y-1 mb-6">
             <h2 className="text-lg font-bold text-center text-gray-900">
-              로드투지엠 로그인
+              Road2GM
             </h2>
           </div>
           <form onSubmit={handleSubmit} className="space-y-4">
