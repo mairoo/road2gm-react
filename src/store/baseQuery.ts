@@ -14,7 +14,7 @@ import { LoginResponse } from "../types";
 const mutex = new Mutex();
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:8080",
+  baseUrl: process.env.API_ENDPOINT_URL,
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.accessToken;
     if (token) {
@@ -25,7 +25,7 @@ const baseQuery = fetchBaseQuery({
   credentials: "include", // 백엔드 통신 시 항상 쿠키 포함
 });
 
-export const baseQueryWithReauth: BaseQueryFn<
+export const baseQueryWithRetry: BaseQueryFn<
   string | FetchArgs,
   unknown,
   FetchBaseQueryError
