@@ -10,7 +10,7 @@ import { Book } from "../../types"; // createApi 사용:
 
 const bookApi = createApi({
   reducerPath: "bookApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080" }),
   endpoints: (builder) => ({
     fetchBooks: builder.query<Book[], void>({
       query: () => {
