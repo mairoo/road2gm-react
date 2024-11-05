@@ -1,7 +1,9 @@
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { LoginRequest, LoginResponse } from "../../types";
-import { baseApi } from "../baseApi";
 
-const authApi = baseApi.injectEndpoints({
+const authApi = createApi({
+  reducerPath: "authApi",
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080" }),
   endpoints: (builder) => ({
     signIn: builder.mutation<LoginResponse, LoginRequest>({
       query: (credentials) => {
@@ -32,6 +34,6 @@ const authApi = baseApi.injectEndpoints({
 });
 
 export const { useSignInMutation, useRefreshMutation, useSignOutMutation } =
-  authApi;
+    authApi;
 
 export { authApi };

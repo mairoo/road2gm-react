@@ -1,5 +1,5 @@
 import { AuthSlice } from "../../types";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { authApi } from "../apis/authApi";
 
 const initialState: AuthSlice = { accessToken: null };
@@ -11,6 +11,12 @@ export const authSlice = createSlice({
     // 해당 슬라이스 내부에서 정의된 액션들을 처리
     // 자동으로 액션 생성자(action creators)를 생성
     // 일반적인 동기 액션을 처리할 때 사용
+    setAccessToken: (state, action: PayloadAction<string>) => {
+      state.accessToken = action.payload;
+    },
+    clearAccessToken: (state) => {
+      state.accessToken = null;
+    },
   },
   extraReducers: (builder) => {
     // extraReducers는 "이 리듀서는 외부 액션을 처리한다"는 의도를 명확히 표현

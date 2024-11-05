@@ -1,5 +1,5 @@
-import { Book } from "../../types";
-import { baseApi } from "../baseApi"; // createApi 사용:
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { Book } from "../../types"; // createApi 사용:
 
 // createApi 사용:
 //
@@ -8,7 +8,9 @@ import { baseApi } from "../baseApi"; // createApi 사용:
 // 자동화된 데이터 동기화가 필요한 경우
 // CRUD 작업이 주요 기능인 경우
 
-const bookApi = baseApi.injectEndpoints({
+const bookApi = createApi({
+  reducerPath: "bookApi",
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001" }),
   endpoints: (builder) => ({
     fetchBooks: builder.query<Book[], void>({
       query: () => {
