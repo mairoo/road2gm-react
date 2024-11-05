@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { MdEmail, MdLock } from "react-icons/md";
+import { MdLock, MdPerson } from "react-icons/md";
 import { useSignInMutation } from "../../store/apis/authApi";
 import { useAppDispatch } from "../../store/hooks";
 import { setCredentials } from "../../store/slices/authSlice";
@@ -7,6 +7,7 @@ import { setCredentials } from "../../store/slices/authSlice";
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(true);
 
   const [signIn, { isLoading, error }] = useSignInMutation();
   const dispatch = useAppDispatch();
@@ -18,9 +19,9 @@ const LoginPage = () => {
       const userData = await signIn({
         username,
         password,
-        rememberMe: true,
+        rememberMe,
       }).unwrap();
-      dispatch(setCredentials(userData));
+      dispatch(setCredentials({ ...userData, rememberMe }));
       console.log("logged in");
     } catch (err) {
       console.error("Failed to login:", err);
@@ -41,13 +42,13 @@ const LoginPage = () => {
               <div className="relative">
                 <input
                   type="text"
-                  placeholder="이메일"
+                  placeholder="아이디"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   className="w-full px-10 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
-                <MdEmail
+                <MdPerson
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
                   size={20}
                 />
@@ -69,6 +70,22 @@ const LoginPage = () => {
                   size={20}
                 />
               </div>
+            </div>
+
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                id="remember-me"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label
+                htmlFor="remember-me"
+                className="ml-2 text-sm text-gray-600"
+              >
+                로그인 상태 유지
+              </label>
             </div>
 
             <div className="flex flex-col space-y-2">

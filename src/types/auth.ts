@@ -18,5 +18,9 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   accessToken: string;
-  rememberMe: boolean;
+}
+
+export interface SetCredentialsPayload {
+  data: LoginResponse;
+  rememberMe?: boolean;
 }
