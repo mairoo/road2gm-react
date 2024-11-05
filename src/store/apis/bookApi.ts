@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { Book } from "../../types"; // createApi 사용:
+import {ApiListResponse, Book} from "../../types"; // createApi 사용:
 
 // createApi 사용:
 //
@@ -10,9 +10,9 @@ import { Book } from "../../types"; // createApi 사용:
 
 const bookApi = createApi({
   reducerPath: "bookApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080" }),
   endpoints: (builder) => ({
-    fetchBooks: builder.query<Book[], void>({
+    fetchBooks: builder.query<ApiListResponse<Book>, void>({
       query: () => {
         return {
           url: "/books",

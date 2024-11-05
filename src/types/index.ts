@@ -11,3 +11,4 @@ export * from "./book";
 export * from "./widget";
 export * from "./ui";
 export * from "./auth";
+export * from "./api";

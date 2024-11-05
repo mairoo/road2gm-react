@@ -1,5 +1,6 @@
 export interface AuthSlice {
   accessToken: string | null;
+  isAuthenticated: boolean;
 }
 
 export interface User {

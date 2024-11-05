@@ -1,13 +1,26 @@
 import React, { useState } from "react";
 import { MdEmail, MdLock } from "react-icons/md";
+import { useSignInMutation } from "../../store/apis/authApi";
+import { useAppDispatch } from "../../store/hooks";
+import { setAccessToken } from "../../store/slices/authSlice";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: any) => {
+  const [signIn, { isLoading, error }] = useSignInMutation();
+  const dispatch = useAppDispatch();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login:", email, password);
+
+    try {
+      const userData = await signIn({ username, password }).unwrap();
+      dispatch(setAccessToken(userData));
+      console.log("logged in");
+    } catch (err) {
+      console.error("Failed to login:", err);
+    }
   };
 
   return (
@@ -23,10 +36,10 @@ const LoginPage = () => {
             <div className="space-y-2">
               <div className="relative">
                 <input
-                  type="email"
+                  type="text"
                   placeholder="이메일"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   className="w-full px-10 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />

@@ -13,8 +13,11 @@ import {
   MdRotateLeft,
 } from "react-icons/md";
 import ReactMarkdown from "react-markdown";
+import { useFetchBooksQuery } from "../store/apis/bookApi";
 
 const HomePage = () => {
+  const { data, error, isLoading } = useFetchBooksQuery();
+
   const game = useMemo(() => new Chess(), []);
   const [gamePosition, setGamePosition] = useState(game.fen());
   const [orientation, setOrientation] = useState<"white" | "black">("white");
@@ -98,6 +101,12 @@ const HomePage = () => {
   return (
     <>
       <h2 className="text-xl font-semibold">Welcome to Road2GM</h2>
+
+      <div>
+        <button onClick={() => {
+          console.log(data);
+        }}>books</button>
+      </div>
 
       <div className="flex flex-col md:w-96">
         <Chessboard
