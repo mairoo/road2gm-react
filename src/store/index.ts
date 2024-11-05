@@ -4,17 +4,20 @@ import { bookSlice } from "./slices/bookSlice";
 import { bookApi } from "./apis/bookApi";
 import { authApi } from "./apis/authApi";
 import { authSlice } from "./slices/authSlice";
+import { baseApi } from "./baseApi";
 
 const store = configureStore({
   reducer: {
     ui: uiSlice.reducer,
     auth: authSlice.reducer,
     book: bookSlice.reducer,
+    [baseApi.reducerPath]: baseApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
     [bookApi.reducerPath]: bookApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
+      .concat(baseApi.middleware)
       .concat(authApi.middleware)
       .concat(bookApi.middleware),
   devTools: process.env.NODE_ENV !== "production",
