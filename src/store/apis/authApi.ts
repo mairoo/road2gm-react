@@ -18,7 +18,7 @@ const authApi = createApi({
     refresh: builder.mutation<LoginResponse, void>({
       query: () => {
         return {
-          url: "/auth/login",
+          url: "/auth/refresh",
           method: "POST",
         };
       },
