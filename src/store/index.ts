@@ -2,15 +2,21 @@ import { configureStore } from "@reduxjs/toolkit";
 import { uiSlice } from "./slices/uiSlice";
 import { bookSlice } from "./slices/bookSlice";
 import { bookApi } from "./apis/bookApi";
+import { authApi } from "./apis/authApi";
+import { authSlice } from "./slices/authSlice";
 
 const store = configureStore({
   reducer: {
     ui: uiSlice.reducer,
+    auth: authSlice.reducer,
     book: bookSlice.reducer,
+    [authApi.reducerPath]: authApi.reducer,
     [bookApi.reducerPath]: bookApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(bookApi.middleware),
+    getDefaultMiddleware()
+      .concat(authApi.middleware)
+      .concat(bookApi.middleware),
   devTools: process.env.NODE_ENV !== "production",
 });
 

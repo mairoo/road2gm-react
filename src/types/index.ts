@@ -10,3 +10,4 @@ export * from "./menu";
 export * from "./book";
 export * from "./widget";
 export * from "./ui";
+export * from "./auth";
