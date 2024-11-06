@@ -30,6 +30,7 @@ const Road2GMHeader = () => {
                 <Link to="#">로그아웃</Link>
                 <Link to="#">회원가입</Link>
                 <Link to="/auth/login">로그인</Link>
+                <Link to="http://localhost:8080/oauth2/authorization/google">구글</Link>
               </div>
             )}
           </nav>
