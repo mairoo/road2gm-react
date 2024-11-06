@@ -1,13 +1,11 @@
 export interface AuthSlice {
-  accessToken: string | null;
   isAuthenticated: boolean;
   rememberMe: boolean;
 }
 
 export interface User {
-  id: number;
   email: string;
-  name: string;
+  username: string;
 }
 
 export interface LoginRequest {
@@ -17,7 +15,6 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  accessToken: string;
 }
 
 export interface SetCredentialsPayload {

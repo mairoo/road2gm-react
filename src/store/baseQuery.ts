@@ -15,13 +15,7 @@ const mutex = new Mutex();
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.API_ENDPOINT_URL,
-  prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as RootState).auth.accessToken;
-    if (token) {
-      headers.set("Authorization", `Bearer ${token}`);
-    }
-    return headers;
-  },
+  // prepareHeaders: HTTP-only 쿠키 사용으로 불필요
   credentials: "include", // 백엔드 통신 시 항상 쿠키 포함
 });
 
@@ -68,18 +62,16 @@ export const baseQueryWithRetry: BaseQueryFn<
             api.dispatch(logout());
           }
         } else {
-          // 토큰 갱신 없이 바로 로그아웃
+          // 리프레시 실패하면 토큰 갱신 없이 바로 로그아웃
           api.dispatch(logout());
         }
       } finally {
         release();
       }
     } else {
+      // 다른 요청이 이미 재인증 진행 중이면 대기
       await mutex.waitForUnlock();
-      const state = api.getState() as RootState;
-      if (state.auth.accessToken) {
-        result = await baseQuery(args, api, extraOptions);
-      }
+      result = await baseQuery(args, api, extraOptions);
     }
   }
   return result;
