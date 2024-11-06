@@ -11,7 +11,7 @@ const authApi = createApi({
         return {
           url: "/auth/sign-in",
           method: "POST",
-          body: { ...credentials, grantType: "password" },
+          body: credentials,
         };
       },
     }),
