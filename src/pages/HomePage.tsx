@@ -1,6 +1,6 @@
+import { Chess } from "chess.js";
 import React, { useMemo, useState } from "react";
 import { Chessboard } from "react-chessboard";
-import { Chess } from "chess.js";
 import {
   MdArrowLeft,
   MdArrowRight,
@@ -13,6 +13,7 @@ import {
   MdRotateLeft,
 } from "react-icons/md";
 import ReactMarkdown from "react-markdown";
+
 import { useFetchBooksQuery } from "../store/apis/bookApi";
 
 const HomePage = () => {
@@ -103,9 +104,13 @@ const HomePage = () => {
       <h2 className="text-xl font-semibold">Welcome to Road2GM</h2>
 
       <div>
-        <button onClick={() => {
-          console.log(data);
-        }}>books</button>
+        <button
+          onClick={() => {
+            console.log(data);
+          }}
+        >
+          books
+        </button>
       </div>
 
       <div className="flex flex-col md:w-96">

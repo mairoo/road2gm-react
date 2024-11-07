@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useSwipeable } from "react-swipeable";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
+import { useSwipeable } from "react-swipeable";
 
 const InfiniteSwipeSlide = ({
   images,

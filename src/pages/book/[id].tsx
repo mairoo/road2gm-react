@@ -1,6 +1,7 @@
+import className from "classnames";
 import React, { useRef } from "react";
 import { Link, useParams } from "react-router-dom";
-import className from "classnames";
+
 import { useScrollToCenter } from "../../hooks/useScroll";
 import { flattenToc } from "../../utils/toc";
 

@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import { setViewportSize } from "../store/slices/uiSlice";
+
 import { useAppDispatch } from "../store/hooks";
+import { setViewportSize } from "../store/slices/uiSlice";
 
 const RootLayout = () => {
   // 1. URL 파라미터 가져오기

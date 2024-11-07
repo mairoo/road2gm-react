@@ -1,5 +1,5 @@
-import React, { ComponentPropsWithoutRef, ReactNode } from "react";
 import className from "classnames";
+import React, { ComponentPropsWithoutRef, ReactNode } from "react";
 
 const Footer = ({
   children,
@@ -7,7 +7,10 @@ const Footer = ({
 }: {
   children?: ReactNode;
 } & ComponentPropsWithoutRef<"footer">) => {
-  const classes = className(rest.className, "shadow-[0_-1px_3px_rgba(0,0,0,0.05)]");
+  const classes = className(
+    rest.className,
+    "shadow-[0_-1px_3px_rgba(0,0,0,0.05)]",
+  );
 
   return (
     <footer {...rest} className={classes}>

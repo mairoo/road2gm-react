@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useSwipeable } from "react-swipeable";
-import DrawerHeading from "./DrawerHeading";
-import { Link } from "react-router-dom";
 import { MdCheck } from "react-icons/md";
+import { Link } from "react-router-dom";
+import { useSwipeable } from "react-swipeable";
 
 import { DrawerMenuItem } from "../types";
+import DrawerHeading from "./DrawerHeading";
 
 const SlideMenu = ({
   menu,

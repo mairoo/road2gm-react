@@ -1,15 +1,16 @@
-import { createBrowserRouter } from "react-router-dom";
 import React from "react";
-import RootLayout from "../layouts/RootLayout";
-import ErrorPage from "../pages/ErrorPage";
-import BookPage from "../pages/book";
-import BookPageDetailPage from "../pages/book/page/[id]";
+import { createBrowserRouter } from "react-router-dom";
+
 import BookLayout from "../layouts/BookLayout";
 import HomeLayout from "../layouts/HomeLayout";
-import HomePage from "../pages/HomePage";
-import BookDetailPage from "../pages/book/[id]";
+import RootLayout from "../layouts/RootLayout";
 import LoginPage from "../pages/auth/LoginPage";
 import Oauth2RedirectPage from "../pages/auth/Oauth2RedirectPage";
+import BookPage from "../pages/book";
+import BookDetailPage from "../pages/book/[id]";
+import BookPageDetailPage from "../pages/book/page/[id]";
+import ErrorPage from "../pages/ErrorPage";
+import HomePage from "../pages/HomePage";
 
 const BrowserRouter = createBrowserRouter([
   {

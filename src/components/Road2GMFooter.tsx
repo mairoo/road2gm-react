@@ -1,9 +1,14 @@
-import React from "react";
-import Footer from "../widgets/Footer";
-import ContainerFixed from "../widgets/ContainerFixed";
 import className from "classnames";
+import React from "react";
 
-const Road2GMFooter = ({ hasBottomNavbar = false }: { hasBottomNavbar?: boolean }) => {
+import ContainerFixed from "../widgets/ContainerFixed";
+import Footer from "../widgets/Footer";
+
+const Road2GMFooter = ({
+  hasBottomNavbar = false,
+}: {
+  hasBottomNavbar?: boolean;
+}) => {
   return (
     <Footer className="bg-natural-3 text-sm text-cyan-900">
       <ContainerFixed className="space-y-1 py-2 px-2 md:px-0">

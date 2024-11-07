@@ -1,9 +1,10 @@
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import React, { useState } from "react";
 import { MdChevronLeft, MdChevronRight, MdSearch } from "react-icons/md";
-import Card from "../../widgets/Card";
 import { Link } from "react-router-dom";
+
 import { useFetchBooksQuery } from "../../store/apis/bookApi";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import Card from "../../widgets/Card";
 
 const BookPage = () => {
   const { data: books, isLoading, error } = useFetchBooksQuery();

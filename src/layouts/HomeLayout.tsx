@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
-import Drawer from "../widgets/Drawer";
-import DrawerHeading from "../widgets/DrawerHeading";
 import { MdCheck } from "react-icons/md";
-import SlideMenu from "../widgets/SlideMenu";
+import { Link, Outlet } from "react-router-dom";
+
+import Road2GMFooter from "../components/Road2GMFooter";
+import Road2GMHeader from "../components/Road2GMHeader";
 import { DRAWER_MENU_ITEMS } from "../constants/menu";
 import { useAppSelector } from "../store/hooks";
 import ContainerFixed from "../widgets/ContainerFixed";
+import Drawer from "../widgets/Drawer";
+import DrawerHeading from "../widgets/DrawerHeading";
 import Main from "../widgets/Main";
-import Road2GMFooter from "../components/Road2GMFooter";
-import Road2GMHeader from "../components/Road2GMHeader";
+import SlideMenu from "../widgets/SlideMenu";
 
 const HomeLayout = () => {
   const { isMobile } = useAppSelector((state) => state.ui);

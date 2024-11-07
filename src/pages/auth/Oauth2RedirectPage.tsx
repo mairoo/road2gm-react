@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useSignInMutation } from "../../store/apis/authApi";
 import { useNavigate } from "react-router-dom";
+
+import { useSignInMutation } from "../../store/apis/authApi";
 
 const Oauth2RedirectPage = () => {
   const [signIn, { isLoading, error }] = useSignInMutation();

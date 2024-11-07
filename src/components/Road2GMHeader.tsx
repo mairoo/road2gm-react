@@ -1,8 +1,9 @@
 import React from "react";
-import ContainerFixed from "../widgets/ContainerFixed";
 import { Link } from "react-router-dom";
-import Header from "../widgets/Header";
+
 import { useAppSelector } from "../store/hooks";
+import ContainerFixed from "../widgets/ContainerFixed";
+import Header from "../widgets/Header";
 
 const Road2GMHeader = () => {
   const { isMobile } = useAppSelector((state) => state.ui);
@@ -30,7 +31,9 @@ const Road2GMHeader = () => {
                 <Link to="#">로그아웃</Link>
                 <Link to="#">회원가입</Link>
                 <Link to="/auth/login">로그인</Link>
-                <Link to="http://localhost:8080/oauth2/authorization/google">구글</Link>
+                <Link to="http://localhost:8080/oauth2/authorization/google">
+                  구글
+                </Link>
               </div>
             )}
           </nav>
