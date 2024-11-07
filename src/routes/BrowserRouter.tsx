@@ -8,7 +8,8 @@ import BookLayout from "../layouts/BookLayout";
 import HomeLayout from "../layouts/HomeLayout";
 import HomePage from "../pages/HomePage";
 import BookDetailPage from "../pages/book/[id]";
-import LoginPage from '../pages/auth/LoginPage';
+import LoginPage from "../pages/auth/LoginPage";
+import Oauth2RedirectPage from "../pages/auth/Oauth2RedirectPage";
 
 const BrowserRouter = createBrowserRouter([
   {
@@ -39,8 +40,12 @@ const BrowserRouter = createBrowserRouter([
           {
             path: "login",
             element: <LoginPage />,
-          }
-        ]
+          },
+          {
+            path: "oauth2-redirect",
+            element: <Oauth2RedirectPage />,
+          },
+        ],
       },
       {
         path: "/book",
