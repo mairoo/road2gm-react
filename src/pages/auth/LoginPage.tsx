@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { MdLock, MdPerson } from "react-icons/md";
+import { MdEmail, MdLock } from "react-icons/md";
 import { useSignInMutation } from "../../store/apis/authApi";
 import { useAppDispatch } from "../../store/hooks";
 import { setCredentials } from "../../store/slices/authSlice";
 
 const LoginPage = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
 
@@ -17,7 +17,7 @@ const LoginPage = () => {
 
     try {
       const userData = await signIn({
-        username,
+        email,
         password,
         rememberMe,
       }).unwrap();
@@ -41,14 +41,14 @@ const LoginPage = () => {
             <div className="space-y-2">
               <div className="relative">
                 <input
-                  type="text"
-                  placeholder="아이디"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  type="email"
+                  placeholder="이메일"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-10 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
-                <MdPerson
+                <MdEmail
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
                   size={20}
                 />
