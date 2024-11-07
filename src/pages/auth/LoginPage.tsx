@@ -5,13 +5,23 @@ import { useAppDispatch } from "../../store/hooks";
 import { setCredentials } from "../../store/slices/authSlice";
 
 const LoginPage = () => {
+  // 1. react-router-dom 훅
+  // 2. Redux 훅
+  const dispatch = useAppDispatch();
+
+  // 3. RTK Query 훅
+  const [signIn, { isLoading, error }] = useSignInMutation();
+
+  // 4. useState 훅
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
 
-  const [signIn, { isLoading, error }] = useSignInMutation();
-  const dispatch = useAppDispatch();
-
+  // 5. useRef 훅
+  // 6. useMemo 훅
+  // 7. useEffect 훅
+  // 8. 페이지 이동 네비게이션 핸들러 useCallback 훅
+  // 9. 이벤트 핸들러 useCallback 훅
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -28,6 +38,10 @@ const LoginPage = () => {
     }
   };
 
+  // 10. 헬퍼 함수
+  // 11. 렌더 메소드 (renderForm, renderError, renderList 등)
+
+  // 12. 메인 컴포넌트 렌더링 반환
   return (
     <div className="flex justify-center p-8 md:mt-[10vh]">
       <div className="w-full max-w-md bg-gray-50 rounded-lg shadow-md">
