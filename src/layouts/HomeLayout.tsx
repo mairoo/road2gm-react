@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { MdCheck } from "react-icons/md";
 import { Link, Outlet } from "react-router-dom";
 
@@ -13,17 +13,33 @@ import Main from "../widgets/Main";
 import SlideMenu from "../widgets/SlideMenu";
 
 const HomeLayout = () => {
+  // 1. react-router-dom 훅
+
+  // 2. Redux 훅
   const { isMobile } = useAppSelector((state) => state.ui);
 
+  // 3. RTK Query 훅
+
+  // 4. useState 훅
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 
-  const handleDrawerOpen = () => {
-    setDrawerIsOpen(true);
-  };
+  // 5. useRef 훅
+  // 6. useMemo 훅
+  // 7. useEffect 훅
+  // 8. 페이지 이동 네비게이션 핸들러 useCallback 훅
+  // 9. 이벤트 핸들러 useCallback 훅
 
-  const handleDrawerClose = () => {
+  const handleDrawerOpen = useCallback(() => {
+    setDrawerIsOpen(true);
+  }, []);
+
+  const handleDrawerClose = useCallback(() => {
     setDrawerIsOpen(false);
-  };
+  }, []);
+
+  // 10. 헬퍼 함수
+  // 11. 렌더 메소드 (renderForm, renderError, renderList 등)
+  // 12. 메인 컴포넌트 렌더링 반환
 
   return (
     <>
