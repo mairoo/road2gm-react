@@ -1,5 +1,5 @@
 export interface AuthSlice {
-  user: User | null;
+  accessToken: string | null;
   isAuthenticated: boolean;
   rememberMe: boolean;
 }
@@ -15,7 +15,9 @@ export interface LoginRequest {
   rememberMe: boolean;
 }
 
-export interface LoginResponse extends User {}
+export interface LoginResponse {
+  accessToken: string;
+}
 
 export interface SetCredentialsPayload {
   data: LoginResponse;
