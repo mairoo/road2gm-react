@@ -28,12 +28,12 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      const userData = await signIn({
+      const response = await signIn({
         email,
         password,
         rememberMe,
       }).unwrap();
-      dispatch(setCredentials({ ...userData, rememberMe }));
+      dispatch(setCredentials({ ...response, rememberMe }));
       console.log("logged in");
     } catch (err) {
       console.error("Failed to login:", err);

@@ -1,4 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
+
 import { ApiResponse, LoginRequest, LoginResponse } from "../../types";
 import { baseQueryWithRetry } from "../baseQuery";
 
@@ -15,10 +16,10 @@ const authApi = createApi({
         };
       },
     }),
-    refresh: builder.mutation<LoginResponse, void>({
+    signInOAuth2: builder.mutation<ApiResponse<LoginResponse>, void>({
       query: () => {
         return {
-          url: "/auth/refresh",
+          url: "/auth/oauth2/token",
           method: "POST",
         };
       },
@@ -34,7 +35,10 @@ const authApi = createApi({
   }),
 });
 
-export const { useSignInMutation, useRefreshMutation, useSignOutMutation } =
-  authApi;
+export const {
+  useSignInMutation,
+  useSignInOAuth2Mutation,
+  useSignOutMutation,
+} = authApi;
 
 export { authApi };
