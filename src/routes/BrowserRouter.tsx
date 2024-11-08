@@ -5,6 +5,7 @@ import BookLayout from "../layouts/BookLayout";
 import HomeLayout from "../layouts/HomeLayout";
 import RootLayout from "../layouts/RootLayout";
 import LoginPage from "../pages/auth/LoginPage";
+import LogoutPage from "../pages/auth/LogoutPage";
 import Oauth2RedirectPage from "../pages/auth/Oauth2RedirectPage";
 import BookPage from "../pages/book";
 import BookDetailPage from "../pages/book/[id]";
@@ -12,6 +13,7 @@ import BookPageDetailPage from "../pages/book/page/[id]";
 import ErrorPage from "../pages/ErrorPage";
 import HomePage from "../pages/HomePage";
 import GuestRoute from "./GuestRoute";
+import PrivateRoute from "./PrivateRoute";
 
 const BrowserRouter = createBrowserRouter([
   {
@@ -37,7 +39,7 @@ const BrowserRouter = createBrowserRouter([
       },
       {
         path: "/auth",
-        element: <BookLayout />,
+        element: <HomeLayout />,
         children: [
           {
             path: "login",
@@ -53,6 +55,14 @@ const BrowserRouter = createBrowserRouter([
               <GuestRoute>
                 <Oauth2RedirectPage />
               </GuestRoute>
+            ),
+          },
+          {
+            path: "logout",
+            element: (
+              <PrivateRoute>
+                <LogoutPage />
+              </PrivateRoute>
             ),
           },
         ],

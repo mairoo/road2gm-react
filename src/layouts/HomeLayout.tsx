@@ -45,7 +45,7 @@ const HomeLayout = () => {
     <>
       <Road2GMHeader />
       <Main>
-        <ContainerFixed className="flex flex-col flex-grow">
+        <ContainerFixed>
           <Outlet />
         </ContainerFixed>
       </Main>

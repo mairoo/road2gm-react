@@ -7,7 +7,7 @@ const Main = ({
 }: {
   children?: ReactNode;
 } & ComponentPropsWithoutRef<"main">) => {
-  const classes = className(rest.className, "flex-grow flex flex-col");
+  const classes = className(rest.className, "flex-grow");
 
   return (
     <main {...rest} className={classes}>

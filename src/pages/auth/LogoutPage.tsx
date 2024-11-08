@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useSignOutMutation } from "../../store/apis/authApi";
 import { useAppDispatch } from "../../store/hooks";
 import { logout } from "../../store/slices/authSlice";
+import ContentLayout from "../../widgets/ContentLayout";
 
 const LogoutPage = () => {
   const navigate = useNavigate();
@@ -25,13 +26,7 @@ const LogoutPage = () => {
   };
 
   return (
-    // 1. h-full: 부모 높이만큼 높이 차지
-    // 2. flex, justify-center: 가로 중앙 정렬
-    // 3. items-center: 세로 중앙 정렬
-    // 4. mt-0: 모바일에서 상단 여백 없음
-    // 5. md:mt-[15%]: 태블릿/데스크톱에서 상단 여백 15%
-
-    <div className="flex flex-col flex-grow justify-center items-center py-4">
+    <ContentLayout position="top" align="center">
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg border border-gray-200">
         {/* Header */}
         <div className="p-4 border-b border-gray-200">
@@ -62,7 +57,7 @@ const LogoutPage = () => {
           </button>
         </div>
       </div>
-    </div>
+    </ContentLayout>
   );
 };
 

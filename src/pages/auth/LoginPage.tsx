@@ -4,6 +4,7 @@ import { MdEmail, MdLock } from "react-icons/md";
 import { useSignInMutation } from "../../store/apis/authApi";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setCredentials } from "../../store/slices/authSlice";
+import ContentLayout from '../../widgets/ContentLayout';
 
 const LoginPage = () => {
   // 1. react-router-dom 훅
@@ -47,10 +48,10 @@ const LoginPage = () => {
 
   // 12. 메인 컴포넌트 렌더링 반환
   return (
-    <div className="mt-0 md:mt-[15%]">
+    <ContentLayout position="top" align="center">
       <div className="flex justify-center">
         <div className="w-full max-w-md bg-gray-50 rounded-lg shadow-md">
-          <div className="p-6">
+          <div className="p-12">
             <div className="space-y-1 mb-6">
               <h2 className="text-lg font-bold text-center text-gray-900">
                 Road2GM
@@ -131,7 +132,7 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </ContentLayout>
   );
 };
 
