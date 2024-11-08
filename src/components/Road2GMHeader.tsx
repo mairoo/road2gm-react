@@ -30,8 +30,8 @@ const Road2GMHeader = () => {
                 )}
                 {isAuthenticated && (
                   <>
-                    <Link to="/auth/sign-up">마이페이지</Link>
-                    <Link to="/auth/login">로그아웃</Link>
+                    <Link to="/auth/me">마이페이지</Link>
+                    <Link to="/auth/logout">로그아웃</Link>
                   </>
                 )}
               </div>
@@ -40,14 +40,14 @@ const Road2GMHeader = () => {
               <div className="flex gap-x-4">
                 {!isAuthenticated && (
                   <>
-                    <Link to="#">회원가입</Link>
+                    <Link to="/auth/sign-up">회원가입</Link>
                     <Link to="/auth/login">로그인</Link>
                   </>
                 )}
                 {isAuthenticated && (
                   <>
-                    <Link to="#">마이페이지</Link>
-                    <Link to="#">로그아웃</Link>
+                    <Link to="/auth/me">마이페이지</Link>
+                    <Link to="/auth/logout">로그아웃</Link>
                   </>
                 )}
                 <Link
