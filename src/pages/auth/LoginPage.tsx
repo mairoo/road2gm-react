@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { MdEmail, MdLock } from "react-icons/md";
+
 import { useSignInMutation } from "../../store/apis/authApi";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setCredentials } from "../../store/slices/authSlice";
 
 const LoginPage = () => {
   // 1. react-router-dom 훅
   // 2. Redux 훅
   const dispatch = useAppDispatch();
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
 
   // 3. RTK Query 훅
   const [signIn, { isLoading, error }] = useSignInMutation();
@@ -35,6 +37,8 @@ const LoginPage = () => {
       console.log("logged in");
     } catch (err) {
       console.error("Failed to login:", err);
+    } finally {
+      console.log("isAuthenticated", isAuthenticated);
     }
   };
 

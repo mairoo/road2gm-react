@@ -1,15 +1,14 @@
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import {
   BaseQueryFn,
   FetchArgs,
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
-
 import { Mutex } from "async-mutex";
 
-import { RootState } from "./index";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { logout, setCredentials } from "./slices/authSlice";
 import { LoginResponse } from "../types";
+import storage from "../utils/storage";
+import { logout, setCredentials } from "./slices/authSlice";
 
 const mutex = new Mutex();
 
@@ -32,10 +31,9 @@ export const baseQueryWithRetry: BaseQueryFn<
       const release = await mutex.acquire();
 
       try {
-        const state = api.getState() as RootState;
+        const rememberMe = storage.getRememberMe();
 
-        if (state.auth.rememberMe) {
-          // rememberMe 옵션 사용 시 토큰 갱신
+        if (rememberMe) {
           const refreshResult = await baseQuery(
             {
               url: "/auth/refresh",
@@ -60,10 +58,12 @@ export const baseQueryWithRetry: BaseQueryFn<
             result = await baseQuery(args, api, extraOptions); // 기존 실패 쿼리 재호출
           } else {
             api.dispatch(logout());
+            storage.clearRememberMe();
           }
         } else {
           // 리프레시 실패하면 토큰 갱신 없이 바로 로그아웃
           api.dispatch(logout());
+          storage.clearRememberMe();
         }
       } finally {
         release();
