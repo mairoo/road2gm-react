@@ -7,6 +7,7 @@ import Header from "../widgets/Header";
 
 const Road2GMHeader = () => {
   const { isMobile } = useAppSelector((state) => state.ui);
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
 
   return (
     <Header>
@@ -21,17 +22,37 @@ const Road2GMHeader = () => {
             {/* 모바일 기기 사이즈인지 식별하여 불필요한 HTML DOM 객체가 중복되어 생성되지 않도록 한다. */}
             {isMobile && (
               <div className="flex gap-x-2 items-center">
-                <span>회원가입</span>
-                <Link to="/auth/login">로그인</Link>
+                {!isAuthenticated && (
+                  <>
+                    <Link to="/auth/sign-up">회원가입</Link>
+                    <Link to="/auth/login">로그인</Link>
+                  </>
+                )}
+                {isAuthenticated && (
+                  <>
+                    <Link to="/auth/sign-up">마이페이지</Link>
+                    <Link to="/auth/login">로그아웃</Link>
+                  </>
+                )}
               </div>
             )}
             {!isMobile && (
               <div className="flex gap-x-4">
-                <Link to="#">마이페이지</Link>
-                <Link to="#">로그아웃</Link>
-                <Link to="#">회원가입</Link>
-                <Link to="/auth/login">로그인</Link>
-                <Link to="http://localhost:8080/oauth2/authorization/google">
+                {!isAuthenticated && (
+                  <>
+                    <Link to="#">회원가입</Link>
+                    <Link to="/auth/login">로그인</Link>
+                  </>
+                )}
+                {isAuthenticated && (
+                  <>
+                    <Link to="#">마이페이지</Link>
+                    <Link to="#">로그아웃</Link>
+                  </>
+                )}
+                <Link
+                  to={`${process.env.API_ENDPOINT_URL}/oauth2/authorization/google`}
+                >
                   구글
                 </Link>
               </div>

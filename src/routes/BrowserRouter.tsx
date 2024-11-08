@@ -11,6 +11,7 @@ import BookDetailPage from "../pages/book/[id]";
 import BookPageDetailPage from "../pages/book/page/[id]";
 import ErrorPage from "../pages/ErrorPage";
 import HomePage from "../pages/HomePage";
+import GuestRoute from "./GuestRoute";
 
 const BrowserRouter = createBrowserRouter([
   {
@@ -40,11 +41,19 @@ const BrowserRouter = createBrowserRouter([
         children: [
           {
             path: "login",
-            element: <LoginPage />,
+            element: (
+              <GuestRoute>
+                <LoginPage />
+              </GuestRoute>
+            ),
           },
           {
             path: "oauth2-redirect",
-            element: <Oauth2RedirectPage />,
+            element: (
+              <GuestRoute>
+                <Oauth2RedirectPage />
+              </GuestRoute>
+            ),
           },
         ],
       },
