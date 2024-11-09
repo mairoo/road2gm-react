@@ -1,9 +1,9 @@
 import React from "react";
-import { MdLogout } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSignOutMutation } from "../../store/apis/authApi";
 import { useAppDispatch } from "../../store/hooks";
 import { logout } from "../../store/slices/authSlice";
+import Button from "../../widgets/Button";
 import ContentLayout from "../../widgets/ContentLayout";
 
 const LogoutPage = () => {
@@ -27,34 +27,38 @@ const LogoutPage = () => {
 
   return (
     <ContentLayout position="top" align="center">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-lg border border-gray-200">
-        {/* Header */}
-        <div className="p-4 border-b border-gray-200">
-          <div className="flex items-center gap-2">
-            <MdLogout className="w-5 h-5 text-gray-700" />
-            <h2 className="text-xl font-semibold text-gray-900">로그아웃</h2>
+      <div className="flex items-center justify-center p-4 md:w-1/2">
+        <div className="w-full bg-white rounded-xl shadow-lg p-6">
+          <div className="mb-6">
+            <h2 className="text-xl font-bold text-center text-gray-900">
+              로그아웃
+            </h2>
           </div>
-        </div>
 
-        {/* Content */}
-        <div className="p-4">
-          <p className="text-gray-600">정말 로그아웃 하시겠습니까?</p>
-        </div>
+          <div className="mb-6">
+            <p className="text-center text-gray-600">
+              정말 로그아웃 하시겠습니까?
+            </p>
+          </div>
 
-        {/* Footer */}
-        <div className="p-4 border-t border-gray-200 flex justify-end gap-2">
-          <button
-            onClick={handleCancel}
-            className="w-24 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-          >
-            취소
-          </button>
-          <button
-            onClick={handleLogout}
-            className="w-24 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-          >
-            로그아웃
-          </button>
+          <div className="flex gap-2">
+            <Button
+              preset="secondary"
+              size="large"
+              rounded="medium"
+              className="flex-1"
+            >
+              취소
+            </Button>
+            <Button
+              preset="danger"
+              size="large"
+              rounded="medium"
+              className="flex-1"
+            >
+              로그아웃
+            </Button>
+          </div>
         </div>
       </div>
     </ContentLayout>

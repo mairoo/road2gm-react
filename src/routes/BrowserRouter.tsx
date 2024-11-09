@@ -8,6 +8,7 @@ import RootLayout from "../layouts/RootLayout";
 import LoginPage from "../pages/auth/LoginPage";
 import LogoutPage from "../pages/auth/LogoutPage";
 import Oauth2RedirectPage from "../pages/auth/Oauth2RedirectPage";
+import SignUpPage from "../pages/auth/SignUpPage";
 import BookPage from "../pages/book";
 import BookDetailPage from "../pages/book/[id]";
 import BookPageDetailPage from "../pages/book/page/[id]";
@@ -47,6 +48,14 @@ const BrowserRouter = createBrowserRouter([
             element: (
               <GuestRoute>
                 <LoginPage />
+              </GuestRoute>
+            ),
+          },
+          {
+            path: "sign-up",
+            element: (
+              <GuestRoute>
+                <SignUpPage />
               </GuestRoute>
             ),
           },
