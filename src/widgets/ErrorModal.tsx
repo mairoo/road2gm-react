@@ -20,7 +20,7 @@ interface ErrorModalProps {
   iconSize?: number;
 }
 
-const ErrorModal: React.FC<ErrorModalProps> = ({
+const ErrorModal = ({
   isOpen,
   message,
   onClose,
@@ -28,7 +28,7 @@ const ErrorModal: React.FC<ErrorModalProps> = ({
   icon: Icon = MdError, // 기본 아이콘
   iconColor = "#EF4444", // 기본 색상 (red-500)
   iconSize = 24, // 기본 크기
-}) => {
+}: ErrorModalProps) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>

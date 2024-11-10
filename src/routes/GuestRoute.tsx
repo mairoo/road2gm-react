@@ -4,11 +4,11 @@ import { Navigate, useLocation } from "react-router-dom";
 import { RootState } from "../store";
 import ContentLayout from "../widgets/ContentLayout";
 
-interface PublicRouteProps {
+interface GuestRouteProps {
   children: React.ReactNode;
 }
 
-const GuestRoute: React.FC<PublicRouteProps> = ({ children }) => {
+const GuestRoute = ({ children }: GuestRouteProps) => {
   const location = useLocation();
 
   // from이 로그아웃 페이지인 경우 홈으로 리다이렉트

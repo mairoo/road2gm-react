@@ -1,12 +1,28 @@
-import React, { ComponentPropsWithoutRef, ReactNode } from "react";
 import className from "classnames";
+import React, { ComponentPropsWithoutRef, ReactNode } from "react";
 
-import {
-  ButtonFontWeight,
-  ButtonPreset,
-  ButtonRounded,
-  ButtonSize,
-} from "../types";
+type ButtonSize = "small" | "medium" | "large";
+
+type ButtonPreset =
+  | "primary"
+  | "secondary"
+  | "danger"
+  | "warning"
+  | "outline"
+  | "ghost";
+type ButtonRounded = "base" | "small" | "medium" | "large" | "full";
+
+type ButtonFontWeight = "normal" | "semibold" | "bold";
+
+interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
+  children?: ReactNode;
+  size?: ButtonSize;
+  preset?: ButtonPreset;
+  rounded?: ButtonRounded;
+  fontWeight?: ButtonFontWeight;
+  fullWidth?: boolean;
+  inline?: boolean;
+}
 
 const sizeClasses: Record<ButtonSize, string> = {
   small: "px-1 py-0.5 text-sm",
@@ -47,15 +63,7 @@ const Button = ({
   fullWidth = false,
   inline = false,
   ...rest
-}: {
-  children?: ReactNode;
-  size?: ButtonSize;
-  preset?: ButtonPreset;
-  rounded?: ButtonRounded;
-  fontWeight?: ButtonFontWeight;
-  fullWidth?: boolean;
-  inline?: boolean;
-} & ComponentPropsWithoutRef<"button">) => {
+}: ButtonProps) => {
   const classes = className(
     rest.className,
     "focus:outline-none transition-colors duration-200 ease-in-out",

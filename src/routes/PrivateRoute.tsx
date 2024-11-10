@@ -2,13 +2,13 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 import { RootState } from "../store";
-import ContentLayout from '../widgets/ContentLayout';
+import ContentLayout from "../widgets/ContentLayout";
 
 interface PrivateRouteProps {
   children: React.ReactNode;
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
+const PrivateRoute = ({ children }: PrivateRouteProps) => {
   const location = useLocation();
 
   const { isAuthenticated, isInitialized } = useSelector(
