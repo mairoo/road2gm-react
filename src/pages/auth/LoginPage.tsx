@@ -2,6 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { MdLock, MdMail } from "react-icons/md";
+import { SiFacebook, SiGoogle, SiKakaotalk, SiNaver } from "react-icons/si";
 import * as yup from "yup";
 
 import { useSignInMutation } from "../../store/apis/authApi";
@@ -32,14 +33,6 @@ const schema = yup.object().shape({
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()_\-+])[A-Za-z\d@$!%*?&#^()_\-+]+$/,
       "비밀번호는 소문자, 대문자, 숫자, 특수문자(@$!%*?&#^()_-+)를 모두 포함해야 합니다.",
-      // 비밀번호 제외 특수문자
-      //
-      // ' " (따옴표): SQL 인젝션 위험
-      // \ (백슬래시): 이스케이프 문자로 인한 문제
-      // ; (세미콜론): SQL 인젝션 위험
-      // < > (꺾쇠 괄호): XSS 공격 위험
-      // | (파이프): 명령어 인젝션 위험
-      // ` (백틱): 명령어 인젝션 위험
     ),
   rememberMe: yup.boolean().required().default(true),
 });
@@ -84,6 +77,18 @@ const LoginPage = () => {
       console.error("Failed to login:", err);
     }
   };
+
+  const socialLogins = [
+    { icon: SiNaver, bg: "#03C75A", label: "네이버 로그인" },
+    {
+      icon: SiKakaotalk,
+      bg: "#FEE500",
+      label: "카카오 로그인",
+      textColor: "#191919",
+    },
+    { icon: SiGoogle, bg: "#4285F4", label: "구글 로그인" },
+    { icon: SiFacebook, bg: "#4267B2", label: "페이스북 로그인" },
+  ];
 
   // 10. 헬퍼 함수
   // 11. 렌더 메소드 (renderForm, renderError, renderList 등)
@@ -139,16 +144,22 @@ const LoginPage = () => {
               로그인
             </Button>
 
-            <Button
-              preset="secondary"
-              fullWidth={true}
-              size="large"
-              rounded="medium"
-              className="flex items-center justify-center gap-2"
-            >
-              <MdMail className="h-5 w-5" />
-              Google로 계속하기
-            </Button>
+            <div className="grid grid-cols-4 gap-4">
+              {socialLogins.map(({ icon: Icon, bg, label, textColor }) => (
+                <button
+                  key={label}
+                  type="button"
+                  className="flex items-center justify-center p-4 rounded-lg transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                  style={{ backgroundColor: bg }}
+                  aria-label={label}
+                >
+                  <Icon
+                    className="h-6 w-6"
+                    style={{ color: textColor || "#ffffff" }}
+                  />
+                </button>
+              ))}
+            </div>
 
             <div className="text-center text-sm text-gray-600">
               계정이 없으신가요?{" "}
