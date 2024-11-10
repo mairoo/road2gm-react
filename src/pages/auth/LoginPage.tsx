@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
+import React, { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
-import { MdLock, MdMail } from "react-icons/md";
+import { MdError, MdLock, MdMail } from "react-icons/md";
 import { SiFacebook, SiGoogle, SiKakaotalk, SiNaver } from "react-icons/si";
 import * as yup from "yup";
 
@@ -10,8 +10,15 @@ import { useAppDispatch } from "../../store/hooks";
 import { setCredentials } from "../../store/slices/authSlice";
 import Button from "../../widgets/Button";
 import ContentLayout from "../../widgets/ContentLayout";
+import ErrorModal from "../../widgets/ErrorModal";
 import FormField from "../../widgets/FormField";
 import InputGroup from "../../widgets/InputGroup"; // 폼 데이터 타입 정의
+
+// 에러 상태 타입 정의
+interface ErrorState {
+  isOpen: boolean;
+  message: string;
+}
 
 // 폼 데이터 타입 정의
 interface LoginFormData {
@@ -46,6 +53,10 @@ const LoginPage = () => {
   const [signIn] = useSignInMutation();
 
   // 4. useState 훅
+  const [error, setError] = useState<ErrorState>({
+    isOpen: false,
+    message: "",
+  });
 
   // 5. useRef 훅
   const {
@@ -60,7 +71,7 @@ const LoginPage = () => {
       rememberMe: true,
     },
     mode: "onBlur",
-    reValidateMode: "onSubmit" // 초기 검증 후 재검증은 제출 시에만 수행, 불필요한 검증 횟수 감소, 성능 최적화
+    reValidateMode: "onSubmit", // 초기 검증 후 재검증은 제출 시에만 수행, 불필요한 검증 횟수 감소, 성능 최적화
   });
 
   // 6. useMemo 훅
@@ -75,9 +86,18 @@ const LoginPage = () => {
         rememberMe: data.rememberMe,
       }).unwrap();
       dispatch(setCredentials({ ...response, rememberMe: data.rememberMe }));
-    } catch (err) {
-      console.error("Failed to login:", err);
+    } catch (err: any) {
+      // 에러 메시지 설정 및 모달 표시
+      setError({
+        isOpen: true,
+        message:
+          err.data?.message || "로그인에 실패했습니다. 다시 시도해 주세요.",
+      });
     }
+  };
+
+  const closeErrorModal = () => {
+    setError({ ...error, isOpen: false });
   };
 
   const socialLogins = [
@@ -97,82 +117,95 @@ const LoginPage = () => {
 
   // 12. 메인 컴포넌트 렌더링 반환
   return (
-    <ContentLayout position="top" align="center" width="1/2">
-      <div className="w-full bg-white rounded-xl shadow-lg p-6">
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-center text-gray-900">
-            로그인
-          </h2>
-        </div>
-
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-4">
-            <FormField error={errors.email}>
-              <InputGroup
-                type="email"
-                icon={MdMail}
-                placeholder="이메일"
-                {...register("email")}
-              />
-            </FormField>
-            <FormField error={errors.password}>
-              <InputGroup
-                type="password"
-                icon={MdLock}
-                placeholder="비밀번호"
-                {...register("password")}
-              />
-            </FormField>
-            <div className="flex items-center justify-between">
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
-                  {...register("rememberMe")}
-                  className="rounded border-gray-300"
-                />
-                <span className="ml-2 text-sm text-gray-600">로그인 유지</span>
-              </label>
-              <button className="text-sm text-blue-600 hover:underline">
-                비밀번호 찾기
-              </button>
-            </div>
-
-            <Button
-              preset="primary"
-              fullWidth={true}
-              size="large"
-              rounded="medium"
-            >
+    <>
+      <ContentLayout position="top" align="center" width="1/2">
+        <div className="w-full bg-white rounded-xl shadow-lg p-6">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-center text-gray-900">
               로그인
-            </Button>
-
-            <div className="grid grid-cols-4 gap-4">
-              {socialLogins.map(({ icon: Icon, bg, label, textColor }) => (
-                <button
-                  key={label}
-                  type="button"
-                  className="flex items-center justify-center p-4 rounded-lg transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-                  style={{ backgroundColor: bg }}
-                  aria-label={label}
-                >
-                  <Icon
-                    className="h-6 w-6"
-                    style={{ color: textColor || "#ffffff" }}
-                  />
-                </button>
-              ))}
-            </div>
-
-            <div className="text-center text-sm text-gray-600">
-              계정이 없으신가요?{" "}
-              <button className="text-blue-600 hover:underline">
-                회원가입
-              </button>
-            </div>
+            </h2>
           </div>
-        </form>
-      </div>
-    </ContentLayout>
+
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="space-y-4">
+              <FormField error={errors.email}>
+                <InputGroup
+                  type="email"
+                  icon={MdMail}
+                  placeholder="이메일"
+                  {...register("email")}
+                />
+              </FormField>
+              <FormField error={errors.password}>
+                <InputGroup
+                  type="password"
+                  icon={MdLock}
+                  placeholder="비밀번호"
+                  {...register("password")}
+                />
+              </FormField>
+              <div className="flex items-center justify-between">
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    {...register("rememberMe")}
+                    className="rounded border-gray-300"
+                  />
+                  <span className="ml-2 text-sm text-gray-600">
+                    로그인 유지
+                  </span>
+                </label>
+                <button className="text-sm text-blue-600 hover:underline">
+                  비밀번호 찾기
+                </button>
+              </div>
+
+              <Button
+                preset="primary"
+                fullWidth={true}
+                size="large"
+                rounded="medium"
+              >
+                로그인
+              </Button>
+
+              <div className="grid grid-cols-4 gap-4">
+                {socialLogins.map(({ icon: Icon, bg, label, textColor }) => (
+                  <button
+                    key={label}
+                    type="button"
+                    className="flex items-center justify-center p-4 rounded-lg transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                    style={{ backgroundColor: bg }}
+                    aria-label={label}
+                  >
+                    <Icon
+                      className="h-6 w-6"
+                      style={{ color: textColor || "#ffffff" }}
+                    />
+                  </button>
+                ))}
+              </div>
+
+              <div className="text-center text-sm text-gray-600">
+                계정이 없으신가요?{" "}
+                <button className="text-blue-600 hover:underline">
+                  회원가입
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </ContentLayout>
+      <ErrorModal
+        isOpen={error.isOpen}
+        message={error.message}
+        onClose={closeErrorModal}
+        title="로그인 오류"
+        icon={MdError}
+        iconColor="#DC2626" // red-600
+        iconSize={28}
+      />
+    </>
   );
 };
 
