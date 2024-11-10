@@ -9,6 +9,7 @@ import { Mutex } from "async-mutex";
 
 import { ApiResponse, LoginResponse } from "../types";
 import storage from "../utils/storage";
+import {RootState} from './index';
 import { logout, setCredentials } from "./slices/authSlice"; // 상수 정의
 
 // 상수 정의
@@ -29,7 +30,15 @@ let isRefreshing = false;
 // 기본 쿼리 설정
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.API_ENDPOINT_URL,
-  // prepareHeaders: HTTP-only 쿠키 사용으로 불필요
+  prepareHeaders: (headers, { getState }) => {
+    const accessToken = (getState() as RootState).auth.accessToken;
+
+    if (accessToken) {
+      headers.set('Authorization', `Bearer ${accessToken}`);
+    }
+
+    return headers;
+  },
   credentials: "include", // 백엔드 통신 시 항상 쿠키 포함
 });
 

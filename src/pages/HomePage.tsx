@@ -30,7 +30,7 @@ const HomePage = () => {
   // 11. 렌더 메소드 (renderForm, renderError, renderList 등)
   // 12. 메인 컴포넌트 렌더링 반환
 
-  const { data, error, isLoading } = useFetchBooksQuery();
+  const { data } = useFetchBooksQuery();
 
   const game = useMemo(() => new Chess(), []);
   const [gamePosition, setGamePosition] = useState(game.fen());
