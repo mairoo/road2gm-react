@@ -2,6 +2,7 @@ export interface AuthSlice {
   accessToken: string | null;
   isAuthenticated: boolean;
   rememberMe: boolean;
+  isInitialized: boolean; // 새로고침 중 체크
 }
 
 export interface User {
@@ -22,4 +23,5 @@ export interface LoginResponse {
 export interface SetCredentialsPayload {
   data: LoginResponse;
   rememberMe?: boolean;
+  isInitialized?: boolean;
 }

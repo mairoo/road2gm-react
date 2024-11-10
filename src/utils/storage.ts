@@ -28,6 +28,18 @@ const storage = {
     }
   },
 
+  getLastRefreshTime: () => {
+    return Number(localStorage.getItem('lastRefreshTime')) || null;
+  },
+
+  setLastRefreshTime: (time: number) => {
+    localStorage.setItem('lastRefreshTime', String(time));
+  },
+
+  clearLastRefreshTime: () => {
+    localStorage.removeItem('lastRefreshTime');
+  },
+
   clearAll: (): void => {
     try {
       localStorage.clear();

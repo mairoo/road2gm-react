@@ -32,6 +32,12 @@ const authApi = createApi({
         };
       },
     }),
+    refreshToken: builder.mutation<ApiResponse<LoginResponse>, void>({
+      query: () => ({
+        url: "/auth/refresh",
+        method: "POST",
+      }),
+    }),
   }),
 });
 
@@ -39,6 +45,7 @@ export const {
   useSignInMutation,
   useSignInOAuth2Mutation,
   useSignOutMutation,
+  useRefreshTokenMutation,
 } = authApi;
 
 export { authApi };

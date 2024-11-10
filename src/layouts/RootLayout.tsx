@@ -1,14 +1,23 @@
+import {SerializedError} from '@reduxjs/toolkit';
+import {FetchBaseQueryError} from '@reduxjs/toolkit/query';
 import React, { useCallback, useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useRefreshTokenMutation } from "../store/apis/authApi";
 
-import { useAppDispatch } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import {clearAuth, logout, setCredentials} from "../store/slices/authSlice";
 import { setViewportSize } from "../store/slices/uiSlice";
+import storage from "../utils/storage";
 
 const RootLayout = () => {
   // 1. react-router-dom 훅
+  const navigate = useNavigate();
 
   // 2. Redux 훅
   const dispatch = useAppDispatch();
+
+  const { accessToken, isInitialized } = useAppSelector((state) => state.auth);
+  const [refreshToken] = useRefreshTokenMutation();
 
   // 3. RTK Query 훅
   // 4. useState 훅
@@ -16,6 +25,45 @@ const RootLayout = () => {
   // 6. useMemo 훅
 
   // 7. useEffect 훅
+  // 초기 인증 상태 확인
+  useEffect(() => {
+    const initializeAuth = async () => {
+      // 액세스 토큰이 없고 자동 로그인이 활성화된 경우에만 갱신 시도
+      if (!accessToken && storage.getRememberMe() && !isInitialized) {
+        try {
+          const result = await refreshToken().unwrap();
+
+          dispatch(
+            setCredentials({
+              data: result.data,
+              rememberMe: true,
+            }),
+          );
+        } catch (err) {
+          // FetchBaseQueryError 또는 SerializedError 타입으로 체크
+          const error = err as FetchBaseQueryError | SerializedError;
+
+          if ('status' in error && error.status === 401) {
+            // Refresh Token 만료
+            dispatch(clearAuth()); // 완전 로그아웃
+          } else {
+            // 네트워크 에러 등
+            dispatch(logout()); // 일반 로그아웃
+          }
+          navigate("/auth/login");
+        }
+      } else if (!accessToken) {
+        // 액세스 토큰이 없고 자동 로그인도 비활성화된 경우
+        navigate("/auth/login");
+      }
+    };
+
+    // Promise 경고 해결을 위한 .then() 체인 추가
+    initializeAuth().catch((error) => {
+      console.error("Failed to initialize auth:", error);
+    });
+  }, [accessToken, isInitialized]);
+
   useEffect(() => {
     // 최상단 레이아웃에서 윈도우 객체 뷰 포트의 크기가 변경되는 이벤트 리스너를 등록
     // 뷰 포트 크기가 변경될 때 가로 크기를 측정하여 반응형 모바일기기 여부 판단

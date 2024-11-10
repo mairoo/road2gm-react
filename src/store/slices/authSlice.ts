@@ -7,6 +7,7 @@ const initialState: AuthSlice = {
   accessToken: null,
   isAuthenticated: false,
   rememberMe: storage.getRememberMe(),
+  isInitialized: false,
 };
 
 export const authSlice = createSlice({
@@ -17,20 +18,41 @@ export const authSlice = createSlice({
     // 자동으로 액션 생성자(action creators)를 생성
     // 일반적인 동기 액션을 처리할 때 사용
     setCredentials: (state, action: PayloadAction<SetCredentialsPayload>) => {
-      const { data: data, rememberMe = false } = action.payload;
+      const {
+        data: data,
+        rememberMe = false,
+        isInitialized = false,
+      } = action.payload;
+
+      if (!data?.accessToken) {
+        // accessToken 유효성 검증
+        throw new Error("Invalid access token");
+      }
 
       state.accessToken = data.accessToken;
       state.isAuthenticated = true;
       state.rememberMe = rememberMe;
+      state.isInitialized = isInitialized;
 
       storage.setRememberMe(rememberMe);
     },
     logout: (state) => {
       state.accessToken = null;
       state.isAuthenticated = false;
+      state.isInitialized = false;
+
+      // rememberMe 상태는 유지
+      // storage rememberMe도 유지
+    },
+    clearAuth: (state) => {
+      // 완전한 로그아웃을 위한 별도의 액션 추가 (예: "모든 기기에서 로그아웃" 기능)
+      state.accessToken = null;
+      state.isAuthenticated = false;
       state.rememberMe = false;
+      state.isInitialized = false;
 
       storage.clearRememberMe();
+      storage.clearLastRefreshTime();
     },
   },
   extraReducers: (_) => {
@@ -43,6 +65,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setCredentials, logout } = authSlice.actions;
+export const { setCredentials, logout, clearAuth } = authSlice.actions;
 
 export default authSlice.reducer;

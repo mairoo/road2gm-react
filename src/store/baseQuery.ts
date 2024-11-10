@@ -11,6 +11,8 @@ import storage from "../utils/storage";
 import { logout, setCredentials } from "./slices/authSlice";
 
 const mutex = new Mutex();
+let isRefreshing = false;
+const REFRESH_TOKEN_EXPIRY_BUFFER = 60 * 1000; // 1분
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.API_ENDPOINT_URL,
@@ -27,50 +29,58 @@ export const baseQueryWithRetry: BaseQueryFn<
   let result = await baseQuery(args, api, extraOptions);
 
   if (result.error && result.error.status === 401) {
-    if (!mutex.isLocked()) {
-      const release = await mutex.acquire();
+    if (!isRefreshing) {
+      if (!mutex.isLocked()) {
+        const release = await mutex.acquire();
+        isRefreshing = true;
 
-      try {
-        const rememberMe = storage.getRememberMe();
+        try {
+          const rememberMe = storage.getRememberMe();
+          const lastRefreshTime = storage.getLastRefreshTime();
 
-        if (rememberMe) {
-          const refreshResult = await baseQuery(
-            {
-              url: "/auth/refresh",
-              method: "POST",
-              credentials: "include",
-            },
-            api,
-            extraOptions,
-          );
-
-          if (refreshResult.data) {
-            const refreshData = refreshResult.data as LoginResponse;
-
-            // 스토어에 액세스 토큰 업데이트
-            api.dispatch(
-              setCredentials({
-                data: refreshData,
-                rememberMe: true,
-              }),
+          if (rememberMe && (!lastRefreshTime || Date.now() - lastRefreshTime > REFRESH_TOKEN_EXPIRY_BUFFER)) {
+            const refreshResult = await baseQuery(
+              {
+                url: "/auth/refresh",
+                method: "POST",
+                credentials: "include",
+              },
+              api,
+              extraOptions,
             );
 
-            result = await baseQuery(args, api, extraOptions); // 기존 실패 쿼리 재호출
+            if (refreshResult.data) {
+              storage.setLastRefreshTime(Date.now());
+
+              const refreshData = refreshResult.data as LoginResponse;
+
+              api.dispatch(
+                setCredentials({
+                  data: refreshData,
+                  rememberMe: true,
+                  isInitialized: true,
+                }),
+              );
+
+              // Retry the original request
+              result = await baseQuery(args, api, extraOptions);
+            } else {
+              api.dispatch(logout());
+            }
           } else {
             api.dispatch(logout());
-            storage.clearRememberMe();
           }
-        } else {
-          // 리프레시 실패하면 토큰 갱신 없이 바로 로그아웃
-          api.dispatch(logout());
-          storage.clearRememberMe();
+        } finally {
+          isRefreshing = false;
+          release();
         }
-      } finally {
-        release();
+      } else {
+        await mutex.waitForUnlock();
+        result = await baseQuery(args, api, extraOptions);
       }
     } else {
-      // 다른 요청이 이미 재인증 진행 중이면 대기
-      await mutex.waitForUnlock();
+      // If already refreshing, wait for it to complete and retry
+      await new Promise((resolve) => setTimeout(resolve, 100));
       result = await baseQuery(args, api, extraOptions);
     }
   }
