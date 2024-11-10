@@ -5,7 +5,11 @@ import { Outlet } from "react-router-dom";
 
 import { useRefreshTokenMutation } from "../store/apis/authApi";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { clearAuth, logout, setCredentials } from "../store/slices/authSlice";
+import {
+  logout,
+  setCredentials,
+  setInitialized,
+} from "../store/slices/authSlice";
 import { setViewportSize } from "../store/slices/uiSlice";
 import storage from "../utils/storage";
 
@@ -46,12 +50,23 @@ const RootLayout = () => {
 
           if ("status" in error && error.status === 401) {
             // Refresh Token 만료
-            dispatch(clearAuth()); // 완전 로그아웃
+            console.error("refresh token expired");
+            dispatch(logout());
           } else {
-            // 네트워크 에러 등
-            dispatch(logout()); // 일반 로그아웃
+            console.error("something went wrong");
+            dispatch(logout());
           }
         }
+      } else {
+        // 초기 인증 체크가 완료 여부
+        // [앱 시작/새로고침] : Redux 스토어 자체가 리셋됨
+        // isInitialized: false
+        //        ↓
+        // [인증 체크/토큰 리프레시 시도]
+        //        ↓
+        // [결과와 관계없이 체크 완료]: 로그아웃이나 토큰 만료시에도 true 유지 (인증 체크는 완료된 상태)
+        // isInitialized: true
+        dispatch(setInitialized());
       }
     };
 
@@ -83,7 +98,7 @@ const RootLayout = () => {
   // 12. 메인 컴포넌트 렌더링 반환
 
   if (!isInitialized) {
-    return <div>Loading...</div>; // 또는 로딩 스피너 컴포넌트
+    return <div>Loading...</div>;
   }
 
   return (

@@ -60,7 +60,6 @@ const handleTokenRefresh = async (
         Date.now() - lastRefreshTime > REFRESH_TOKEN_EXPIRY_BUFFER);
 
     if (!canRefresh) {
-      console.error('Cannot refresh - conditions not met');
       api.dispatch(logout());
       return { success: false };
     }
@@ -77,7 +76,6 @@ const handleTokenRefresh = async (
     );
 
     if (!refreshResult.data) {
-      console.error('Refresh failed - no data');
       api.dispatch(logout());
       return { success: false, error: refreshResult.error };
     }
