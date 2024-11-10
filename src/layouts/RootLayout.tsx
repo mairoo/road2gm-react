@@ -1,17 +1,16 @@
-import {SerializedError} from '@reduxjs/toolkit';
-import {FetchBaseQueryError} from '@reduxjs/toolkit/query';
+import { SerializedError } from "@reduxjs/toolkit";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import React, { useCallback, useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useRefreshTokenMutation } from "../store/apis/authApi";
 
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import {clearAuth, logout, setCredentials} from "../store/slices/authSlice";
+import { clearAuth, logout, setCredentials } from "../store/slices/authSlice";
 import { setViewportSize } from "../store/slices/uiSlice";
 import storage from "../utils/storage";
 
 const RootLayout = () => {
   // 1. react-router-dom 훅
-  const navigate = useNavigate();
 
   // 2. Redux 훅
   const dispatch = useAppDispatch();
@@ -43,18 +42,14 @@ const RootLayout = () => {
           // FetchBaseQueryError 또는 SerializedError 타입으로 체크
           const error = err as FetchBaseQueryError | SerializedError;
 
-          if ('status' in error && error.status === 401) {
+          if ("status" in error && error.status === 401) {
             // Refresh Token 만료
             dispatch(clearAuth()); // 완전 로그아웃
           } else {
             // 네트워크 에러 등
             dispatch(logout()); // 일반 로그아웃
           }
-          navigate("/auth/login");
         }
-      } else if (!accessToken) {
-        // 액세스 토큰이 없고 자동 로그인도 비활성화된 경우
-        navigate("/auth/login");
       }
     };
 
