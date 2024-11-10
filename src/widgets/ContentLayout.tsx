@@ -35,7 +35,9 @@ const ContentLayout = ({
   );
 
   const contentClasses = className(
-    "flex flex-col",
+    // 단순 width 컨트롤용 래퍼로만 사용하던 flex-col 제거
+    // width 조절을 위한 래퍼로 필요하지만 justify-{start|center|end}는 현재 불필요
+    // 이미 상위 컨테이너에서 items-{start|center|end}로 정렬이 처리되기 때문
     {
       "w-full": width === "full",
       "w-full md:w-1/2": width === "1/2",
