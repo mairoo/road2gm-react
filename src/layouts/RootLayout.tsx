@@ -80,6 +80,10 @@ const RootLayout = () => {
   // 11. 렌더 메소드 (renderForm, renderError, renderList 등)
   // 12. 메인 컴포넌트 렌더링 반환
 
+  if (!isInitialized) {
+    return <div>Loading...</div>; // 또는 로딩 스피너 컴포넌트
+  }
+
   return (
     // 헤더, 본문, 푸터 3단 레이아웃
     // flex flex-col: 세로 방향 flex 컨테이너

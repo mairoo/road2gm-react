@@ -15,6 +15,7 @@ import {
 import ReactMarkdown from "react-markdown";
 
 import { useFetchBooksQuery } from "../store/apis/bookApi";
+import { useAppSelector } from "../store/hooks";
 
 const HomePage = () => {
   // 1. react-router-dom 훅
@@ -30,7 +31,10 @@ const HomePage = () => {
   // 11. 렌더 메소드 (renderForm, renderError, renderList 등)
   // 12. 메인 컴포넌트 렌더링 반환
 
-  const { data } = useFetchBooksQuery();
+  const { isInitialized } = useAppSelector((state) => state.auth);
+  const { data } = useFetchBooksQuery(undefined, {
+    skip: !isInitialized, // 초기화가 완료되지 않았을 때는 쿼리 건너뛰기, race condition 이슈 방지
+  });
 
   const game = useMemo(() => new Chess(), []);
   const [gamePosition, setGamePosition] = useState(game.fen());
