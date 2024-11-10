@@ -18,7 +18,11 @@ const LogoutPage = () => {
   const handleLogout = async () => {
     await signOut();
     dispatch(logout());
-    navigate("/");
+
+    // state를 undefined로 설정하여 이전 경로 정보를 제거
+    // 로그아웃 -> 로그인 -> 홈으로 이동
+    // 불필요한 로그아웃 페이지로의 리다이렉션이 방지
+    navigate("/", { replace: true, state: undefined });
   };
 
   const handleCancel = () => {

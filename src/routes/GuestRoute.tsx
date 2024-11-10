@@ -10,7 +10,12 @@ interface PublicRouteProps {
 
 const GuestRoute: React.FC<PublicRouteProps> = ({ children }) => {
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+
+  // from이 로그아웃 페이지인 경우 홈으로 리다이렉트
+  const from =
+    location.state?.from?.pathname === "/auth/logout"
+      ? "/"
+      : location.state?.from?.pathname || "/";
 
   const { isAuthenticated, isInitialized } = useSelector(
     (state: RootState) => state.auth,
