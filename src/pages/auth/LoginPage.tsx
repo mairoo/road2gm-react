@@ -9,7 +9,7 @@ import { useAppDispatch } from "../../store/hooks";
 import { setCredentials } from "../../store/slices/authSlice";
 import Button from "../../widgets/Button";
 import ContentLayout from "../../widgets/ContentLayout";
-import FormErrorMessage from "../../widgets/FormErrorMessage";
+import FormField from "../../widgets/FormField";
 import InputGroup from "../../widgets/InputGroup"; // 폼 데이터 타입 정의
 
 // 폼 데이터 타입 정의
@@ -100,24 +100,22 @@ const LoginPage = () => {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">
-            <div>
+            <FormField error={errors.email}>
               <InputGroup
                 type="email"
-                {...register("email")}
                 icon={MdMail}
                 placeholder="이메일"
+                {...register("email")}
               />
-              <FormErrorMessage error={errors.email} />
-            </div>
-            <div>
+            </FormField>
+            <FormField error={errors.password}>
               <InputGroup
                 type="password"
-                {...register("password")}
                 icon={MdLock}
                 placeholder="비밀번호"
-              />{" "}
-              <FormErrorMessage error={errors.password} />
-            </div>
+                {...register("password")}
+              />
+            </FormField>
             <div className="flex items-center justify-between">
               <label className="flex items-center">
                 <input
