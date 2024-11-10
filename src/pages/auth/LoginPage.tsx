@@ -59,6 +59,8 @@ const LoginPage = () => {
       password: "",
       rememberMe: true,
     },
+    mode: "onBlur",
+    reValidateMode: "onSubmit" // 초기 검증 후 재검증은 제출 시에만 수행, 불필요한 검증 횟수 감소, 성능 최적화
   });
 
   // 6. useMemo 훅
