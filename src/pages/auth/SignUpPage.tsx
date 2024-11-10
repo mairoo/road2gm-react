@@ -1,10 +1,15 @@
 import React from "react";
 import { MdLock, MdMail, MdPerson } from "react-icons/md";
+import {useAppDispatch} from '../../store/hooks';
 import Button from "../../widgets/Button";
 import ContentLayout from "../../widgets/ContentLayout";
 import InputGroup from "../../widgets/InputGroup";
 
 const SignUpPage = () => {
+  // 1. react-router-dom 훅
+  // 2. Redux 훅
+  const dispatch = useAppDispatch();
+
   return (
     <ContentLayout position="top" align="center" width="1/2">
       <div className="w-full bg-white rounded-xl shadow-lg p-6">

@@ -1,6 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
-import { ApiResponse, LoginRequest, LoginResponse } from "../../types";
+import { ApiResponse, Auth } from "../../types";
+
 import storage from "../../utils/storage";
 import { baseQueryWithRetry } from "../baseQuery";
 
@@ -8,7 +9,22 @@ const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: baseQueryWithRetry,
   endpoints: (builder) => ({
-    signIn: builder.mutation<ApiResponse<LoginResponse>, LoginRequest>({
+    signUp: builder.mutation<
+      ApiResponse<Auth.SignUpResponse>,
+      Auth.SignUpRequest
+    >({
+      query: (credentials) => {
+        return {
+          url: "/auth/sign-up",
+          method: "POST",
+          body: credentials,
+        };
+      },
+    }),
+    signIn: builder.mutation<
+      ApiResponse<Auth.LoginResponse>,
+      Auth.LoginRequest
+    >({
       query: (credentials) => {
         return {
           url: "/auth/sign-in",
@@ -17,7 +33,7 @@ const authApi = createApi({
         };
       },
     }),
-    signInOAuth2: builder.mutation<ApiResponse<LoginResponse>, void>({
+    signInOAuth2: builder.mutation<ApiResponse<Auth.LoginResponse>, void>({
       query: () => {
         return {
           url: "/auth/oauth2/token",
@@ -33,7 +49,7 @@ const authApi = createApi({
         };
       },
     }),
-    refreshToken: builder.mutation<ApiResponse<LoginResponse>, void>({
+    refreshToken: builder.mutation<ApiResponse<Auth.LoginResponse>, void>({
       query: () => ({
         url: "/auth/refresh",
         method: "POST",
@@ -51,6 +67,7 @@ const authApi = createApi({
 });
 
 export const {
+  useSignUpMutation,
   useSignInMutation,
   useSignInOAuth2Mutation,
   useSignOutMutation,

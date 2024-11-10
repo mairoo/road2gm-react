@@ -7,15 +7,15 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import { Mutex } from "async-mutex";
 
-import { ApiResponse, LoginResponse } from "../types";
+import { ApiResponse, Auth } from "../types";
 import storage from "../utils/storage";
 import { RootState } from "./index";
-import { logout, setCredentials } from "./slices/authSlice";
+import { logout, setCredentials } from "./slices/authSlice"; // ===== 인터페이스, 타입 정의 =====
 
 // ===== 인터페이스, 타입 정의 =====
 interface RefreshTokenResult {
   success: boolean;
-  data?: ApiResponse<LoginResponse>;
+  data?: ApiResponse<Auth.LoginResponse>;
   error?: FetchBaseQueryError;
 }
 
@@ -99,7 +99,7 @@ const handleTokenRefresh = async (
     }
 
     // 3. 새로운 토큰으로 로그인 상태 업데이트
-    const refreshData = refreshResult.data as ApiResponse<LoginResponse>;
+    const refreshData = refreshResult.data as ApiResponse<Auth.LoginResponse>;
     api.dispatch(
       setCredentials({
         data: refreshData.data,
@@ -111,7 +111,7 @@ const handleTokenRefresh = async (
     const retryResult = await baseQuery(args, api, extraOptions);
     return {
       success: true,
-      data: retryResult.data as ApiResponse<LoginResponse>,
+      data: retryResult.data as ApiResponse<Auth.LoginResponse>,
     };
   } catch (error) {
     console.error("Refresh error:", error);

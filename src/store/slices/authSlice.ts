@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { AuthSlice, SetCredentialsPayload } from "../../types";
+import { Auth } from "../../types";
 import storage from "../../utils/storage";
 
-const initialState: AuthSlice = {
+const initialState: Auth.State.AuthSlice = {
   accessToken: null,
   isAuthenticated: false,
   rememberMe: storage.getRememberMe(),
@@ -17,7 +17,7 @@ export const authSlice = createSlice({
     // 해당 슬라이스 내부에서 정의된 액션들을 처리
     // 자동으로 액션 생성자(action creators)를 생성
     // 일반적인 동기 액션을 처리할 때 사용
-    setCredentials: (state, action: PayloadAction<SetCredentialsPayload>) => {
+    setCredentials: (state, action: PayloadAction<Auth.State.SetCredentialsPayload>) => {
       const { data: data, rememberMe = false } = action.payload;
 
       if (!data?.accessToken) {
