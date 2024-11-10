@@ -42,6 +42,7 @@ const LogoutPage = () => {
 
         <div className="flex gap-2">
           <Button
+            onClick={handleCancel}
             preset="secondary"
             size="large"
             rounded="medium"
@@ -50,6 +51,7 @@ const LogoutPage = () => {
             취소
           </Button>
           <Button
+            onClick={handleLogout}
             preset="danger"
             size="large"
             rounded="medium"
