@@ -1,12 +1,11 @@
 import className from "classnames";
 import React, { ComponentPropsWithoutRef, ReactNode } from "react";
 
-const Main = ({
-  children,
-  ...rest
-}: {
+interface MainProps extends ComponentPropsWithoutRef<"main"> {
   children?: ReactNode;
-} & ComponentPropsWithoutRef<"main">) => {
+}
+
+const Main = ({ children, ...rest }: MainProps) => {
   const classes = className(rest.className, "flex-grow");
 
   return (

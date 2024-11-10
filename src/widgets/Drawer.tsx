@@ -1,15 +1,24 @@
-import React, { ComponentPropsWithoutRef, Fragment, ReactNode } from "react";
-import Button from "./Button";
-
 import {
   Dialog,
   DialogPanel,
   Transition,
   TransitionChild,
 } from "@headlessui/react";
+import className from "classnames";
+import React, { ComponentPropsWithoutRef, Fragment, ReactNode } from "react";
 
 import { MdOutlineMenu } from "react-icons/md";
-import className from "classnames";
+import Button from "./Button";
+
+interface DrawerProps extends ComponentPropsWithoutRef<"div"> {
+  children?: ReactNode;
+  buttonColor?: string;
+  buttonBackgroundColor?: string;
+  modalBackgroundColor?: string;
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+}
 
 const Drawer = ({
   children,
@@ -19,15 +28,7 @@ const Drawer = ({
   isOpen,
   onOpen,
   onClose,
-}: {
-  children?: ReactNode;
-  buttonColor?: string;
-  buttonBackgroundColor?: string;
-  modalBackgroundColor?: string;
-  isOpen: boolean;
-  onOpen: () => void;
-  onClose: () => void;
-} & ComponentPropsWithoutRef<"div">) => {
+}: DrawerProps) => {
   return (
     <>
       {/* FAB 버튼 */}

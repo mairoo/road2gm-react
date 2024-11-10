@@ -3,16 +3,19 @@ import { MdCheck } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useSwipeable } from "react-swipeable";
 
-import { DrawerMenuItem } from "../types";
 import DrawerHeading from "./DrawerHeading";
 
-const SlideMenu = ({
-  menu,
-  onClick,
-}: {
+interface DrawerMenuItem {
+  heading: string;
+  items: { text: string; link: string; icon?: string }[];
+}
+
+interface SlideMenuProps {
   menu: DrawerMenuItem[];
   onClick: () => void;
-}) => {
+}
+
+const SlideMenu = ({ menu, onClick }: SlideMenuProps) => {
   const [slides, setSlides] = useState<DrawerMenuItem[]>([]);
   const [currentIndex, setCurrentIndex] = useState(menu.length > 1 ? 1 : 0);
   const [isTransitioning, setIsTransitioning] = useState(false);

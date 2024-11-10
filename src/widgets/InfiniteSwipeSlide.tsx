@@ -2,11 +2,17 @@ import React, { useCallback, useEffect, useState } from "react";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { useSwipeable } from "react-swipeable";
 
-const InfiniteSwipeSlide = ({
-  images,
-}: {
-  images: { width: number; height: number; color: string }[];
-}) => {
+interface Image {
+  width: number;
+  height: number;
+  color: string;
+}
+
+interface InfiniteSwipeSlideProps {
+  images: Image[];
+}
+
+const InfiniteSwipeSlide = ({ images }: InfiniteSwipeSlideProps) => {
   const [slides, setSlides] = useState<
     { width: number; height: number; color: string }[]
   >([]);

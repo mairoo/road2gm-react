@@ -2,11 +2,17 @@ import React, { useState } from "react";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { useSwipeable } from "react-swipeable";
 
-const SwipeSlide = ({
-  images,
-}: {
-  images: { width: number; height: number; color: string }[];
-}) => {
+interface Image {
+  width: number;
+  height: number;
+  color: string;
+}
+
+interface SwipeSlideProps {
+  images: Image[];
+}
+
+const SwipeSlide = ({ images }: SwipeSlideProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextSlide = () => {

@@ -1,12 +1,11 @@
 import className from "classnames";
 import React, { ComponentPropsWithoutRef, ReactNode } from "react";
 
-const Footer = ({
-  children,
-  ...rest
-}: {
+interface FooterProps extends ComponentPropsWithoutRef<"footer"> {
   children?: ReactNode;
-} & ComponentPropsWithoutRef<"footer">) => {
+}
+
+const Footer = ({ children, ...rest }: FooterProps) => {
   const classes = className(
     rest.className,
     "shadow-[0_-1px_3px_rgba(0,0,0,0.05)]",
