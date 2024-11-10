@@ -26,39 +26,37 @@ const LogoutPage = () => {
   };
 
   return (
-    <ContentLayout position="top" align="center">
-      <div className="flex items-center justify-center p-4 md:w-1/2">
-        <div className="w-full bg-white rounded-xl shadow-lg p-6">
-          <div className="mb-6">
-            <h2 className="text-xl font-bold text-center text-gray-900">
-              로그아웃
-            </h2>
-          </div>
+    <ContentLayout position="top" align="center" width="1/2">
+      <div className="w-full bg-white rounded-xl shadow-lg p-6">
+        <div className="mb-6">
+          <h2 className="text-xl font-bold text-center text-gray-900">
+            로그아웃
+          </h2>
+        </div>
 
-          <div className="mb-6">
-            <p className="text-center text-gray-600">
-              정말 로그아웃 하시겠습니까?
-            </p>
-          </div>
+        <div className="mb-6">
+          <p className="text-center text-gray-600">
+            정말 로그아웃 하시겠습니까?
+          </p>
+        </div>
 
-          <div className="flex gap-2">
-            <Button
-              preset="secondary"
-              size="large"
-              rounded="medium"
-              className="flex-1"
-            >
-              취소
-            </Button>
-            <Button
-              preset="danger"
-              size="large"
-              rounded="medium"
-              className="flex-1"
-            >
-              로그아웃
-            </Button>
-          </div>
+        <div className="flex gap-2">
+          <Button
+            preset="secondary"
+            size="large"
+            rounded="medium"
+            className="flex-1"
+          >
+            취소
+          </Button>
+          <Button
+            preset="danger"
+            size="large"
+            rounded="medium"
+            className="flex-1"
+          >
+            로그아웃
+          </Button>
         </div>
       </div>
     </ContentLayout>
