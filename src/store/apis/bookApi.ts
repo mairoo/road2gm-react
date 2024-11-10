@@ -1,5 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { ApiListResponse, Book } from "../../types";
+import { Api, Book } from "../../types";
 import { baseQueryWithRetry } from "../baseQuery"; // createApi 사용:
 
 // createApi 사용:
@@ -13,7 +13,7 @@ const bookApi = createApi({
   reducerPath: "bookApi",
   baseQuery: baseQueryWithRetry,
   endpoints: (builder) => ({
-    fetchBooks: builder.query<ApiListResponse<Book>, void>({
+    fetchBooks: builder.query<Api.ListResponse<Book>, void>({
       query: () => {
         return {
           url: "/books",

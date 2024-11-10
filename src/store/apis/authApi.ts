@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
-import { ApiResponse, Auth } from "../../types";
+import { Api, Auth } from "../../types";
 
 import storage from "../../utils/storage";
 import { baseQueryWithRetry } from "../baseQuery";
@@ -10,7 +10,7 @@ const authApi = createApi({
   baseQuery: baseQueryWithRetry,
   endpoints: (builder) => ({
     signUp: builder.mutation<
-      ApiResponse<Auth.SignUpResponse>,
+      Api.SuccessResponse<Auth.SignUpResponse>,
       Auth.SignUpRequest
     >({
       query: (credentials) => {
@@ -22,7 +22,7 @@ const authApi = createApi({
       },
     }),
     signIn: builder.mutation<
-      ApiResponse<Auth.LoginResponse>,
+      Api.SuccessResponse<Auth.LoginResponse>,
       Auth.LoginRequest
     >({
       query: (credentials) => {
@@ -33,7 +33,7 @@ const authApi = createApi({
         };
       },
     }),
-    signInOAuth2: builder.mutation<ApiResponse<Auth.LoginResponse>, void>({
+    signInOAuth2: builder.mutation<Api.SuccessResponse<Auth.LoginResponse>, void>({
       query: () => {
         return {
           url: "/auth/oauth2/token",
@@ -49,7 +49,7 @@ const authApi = createApi({
         };
       },
     }),
-    refreshToken: builder.mutation<ApiResponse<Auth.LoginResponse>, void>({
+    refreshToken: builder.mutation<Api.SuccessResponse<Auth.LoginResponse>, void>({
       query: () => ({
         url: "/auth/refresh",
         method: "POST",
