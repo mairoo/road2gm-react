@@ -1,8 +1,11 @@
+import { ChangeEvent } from "react";
 import { IconType } from "react-icons";
 
 interface InputGroupProps {
   icon: IconType;
   type: "text" | "email" | "password";
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void; // onChange prop 추가
   placeholder: string;
   className?: string;
 }
@@ -10,6 +13,8 @@ interface InputGroupProps {
 const InputGroup: React.FC<InputGroupProps> = ({
   icon: Icon,
   type,
+  value,
+  onChange,
   placeholder,
   className = "",
 }) => (
@@ -19,6 +24,8 @@ const InputGroup: React.FC<InputGroupProps> = ({
     </div>
     <input
       type={type}
+      {...(value !== undefined ? { value } : {})}
+      {...(onChange ? { onChange } : {})}
       className={`w-full pl-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${className}`}
       placeholder={placeholder}
     />

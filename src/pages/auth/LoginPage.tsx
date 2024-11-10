@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MdLock, MdMail } from "react-icons/md";
 
 import { useSignInMutation } from "../../store/apis/authApi";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useAppDispatch } from "../../store/hooks";
 import { setCredentials } from "../../store/slices/authSlice";
 import Button from "../../widgets/Button";
 import ContentLayout from "../../widgets/ContentLayout";
@@ -12,7 +12,6 @@ const LoginPage = () => {
   // 1. react-router-dom 훅
   // 2. Redux 훅
   const dispatch = useAppDispatch();
-  const { isAuthenticated } = useAppSelector((state) => state.auth);
 
   // 3. RTK Query 훅
   const [signIn] = useSignInMutation();
@@ -37,11 +36,8 @@ const LoginPage = () => {
         rememberMe,
       }).unwrap();
       dispatch(setCredentials({ ...response, rememberMe }));
-      console.log("logged in");
     } catch (err) {
       console.error("Failed to login:", err);
-    } finally {
-      console.log("isAuthenticated", isAuthenticated);
     }
   };
 
@@ -58,45 +54,67 @@ const LoginPage = () => {
           </h2>
         </div>
 
-        <div className="space-y-4">
-          <InputGroup icon={MdMail} type="email" placeholder="이메일" />
-          <InputGroup icon={MdLock} type="password" placeholder="비밀번호" />
+        <form onSubmit={handleSubmit}>
+          <div className="space-y-4">
+            <InputGroup
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              icon={MdMail}
+              placeholder="이메일"
+            />
+            <InputGroup
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              icon={MdLock}
+              placeholder="비밀번호"
+            />
 
-          <div className="flex items-center justify-between">
-            <label className="flex items-center">
-              <input type="checkbox" className="rounded border-gray-300" />
-              <span className="ml-2 text-sm text-gray-600">로그인 유지</span>
-            </label>
-            <button className="text-sm text-blue-600 hover:underline">
-              비밀번호 찾기
-            </button>
+            <div className="flex items-center justify-between">
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  id="remember-me"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="rounded border-gray-300"
+                />
+                <span className="ml-2 text-sm text-gray-600">로그인 유지</span>
+              </label>
+              <button className="text-sm text-blue-600 hover:underline">
+                비밀번호 찾기
+              </button>
+            </div>
+
+            <Button
+              preset="primary"
+              fullWidth={true}
+              size="large"
+              rounded="medium"
+            >
+              로그인
+            </Button>
+
+            <Button
+              preset="secondary"
+              fullWidth={true}
+              size="large"
+              rounded="medium"
+              className="flex items-center justify-center gap-2"
+            >
+              <MdMail className="h-5 w-5" />
+              Google로 계속하기
+            </Button>
+
+            <div className="text-center text-sm text-gray-600">
+              계정이 없으신가요?{" "}
+              <button className="text-blue-600 hover:underline">
+                회원가입
+              </button>
+            </div>
           </div>
-
-          <Button
-            preset="primary"
-            fullWidth={true}
-            size="large"
-            rounded="medium"
-          >
-            로그인
-          </Button>
-
-          <Button
-            preset="secondary"
-            fullWidth={true}
-            size="large"
-            rounded="medium"
-            className="flex items-center justify-center gap-2"
-          >
-            <MdMail className="h-5 w-5" />
-            Google로 계속하기
-          </Button>
-
-          <div className="text-center text-sm text-gray-600">
-            계정이 없으신가요?{" "}
-            <button className="text-blue-600 hover:underline">회원가입</button>
-          </div>
-        </div>
+        </form>
       </div>
     </ContentLayout>
   );
