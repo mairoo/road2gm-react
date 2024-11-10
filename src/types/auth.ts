@@ -23,5 +23,4 @@ export interface LoginResponse {
 export interface SetCredentialsPayload {
   data: LoginResponse;
   rememberMe?: boolean;
-  isInitialized?: boolean;
 }

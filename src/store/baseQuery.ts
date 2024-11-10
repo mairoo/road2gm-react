@@ -79,7 +79,6 @@ const handleTokenRefresh = async (
       setCredentials({
         data: refreshData.data,
         rememberMe: true,
-        isInitialized: true,
       }),
     );
 

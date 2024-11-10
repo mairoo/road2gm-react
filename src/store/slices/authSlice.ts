@@ -7,6 +7,14 @@ const initialState: AuthSlice = {
   accessToken: null,
   isAuthenticated: false,
   rememberMe: storage.getRememberMe(),
+  // 초기 인증 체크가 완료 여부
+  // [앱 시작/새로고침] : Redux 스토어 자체가 리셋됨
+  // isInitialized: false
+  //        ↓
+  // [인증 체크/토큰 리프레시 시도]
+  //        ↓
+  // [결과와 관계없이 체크 완료]: 로그아웃이나 토큰 만료시에도 true 유지 (인증 체크는 완료된 상태)
+  // isInitialized: true
   isInitialized: false,
 };
 
@@ -18,11 +26,7 @@ export const authSlice = createSlice({
     // 자동으로 액션 생성자(action creators)를 생성
     // 일반적인 동기 액션을 처리할 때 사용
     setCredentials: (state, action: PayloadAction<SetCredentialsPayload>) => {
-      const {
-        data: data,
-        rememberMe = false,
-        isInitialized = false,
-      } = action.payload;
+      const { data: data, rememberMe = false } = action.payload;
 
       if (!data?.accessToken) {
         // accessToken 유효성 검증
@@ -32,14 +36,14 @@ export const authSlice = createSlice({
       state.accessToken = data.accessToken;
       state.isAuthenticated = true;
       state.rememberMe = rememberMe;
-      state.isInitialized = isInitialized;
+      state.isInitialized = true;
 
       storage.setRememberMe(rememberMe);
     },
     logout: (state) => {
       state.accessToken = null;
       state.isAuthenticated = false;
-      state.isInitialized = false;
+      state.isInitialized = true;
 
       // rememberMe 상태는 유지
       // storage rememberMe도 유지
@@ -49,7 +53,7 @@ export const authSlice = createSlice({
       state.accessToken = null;
       state.isAuthenticated = false;
       state.rememberMe = false;
-      state.isInitialized = false;
+      state.isInitialized = true;
 
       storage.clearRememberMe();
       storage.clearLastRefreshTime();
