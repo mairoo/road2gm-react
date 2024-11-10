@@ -1,12 +1,47 @@
-import React, { useState } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import React from "react";
+import { useForm } from "react-hook-form";
 import { MdLock, MdMail } from "react-icons/md";
+import * as yup from "yup";
 
 import { useSignInMutation } from "../../store/apis/authApi";
 import { useAppDispatch } from "../../store/hooks";
 import { setCredentials } from "../../store/slices/authSlice";
 import Button from "../../widgets/Button";
 import ContentLayout from "../../widgets/ContentLayout";
-import InputGroup from "../../widgets/InputGroup";
+import InputGroup from "../../widgets/InputGroup"; // 폼 데이터 타입 정의
+
+// 폼 데이터 타입 정의
+interface LoginFormData {
+  email: string;
+  password: string;
+  rememberMe: boolean;
+}
+
+// Yup 스키마 정의
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .required("이메일을 입력해주세요.")
+    .email("올바른 이메일 형식이 아닙니다."),
+  password: yup
+    .string()
+    .required("비밀번호를 입력해주세요.")
+    .min(8, "비밀번호는 8자 이상이어야 합니다.")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()_\-+])[A-Za-z\d@$!%*?&#^()_\-+]+$/,
+      "비밀번호는 소문자, 대문자, 숫자, 특수문자(@$!%*?&#^()_-+)를 모두 포함해야 합니다.",
+      // 비밀번호 제외 특수문자
+      //
+      // ' " (따옴표): SQL 인젝션 위험
+      // \ (백슬래시): 이스케이프 문자로 인한 문제
+      // ; (세미콜론): SQL 인젝션 위험
+      // < > (꺾쇠 괄호): XSS 공격 위험
+      // | (파이프): 명령어 인젝션 위험
+      // ` (백틱): 명령어 인젝션 위험
+    ),
+  rememberMe: yup.boolean().required().default(true),
+});
 
 const LoginPage = () => {
   // 1. react-router-dom 훅
@@ -17,25 +52,33 @@ const LoginPage = () => {
   const [signIn] = useSignInMutation();
 
   // 4. useState 훅
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(true);
 
   // 5. useRef 훅
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      email: "",
+      password: "",
+      rememberMe: true,
+    },
+  });
+
   // 6. useMemo 훅
   // 7. useEffect 훅
   // 8. 페이지 이동 네비게이션 핸들러 useCallback 훅
   // 9. 이벤트 핸들러 useCallback 훅
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = async (data: LoginFormData) => {
     try {
       const response = await signIn({
-        email,
-        password,
-        rememberMe,
+        email: data.email,
+        password: data.password,
+        rememberMe: data.rememberMe,
       }).unwrap();
-      dispatch(setCredentials({ ...response, rememberMe }));
+      dispatch(setCredentials({ ...response, rememberMe: data.rememberMe }));
     } catch (err) {
       console.error("Failed to login:", err);
     }
@@ -54,30 +97,40 @@ const LoginPage = () => {
           </h2>
         </div>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">
-            <InputGroup
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              icon={MdMail}
-              placeholder="이메일"
-            />
-            <InputGroup
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              icon={MdLock}
-              placeholder="비밀번호"
-            />
+            <div>
+              <InputGroup
+                type="email"
+                {...register("email")}
+                icon={MdMail}
+                placeholder="이메일"
+              />
+              {errors.email && (
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <InputGroup
+                type="password"
+                {...register("password")}
+                icon={MdLock}
+                placeholder="비밀번호"
+              />{" "}
+              {errors.password && (
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.password.message}
+                </p>
+              )}
+            </div>
 
             <div className="flex items-center justify-between">
               <label className="flex items-center">
                 <input
                   type="checkbox"
-                  id="remember-me"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
+                  {...register("rememberMe")}
                   className="rounded border-gray-300"
                 />
                 <span className="ml-2 text-sm text-gray-600">로그인 유지</span>
