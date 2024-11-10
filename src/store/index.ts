@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { uiSlice } from "./slices/uiSlice";
-import { bookSlice } from "./slices/bookSlice";
-import { bookApi } from "./apis/bookApi";
+
 import { authApi } from "./apis/authApi";
+import { bookApi } from "./apis/bookApi";
 import { authSlice } from "./slices/authSlice";
+import { bookSlice } from "./slices/bookSlice";
+import { uiSlice } from "./slices/uiSlice";
 
 const store = configureStore({
   reducer: {

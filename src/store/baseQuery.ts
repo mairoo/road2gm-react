@@ -60,6 +60,7 @@ const handleTokenRefresh = async (
         Date.now() - lastRefreshTime > REFRESH_TOKEN_EXPIRY_BUFFER);
 
     if (!canRefresh) {
+      console.error('Cannot refresh - conditions not met');
       api.dispatch(logout());
       return { success: false };
     }
@@ -76,13 +77,13 @@ const handleTokenRefresh = async (
     );
 
     if (!refreshResult.data) {
+      console.error('Refresh failed - no data');
       api.dispatch(logout());
       return { success: false, error: refreshResult.error };
     }
 
     // 3. 리프레시 성공 시 로그인 처리
     const refreshData = refreshResult.data as ApiResponse<LoginResponse>;
-    storage.setLastRefreshTime(Date.now());
 
     api.dispatch(
       setCredentials({
@@ -98,6 +99,7 @@ const handleTokenRefresh = async (
       data: retryResult.data as ApiResponse<LoginResponse>,
     };
   } catch (error) {
+    console.error('Refresh error:', error);
     return { success: false, error: error as FetchBaseQueryError };
   } finally {
     isRefreshing = false;

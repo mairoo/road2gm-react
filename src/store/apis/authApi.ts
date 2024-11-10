@@ -1,6 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 import { ApiResponse, LoginRequest, LoginResponse } from "../../types";
+import storage from "../../utils/storage";
 import { baseQueryWithRetry } from "../baseQuery";
 
 const authApi = createApi({
@@ -37,6 +38,14 @@ const authApi = createApi({
         url: "/auth/refresh",
         method: "POST",
       }),
+      async onQueryStarted(_, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          storage.setLastRefreshTime(Date.now());
+        } catch (error) {
+          console.error("Token refresh failed:", error);
+        }
+      },
     }),
   }),
 });

@@ -2,8 +2,8 @@ import { SerializedError } from "@reduxjs/toolkit";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import React, { useCallback, useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import { useRefreshTokenMutation } from "../store/apis/authApi";
 
+import { useRefreshTokenMutation } from "../store/apis/authApi";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { clearAuth, logout, setCredentials } from "../store/slices/authSlice";
 import { setViewportSize } from "../store/slices/uiSlice";
@@ -39,6 +39,8 @@ const RootLayout = () => {
             }),
           );
         } catch (err) {
+          console.error("Refresh failed:", err);
+
           // FetchBaseQueryError 또는 SerializedError 타입으로 체크
           const error = err as FetchBaseQueryError | SerializedError;
 
