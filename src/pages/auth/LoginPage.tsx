@@ -9,6 +9,7 @@ import { useAppDispatch } from "../../store/hooks";
 import { setCredentials } from "../../store/slices/authSlice";
 import Button from "../../widgets/Button";
 import ContentLayout from "../../widgets/ContentLayout";
+import FormErrorMessage from "../../widgets/FormErrorMessage";
 import InputGroup from "../../widgets/InputGroup"; // 폼 데이터 타입 정의
 
 // 폼 데이터 타입 정의
@@ -106,11 +107,7 @@ const LoginPage = () => {
                 icon={MdMail}
                 placeholder="이메일"
               />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.email.message}
-                </p>
-              )}
+              <FormErrorMessage error={errors.email} />
             </div>
             <div>
               <InputGroup
@@ -119,13 +116,8 @@ const LoginPage = () => {
                 icon={MdLock}
                 placeholder="비밀번호"
               />{" "}
-              {errors.password && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.password.message}
-                </p>
-              )}
+              <FormErrorMessage error={errors.password} />
             </div>
-
             <div className="flex items-center justify-between">
               <label className="flex items-center">
                 <input
