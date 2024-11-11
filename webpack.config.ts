@@ -1,11 +1,12 @@
-import path from "path";
+import CopyWebpackPlugin from "copy-webpack-plugin";
 
 import dotenv from "dotenv";
-import webpack from "webpack";
-import webpackDevServer from "webpack-dev-server";
 
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import path from "path";
+import webpack from "webpack";
+import webpackDevServer from "webpack-dev-server";
 
 const prod = process.env.NODE_ENV === "production";
 
@@ -32,8 +33,9 @@ const config: webpack.Configuration = {
     publicPath: "/", // 리액트 라우터 - 중첩 라우팅 지원 오류 방지
   },
   optimization: {
-    splitChunks: { // 코드 스플릿
-      chunks: 'all',
+    splitChunks: {
+      // 코드 스플릿
+      chunks: "all",
     },
     runtimeChunk: "single", // 런타임 코드 분리
   },
@@ -73,6 +75,14 @@ const config: webpack.Configuration = {
       },
       favicon: process.env.SITE_FAVICON,
       minify: prod,
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: "public/assets",
+          to: "assets",
+        },
+      ],
     }),
     new MiniCssExtractPlugin(),
   ],
