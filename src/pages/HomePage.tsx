@@ -102,7 +102,7 @@ const HomePage = () => {
           style={{
             width: squareWidth,
             height: squareWidth,
-            backgroundImage: `url(https://road2gm.co.kr/assets/chess/pieces/staunty/${piece}.svg)`,
+            backgroundImage: `url(https://www.road2gm.co.kr/assets/chess/pieces/staunty/${piece}.svg)`,
             backgroundSize: "100%",
           }}
         />
