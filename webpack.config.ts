@@ -1,5 +1,3 @@
-import CopyWebpackPlugin from "copy-webpack-plugin";
-
 import dotenv from "dotenv";
 
 import HtmlWebpackPlugin from "html-webpack-plugin";
@@ -75,14 +73,6 @@ const config: webpack.Configuration = {
       },
       favicon: process.env.SITE_FAVICON,
       minify: prod,
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: "public/assets",
-          to: "assets",
-        },
-      ],
     }),
     new MiniCssExtractPlugin(),
   ],
