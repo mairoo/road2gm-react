@@ -1,8 +1,10 @@
+import CompressionPlugin from "compression-webpack-plugin";
 import dotenv from "dotenv";
 
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
+import TerserPlugin from "terser-webpack-plugin";
 import webpack from "webpack";
 import webpackDevServer from "webpack-dev-server";
 
@@ -31,11 +33,41 @@ const config: webpack.Configuration = {
     publicPath: "/", // 리액트 라우터 - 중첩 라우팅 지원 오류 방지
   },
   optimization: {
+    minimize: prod,
+    minimizer: [
+      new TerserPlugin({
+        // JS 코드 최소화
+        terserOptions: {
+          compress: {
+            drop_console: prod, // 프로덕션에서 console.log 제거
+          },
+        },
+      }),
+    ],
     splitChunks: {
-      // 코드 스플릿
       chunks: "all",
+      maxInitialRequests: Infinity,
+      minSize: 0,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name(module: any) {
+            // node_modules 패키지명 추출
+            const packageName = module.context.match(
+              /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
+            )[1];
+            return `vendor.${packageName.replace("@", "")}`;
+          },
+        },
+        commons: {
+          test: /[\\/]src[\\/]components[\\/]/,
+          name: "commons",
+          chunks: "all",
+          minChunks: 2,
+        },
+      },
     },
-    runtimeChunk: "single", // 런타임 코드 분리
+    runtimeChunk: "single",
   },
   module: {
     rules: [
@@ -75,6 +107,15 @@ const config: webpack.Configuration = {
       minify: prod,
     }),
     new MiniCssExtractPlugin(),
+    ...(prod
+      ? [
+          new CompressionPlugin({
+            // Gzip 압축
+            test: /\.(js|css|html|svg)$/,
+            algorithm: "gzip",
+          }),
+        ]
+      : []),
   ],
   devServer,
 };
