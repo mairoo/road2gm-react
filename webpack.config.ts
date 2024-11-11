@@ -45,29 +45,79 @@ const config: webpack.Configuration = {
       }),
     ],
     splitChunks: {
-      chunks: "all",
-      maxInitialRequests: Infinity,
-      minSize: 0,
+      chunks: 'all',
+      maxInitialRequests: 20, // 초기 요청 수 제한
+      maxAsyncRequests: 20, // 동적 요청 수 제한
+      minSize: 40000, // 최소 청크 크기 증가
+      maxSize: 244000, // 권장 최대 크기로 설정
       cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name(module: any) {
-            // node_modules 패키지명 추출
-            const packageName = module.context.match(
-              /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
-            )[1];
-            return `vendor.${packageName.replace("@", "")}`;
-          },
+        // React 관련 라이브러리
+        react: {
+          test: /[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types)[\\/]/,
+          name: 'vendor.react',
+          priority: 20,
+          enforce: true,
         },
-        commons: {
-          test: /[\\/]src[\\/]components[\\/]/,
-          name: "commons",
-          chunks: "all",
+        // Redux 관련 라이브러리
+        redux: {
+          test: /[\\/]node_modules[\\/](@reduxjs|redux|react-redux)[\\/]/,
+          name: 'vendor.redux',
+          priority: 19,
+          enforce: true,
+        },
+        // 라우터 관련 라이브러리
+        router: {
+          test: /[\\/]node_modules[\\/](react-router|react-router-dom|@remix-run)[\\/]/,
+          name: 'vendor.router',
+          priority: 18,
+          enforce: true,
+        },
+        // 폼 관련 라이브러리
+        forms: {
+          test: /[\\/]node_modules[\\/](react-hook-form|yup|@hookform)[\\/]/,
+          name: 'vendor.forms',
+          priority: 17,
+          enforce: true,
+        },
+        // 마크다운 관련 라이브러리
+        markdown: {
+          test: /[\\/]node_modules[\\/](react-markdown|remark-.*|unified|mdast-.*|micromark.*|unist-.*|vfile.*|hast-.*|property-information)[\\/]/,
+          name: 'vendor.markdown',
+          priority: 16,
+          enforce: true,
+        },
+        // 체스 관련 라이브러리
+        chess: {
+          test: /[\\/]node_modules[\\/](react-chessboard|chess.js)[\\/]/,
+          name: 'vendor.chess',
+          priority: 15,
+          enforce: true,
+        },
+        // UI 컴포넌트 라이브러리
+        ui: {
+          test: /[\\/]node_modules[\\/](@headlessui|react-icons|react-swipeable)[\\/]/,
+          name: 'vendor.ui',
+          priority: 14,
+          enforce: true,
+        },
+        // 나머지 vendor 패키지들
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          priority: -20,
+          enforce: true,
+          reuseExistingChunk: true,
+        },
+        // 공통 모듈
+        common: {
+          name: 'common',
           minChunks: 2,
+          priority: -30,
+          reuseExistingChunk: true,
         },
       },
     },
-    runtimeChunk: "single",
+    runtimeChunk: 'single',
   },
   module: {
     rules: [
