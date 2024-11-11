@@ -27,97 +27,76 @@ const config: webpack.Configuration = {
     main: "./src/index.tsx", // 번들링 엔트리 포인트
   },
   output: {
-    // 번들링 main.js 파일 저장되는 경로 (예, dist/main.js)
     path: path.resolve(__dirname, "dist"),
-    clean: true, // dist-clean 후 빌드
-    publicPath: "/", // 리액트 라우터 - 중첩 라우팅 지원 오류 방지
+    filename: prod ? "[name].[contenthash].js" : "[name].js",
+    chunkFilename: prod ? "chunks/[name].[chunkhash].js" : "chunks/[name].js",
+    clean: true,
   },
   optimization: {
     minimize: prod,
     minimizer: [
       new TerserPlugin({
-        // JS 코드 최소화
         terserOptions: {
           compress: {
-            drop_console: prod, // 프로덕션에서 console.log 제거
+            drop_console: true,
+            drop_debugger: true,
+            pure_funcs: ["console.log"],
+            passes: 3,
+            unsafe_math: true,
+            unsafe_methods: true,
+            collapse_vars: true,
+            reduce_vars: true,
+          },
+          mangle: {
+            safari10: true,
+            toplevel: true,
+          },
+          format: {
+            comments: false,
+            ascii_only: true,
           },
         },
+        extractComments: false,
       }),
     ],
     splitChunks: {
-      chunks: 'all',
-      maxInitialRequests: 20, // 초기 요청 수 제한
-      maxAsyncRequests: 20, // 동적 요청 수 제한
-      minSize: 40000, // 최소 청크 크기 증가
-      maxSize: 244000, // 권장 최대 크기로 설정
+      chunks: "all",
+      maxInitialRequests: 2, // 초기 요청 수를 2개로 제한
+      maxAsyncRequests: 3,
+      minSize: 200000, // 최소 청크 크기 증가
+      maxSize: 244000,
       cacheGroups: {
-        // React 관련 라이브러리
-        react: {
-          test: /[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types)[\\/]/,
-          name: 'vendor.react',
-          priority: 20,
-          enforce: true,
-        },
-        // Redux 관련 라이브러리
-        redux: {
-          test: /[\\/]node_modules[\\/](@reduxjs|redux|react-redux)[\\/]/,
-          name: 'vendor.redux',
-          priority: 19,
-          enforce: true,
-        },
-        // 라우터 관련 라이브러리
-        router: {
-          test: /[\\/]node_modules[\\/](react-router|react-router-dom|@remix-run)[\\/]/,
-          name: 'vendor.router',
-          priority: 18,
-          enforce: true,
-        },
-        // 폼 관련 라이브러리
-        forms: {
-          test: /[\\/]node_modules[\\/](react-hook-form|yup|@hookform)[\\/]/,
-          name: 'vendor.forms',
-          priority: 17,
-          enforce: true,
-        },
-        // 마크다운 관련 라이브러리
-        markdown: {
-          test: /[\\/]node_modules[\\/](react-markdown|remark-.*|unified|mdast-.*|micromark.*|unist-.*|vfile.*|hast-.*|property-information)[\\/]/,
-          name: 'vendor.markdown',
-          priority: 16,
-          enforce: true,
-        },
-        // 체스 관련 라이브러리
-        chess: {
-          test: /[\\/]node_modules[\\/](react-chessboard|chess.js)[\\/]/,
-          name: 'vendor.chess',
-          priority: 15,
-          enforce: true,
-        },
-        // UI 컴포넌트 라이브러리
-        ui: {
-          test: /[\\/]node_modules[\\/](@headlessui|react-icons|react-swipeable)[\\/]/,
-          name: 'vendor.ui',
-          priority: 14,
-          enforce: true,
-        },
-        // 나머지 vendor 패키지들
-        vendors: {
+        // 단일 vendor 번들
+        vendor: {
+          name: "vendor",
           test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          priority: -20,
+          priority: 20,
+          chunks: "initial", // 초기 로드에만 포함
           enforce: true,
           reuseExistingChunk: true,
         },
-        // 공통 모듈
-        common: {
-          name: 'common',
+        // 동적 임포트된 모듈
+        async: {
+          name: "async",
+          test: /[\\/]node_modules[\\/]/,
+          chunks: "async",
+          priority: 10,
+          reuseExistingChunk: true,
+          minSize: 100000,
+        },
+        // 앱 코드
+        default: {
           minChunks: 2,
-          priority: -30,
+          priority: -20,
           reuseExistingChunk: true,
         },
       },
     },
-    runtimeChunk: 'single',
+    runtimeChunk: {
+      name: "runtime",
+    },
+    moduleIds: "deterministic",
+    chunkIds: "deterministic",
   },
   module: {
     rules: [
@@ -127,7 +106,34 @@ const config: webpack.Configuration = {
           extensions: [".ts", ".tsx", ".js", ".json"], // ts-loader가 처리하는 확장자 명시
         },
         exclude: /node_modules/,
-        use: prod ? "babel-loader" : "ts-loader",
+        use: prod
+          ? {
+              loader: "babel-loader",
+              options: {
+                presets: [
+                  [
+                    "@babel/preset-env",
+                    {
+                      modules: false,
+                      useBuiltIns: "usage",
+                      corejs: 3,
+                      targets: {
+                        browsers: [">0.2%", "not dead", "not op_mini all"],
+                      },
+                    },
+                  ],
+                  ["@babel/preset-react", { runtime: "automatic" }],
+                  "@babel/preset-typescript",
+                ],
+              },
+            }
+          : {
+              loader: "ts-loader",
+              options: {
+                transpileOnly: true, // 개발 환경에서 타입 체크 속도 향상
+                experimentalWatchApi: true,
+              },
+            },
       },
       {
         test: /\.css$/i,
@@ -154,9 +160,24 @@ const config: webpack.Configuration = {
         "theme-color": process.env.SITE_THEME_COLOR!,
       },
       favicon: process.env.SITE_FAVICON,
-      minify: prod,
+      minify: prod
+        ? {
+            removeComments: true,
+            collapseWhitespace: true,
+            removeRedundantAttributes: true,
+            useShortDoctype: true,
+            removeEmptyAttributes: true,
+            removeStyleLinkTypeAttributes: true,
+            keepClosingSlash: true,
+            minifyJS: true,
+            minifyCSS: true,
+            minifyURLs: true,
+          }
+        : false,
     }),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: prod ? "css/[name].[contenthash].css" : "[name].css",
+    }),
     ...(prod
       ? [
           new CompressionPlugin({
@@ -168,6 +189,12 @@ const config: webpack.Configuration = {
       : []),
   ],
   devServer,
+  stats: {
+    chunks: true,
+    modules: false,
+    chunkModules: false,
+    chunkOrigins: false,
+  },
 };
 
 export default config;

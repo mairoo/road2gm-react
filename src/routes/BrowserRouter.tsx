@@ -1,41 +1,65 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
-
 import AuthLayout from "../layouts/AuthLayout";
 import BookLayout from "../layouts/BookLayout";
 import HomeLayout from "../layouts/HomeLayout";
 import RootLayout from "../layouts/RootLayout";
-import LoginPage from "../pages/auth/LoginPage";
-import LogoutPage from "../pages/auth/LogoutPage";
-import Oauth2RedirectPage from "../pages/auth/Oauth2RedirectPage";
-import SignUpPage from "../pages/auth/SignUpPage";
-import BookPage from "../pages/book";
-import BookDetailPage from "../pages/book/[id]";
-import BookPageDetailPage from "../pages/book/page/[id]";
 import ErrorPage from "../pages/ErrorPage";
-import HomePage from "../pages/HomePage";
+import Loading from "../widgets/Loading"; // 로딩 컴포넌트 필요
 import GuestRoute from "./GuestRoute";
-import PrivateRoute from "./PrivateRoute";
+import PrivateRoute from "./PrivateRoute"; // 페이지 컴포넌트들을 lazy 로딩
+
+// 페이지 컴포넌트들을 lazy 로딩
+const HomePage = lazy(
+  () => import(/* webpackChunkName: "home" */ "../pages/HomePage"),
+);
+
+// Auth 관련 페이지들을 하나의 청크로 그룹화
+const LoginPage = lazy(
+  () => import(/* webpackChunkName: "auth" */ "../pages/auth/LoginPage"),
+);
+const LogoutPage = lazy(
+  () => import(/* webpackChunkName: "auth" */ "../pages/auth/LogoutPage"),
+);
+const SignUpPage = lazy(
+  () => import(/* webpackChunkName: "auth" */ "../pages/auth/SignUpPage"),
+);
+const Oauth2RedirectPage = lazy(
+  () =>
+    import(/* webpackChunkName: "auth" */ "../pages/auth/Oauth2RedirectPage"),
+);
+
+// Book 관련 페이지들을 하나의 청크로 그룹화
+const BookPage = lazy(
+  () => import(/* webpackChunkName: "book" */ "../pages/book"),
+);
+const BookDetailPage = lazy(
+  () => import(/* webpackChunkName: "book" */ "../pages/book/[id]"),
+);
+const BookPageDetailPage = lazy(
+  () => import(/* webpackChunkName: "book" */ "../pages/book/page/[id]"),
+);
+
+// 라우트 컴포넌트를 Suspense로 감싸는 헬퍼 함수
+const withSuspense = (Component: React.ComponentType) => (
+  <Suspense fallback={<Loading />}>
+    <Component />
+  </Suspense>
+);
 
 const BrowserRouter = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
-    // errorElement 속성은 React Router v6.4에서 도입
-    // 해당 라우트나 그 하위 라우트에서 발생하는 오류를 잡아낸다.
-    // loader, action 함수에서 throw된 오류도 처리 가능하다. (하지만 RTK-Query 사용)
     errorElement: <ErrorPage />,
     children: [
-      // children 배열로 두면 코드 분할(Code Splitting)과 지연 로딩(Lazy Loading)을 구현하기 쉽다.
-      // 프로그래밍 방식으로 라우트를 조작하기 더 쉽다.
-      // 복잡한 중첩 라우트 구조에서는 가독성이 떨어진다.
       {
         path: "/",
         element: <HomeLayout />,
         children: [
           {
             index: true,
-            element: <HomePage />,
+            element: withSuspense(HomePage),
           },
         ],
       },
@@ -45,35 +69,21 @@ const BrowserRouter = createBrowserRouter([
         children: [
           {
             path: "login",
-            element: (
-              <GuestRoute>
-                <LoginPage />
-              </GuestRoute>
-            ),
+            element: <GuestRoute>{withSuspense(LoginPage)}</GuestRoute>,
           },
           {
             path: "sign-up",
-            element: (
-              <GuestRoute>
-                <SignUpPage />
-              </GuestRoute>
-            ),
+            element: <GuestRoute>{withSuspense(SignUpPage)}</GuestRoute>,
           },
           {
             path: "oauth2-redirect",
             element: (
-              <GuestRoute>
-                <Oauth2RedirectPage />
-              </GuestRoute>
+              <GuestRoute>{withSuspense(Oauth2RedirectPage)}</GuestRoute>
             ),
           },
           {
             path: "logout",
-            element: (
-              <PrivateRoute>
-                <LogoutPage />
-              </PrivateRoute>
-            ),
+            element: <PrivateRoute>{withSuspense(LogoutPage)}</PrivateRoute>,
           },
         ],
       },
@@ -83,21 +93,21 @@ const BrowserRouter = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <BookPage />, // 책 목록
+            element: withSuspense(BookPage),
           },
           {
             path: ":bookId",
             children: [
               {
                 index: true,
-                element: <BookDetailPage />, // 책 상세 & 페이지 목록(목차)
+                element: withSuspense(BookDetailPage),
               },
               {
                 path: "page",
                 children: [
                   {
                     path: ":pageId",
-                    element: <BookPageDetailPage />, // 페이지 상세
+                    element: withSuspense(BookPageDetailPage),
                   },
                 ],
               },
