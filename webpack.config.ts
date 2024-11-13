@@ -1,4 +1,5 @@
 import CompressionPlugin from "compression-webpack-plugin";
+import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import dotenv from "dotenv";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
@@ -8,15 +9,15 @@ import webpack from "webpack";
 import webpackDevServer from "webpack-dev-server";
 
 const BundleAnalyzerPlugin =
-  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+    require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 // Webpack Plugin 타입 정의
 type WebpackPlugin =
-  | webpack.DefinePlugin
-  | HtmlWebpackPlugin
-  | MiniCssExtractPlugin
-  | typeof BundleAnalyzerPlugin
-  | CompressionPlugin;
+    | webpack.DefinePlugin
+    | HtmlWebpackPlugin
+    | MiniCssExtractPlugin
+    | typeof BundleAnalyzerPlugin
+    | CompressionPlugin;
 
 const prod = process.env.NODE_ENV === "production";
 const analyze = process.env.ANALYZE === "true";
@@ -39,8 +40,7 @@ const plugins = [
     "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
   }),
   new HtmlWebpackPlugin({
-    template: "./index.html",
-    // .env에서 읽은 설정을 HTML 문서에 주입 가능
+    template: "./index.html", // .env에서 읽은 설정을 HTML 문서에 주입 가능
     title: process.env.SITE_TITLE,
     meta: {
       viewport: "width=device-width, initial-scale=1",
@@ -48,7 +48,7 @@ const plugins = [
     },
     favicon: process.env.SITE_FAVICON,
     minify: prod
-      ? {
+        ? {
           removeComments: true,
           collapseWhitespace: true,
           removeRedundantAttributes: true,
@@ -60,10 +60,14 @@ const plugins = [
           minifyCSS: true,
           minifyURLs: true,
         }
-      : false,
+        : false,
   }),
   new MiniCssExtractPlugin({
     filename: prod ? "css/[name].[contenthash].css" : "[name].css",
+  }),
+  new webpack.IgnorePlugin({
+    resourceRegExp: /^\.\/locale$/,
+    contextRegExp: /moment$/,
   }),
 ].filter(Boolean) /* falsy 값 제거 */ as WebpackPlugin[];
 
@@ -73,16 +77,18 @@ if (analyze) {
 
 if (prod) {
   plugins.push(
-    new CompressionPlugin({
-      test: /\.(js|css|html|svg)$/,
-      algorithm: "gzip",
-    }),
+      new CompressionPlugin({
+        test: /\.(js|css|html|svg)$/,
+        algorithm: "gzip",
+        threshold: 10240, // 10KB 이상인 파일만 압축
+        minRatio: 0.8,
+      }),
   );
 }
 
 const config: webpack.Configuration = {
   mode: prod ? "production" : "development",
-  devtool: prod ? false : "source-map", // 소스 맵 포함 시 번들 크기가 매우 크다.
+  devtool: prod ? false : "eval-cheap-module-source-map", // 소스 맵 포함 시 번들 크기가 매우 크다.
 
   entry: {
     main: "./src/index.tsx", // 번들링 엔트리 포인트
@@ -95,7 +101,7 @@ const config: webpack.Configuration = {
   },
   optimization: {
     usedExports: true, // tree shaking for react-icons ...
-    sideEffects: false, // 순수 함수 외의 모듈에서 부작용을 제거
+    sideEffects: true, // 순수 함수 외의 모듈에서 부작용을 제거
     minimize: prod,
     minimizer: [
       new TerserPlugin({
@@ -103,16 +109,29 @@ const config: webpack.Configuration = {
           compress: {
             drop_console: true,
             drop_debugger: true,
-            pure_funcs: ["console.log"],
-            passes: 3,
+            pure_funcs: [
+              "console.log",
+              "console.info",
+              "console.debug",
+              "console.warn",
+            ],
+            passes: 2,
             unsafe_math: true,
             unsafe_methods: true,
             collapse_vars: true,
             reduce_vars: true,
+            module: true,
+            dead_code: true,
+            evaluate: true,
+            if_return: true,
+            unused: true,
           },
           mangle: {
             safari10: true,
             toplevel: true,
+            properties: {
+              regex: /^_/,  // '_'로 시작하는 프로퍼티만 망글링
+            },
           },
           format: {
             comments: false,
@@ -121,43 +140,55 @@ const config: webpack.Configuration = {
         },
         extractComments: false,
       }),
+      new CssMinimizerPlugin(),
     ],
     splitChunks: {
       chunks: "all",
-      maxInitialRequests: 2, // 초기 요청 수를 2개로 제한
-      maxAsyncRequests: 3,
-      minSize: 200000, // 최소 청크 크기 증가
+      maxInitialRequests: 5,
+      maxAsyncRequests: 5,
+      minSize: 20000,
       maxSize: 244000,
       cacheGroups: {
-        // 단일 vendor 번들
-        vendor: {
-          name: "vendor",
-          test: /[\\/]node_modules[\\/]/,
-          priority: 20,
-          chunks: "initial", // 초기 로드에만 포함
+        react: {
+          test: /[\\/]node_modules[\\/](react|react-dom|react-router-dom)[\\/]/,
+          name: "react-vendor",
+          chunks: "all",
+          priority: 40,
           enforce: true,
-          reuseExistingChunk: true,
         },
-        // 동적 임포트된 모듈
-        async: {
-          name: "async",
-          test: /[\\/]node_modules[\\/]/,
+        icons: {
+          test: /[\\/]node_modules[\\/]react-icons[\\/]/,
+          name: "icons",
           chunks: "async",
-          priority: 10,
-          reuseExistingChunk: true,
+          priority: 35,
+        },
+        redux: {
+          test: /[\\/]node_modules[\\/]@?redux.*[\\/]/,
+          name: "redux",
+          chunks: "async",
+          priority: 30,
+        },
+        libs: {
+          test: /[\\/]node_modules[\\/]/,
+          name(module: any) {
+            const packageName = module.context.match(
+                /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
+            )[1];
+            return `lib.${packageName.replace("@", "")}`;
+          },
+          chunks: "async",
+          priority: 20,
           minSize: 100000,
         },
-        // 앱 코드
         default: {
           minChunks: 2,
           priority: -20,
           reuseExistingChunk: true,
+          minSize: 30000,
         },
       },
     },
-    runtimeChunk: {
-      name: "runtime",
-    },
+    runtimeChunk: "single",
     moduleIds: "deterministic",
     chunkIds: "deterministic",
   },
@@ -166,13 +197,14 @@ const config: webpack.Configuration = {
       {
         test: /\.(tsx|ts|jsx|js|json)$/,
         resolve: {
-          extensions: [".ts", ".tsx", ".js", ".json"], // ts-loader가 처리하는 확장자 명시
+          extensions: [".ts", ".tsx", ".js", ".json"],
         },
         exclude: /node_modules/,
         use: prod
-          ? {
+            ? {
               loader: "babel-loader",
               options: {
+                cacheDirectory: true,
                 presets: [
                   [
                     "@babel/preset-env",
@@ -188,9 +220,13 @@ const config: webpack.Configuration = {
                   ["@babel/preset-react", { runtime: "automatic" }],
                   "@babel/preset-typescript",
                 ],
+                plugins: [
+                  "@babel/plugin-transform-runtime",
+                  "babel-plugin-transform-remove-console",
+                ],
               },
             }
-          : {
+            : {
               loader: "ts-loader",
               options: {
                 transpileOnly: true, // 개발 환경에서 타입 체크 속도 향상
@@ -202,7 +238,18 @@ const config: webpack.Configuration = {
         test: /\.css$/i,
         use: [
           prod ? MiniCssExtractPlugin.loader : "style-loader", // 배포 시 CSS 파일 추출 분리
-          "css-loader", // CSS 파일을 JS 모듈로 불러와 접근 가능
+          {
+            loader: "css-loader", // CSS 파일을 JS 모듈로 불러와 접근 가능
+            options: {
+              importLoaders: 1,
+              modules: {
+                auto: true,
+                localIdentName: prod
+                    ? "[hash:base64]"
+                    : "[local]_[hash:base64:5]",
+              },
+            },
+          },
           "postcss-loader", // tailwind 처리
         ],
       },
