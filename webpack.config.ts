@@ -98,11 +98,13 @@ const config: webpack.Configuration = {
     filename: prod ? "[name].[contenthash].js" : "[name].js",
     chunkFilename: prod ? "chunks/[name].[chunkhash].js" : "chunks/[name].js",
     clean: true,
+    publicPath: '/',
   },
   optimization: {
     usedExports: true, // tree shaking for react-icons ...
     sideEffects: true, // 순수 함수 외의 모듈에서 부작용을 제거
     minimize: prod,
+    concatenateModules: prod,
     minimizer: [
       new TerserPlugin({
         terserOptions: {
