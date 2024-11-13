@@ -9,15 +9,15 @@ import webpack from "webpack";
 import webpackDevServer from "webpack-dev-server";
 
 const BundleAnalyzerPlugin =
-    require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 // Webpack Plugin 타입 정의
 type WebpackPlugin =
-    | webpack.DefinePlugin
-    | HtmlWebpackPlugin
-    | MiniCssExtractPlugin
-    | typeof BundleAnalyzerPlugin
-    | CompressionPlugin;
+  | webpack.DefinePlugin
+  | HtmlWebpackPlugin
+  | MiniCssExtractPlugin
+  | typeof BundleAnalyzerPlugin
+  | CompressionPlugin;
 
 const prod = process.env.NODE_ENV === "production";
 const analyze = process.env.ANALYZE === "true";
@@ -48,7 +48,7 @@ const plugins = [
     },
     favicon: process.env.SITE_FAVICON,
     minify: prod
-        ? {
+      ? {
           removeComments: true,
           collapseWhitespace: true,
           removeRedundantAttributes: true,
@@ -60,7 +60,7 @@ const plugins = [
           minifyCSS: true,
           minifyURLs: true,
         }
-        : false,
+      : false,
   }),
   new MiniCssExtractPlugin({
     filename: prod ? "css/[name].[contenthash].css" : "[name].css",
@@ -77,12 +77,12 @@ if (analyze) {
 
 if (prod) {
   plugins.push(
-      new CompressionPlugin({
-        test: /\.(js|css|html|svg)$/,
-        algorithm: "gzip",
-        threshold: 10240, // 10KB 이상인 파일만 압축
-        minRatio: 0.8,
-      }),
+    new CompressionPlugin({
+      test: /\.(js|css|html|svg)$/,
+      algorithm: "gzip",
+      threshold: 10240, // 10KB 이상인 파일만 압축
+      minRatio: 0.8,
+    }),
   );
 }
 
@@ -130,7 +130,7 @@ const config: webpack.Configuration = {
             safari10: true,
             toplevel: true,
             properties: {
-              regex: /^_/,  // '_'로 시작하는 프로퍼티만 망글링
+              regex: /^_/, // '_'로 시작하는 프로퍼티만 망글링
             },
           },
           format: {
@@ -172,13 +172,25 @@ const config: webpack.Configuration = {
           test: /[\\/]node_modules[\\/]/,
           name(module: any) {
             const packageName = module.context.match(
-                /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
+              /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
             )[1];
             return `lib.${packageName.replace("@", "")}`;
           },
           chunks: "async",
           priority: 20,
           minSize: 100000,
+        },
+        chess: {
+          test: /[\\/]node_modules[\\/](react-chessboard|chess\.js)[\\/]/,
+          name: "chess-vendor",
+          chunks: "async",
+          priority: 40,
+        },
+        markdown: {
+          test: /[\\/]node_modules[\\/](micromark|micromark-extension-gfm)[\\/]/,
+          name: "markdown-vendor",
+          chunks: "async",
+          priority: 40,
         },
         default: {
           minChunks: 2,
@@ -201,7 +213,7 @@ const config: webpack.Configuration = {
         },
         exclude: /node_modules/,
         use: prod
-            ? {
+          ? {
               loader: "babel-loader",
               options: {
                 cacheDirectory: true,
@@ -226,7 +238,7 @@ const config: webpack.Configuration = {
                 ],
               },
             }
-            : {
+          : {
               loader: "ts-loader",
               options: {
                 transpileOnly: true, // 개발 환경에서 타입 체크 속도 향상
@@ -245,8 +257,8 @@ const config: webpack.Configuration = {
               modules: {
                 auto: true,
                 localIdentName: prod
-                    ? "[hash:base64]"
-                    : "[local]_[hash:base64:5]",
+                  ? "[hash:base64]"
+                  : "[local]_[hash:base64:5]",
               },
             },
           },
