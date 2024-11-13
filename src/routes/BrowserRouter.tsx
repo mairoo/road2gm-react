@@ -14,6 +14,10 @@ const HomePage = lazy(
   () => import(/* webpackChunkName: "home" */ "../pages/HomePage"),
 );
 
+const DevPage = lazy(
+  () => import(/* webpackChunkName: "home" */ "../pages/DevPage"),
+);
+
 // Auth 관련 페이지들을 하나의 청크로 그룹화
 const LoginPage = lazy(
   () => import(/* webpackChunkName: "auth" */ "../pages/auth/LoginPage"),
@@ -60,6 +64,10 @@ const BrowserRouter = createBrowserRouter([
           {
             index: true,
             element: withSuspense(HomePage),
+          },
+          {
+            path: "dev",
+            element: withSuspense(DevPage),
           },
         ],
       },
