@@ -1,6 +1,5 @@
 import CompressionPlugin from "compression-webpack-plugin";
 import dotenv from "dotenv";
-
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
@@ -8,7 +7,19 @@ import TerserPlugin from "terser-webpack-plugin";
 import webpack from "webpack";
 import webpackDevServer from "webpack-dev-server";
 
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+
+// Webpack Plugin 타입 정의
+type WebpackPlugin =
+  | webpack.DefinePlugin
+  | HtmlWebpackPlugin
+  | MiniCssExtractPlugin
+  | typeof BundleAnalyzerPlugin
+  | CompressionPlugin;
+
 const prod = process.env.NODE_ENV === "production";
+const analyze = process.env.ANALYZE === "true";
 
 // TS2353 Error fix: 'devServer' does not exist in type 'Configuration'
 const devServer: webpackDevServer.Configuration = {
@@ -18,6 +29,56 @@ const devServer: webpackDevServer.Configuration = {
   open: true, // 서버 시작 시 브라우저 자동 열기
   historyApiFallback: true, // 리액트 라우터 - 새로고침 오류 방지
 };
+
+const plugins = [
+  // dotenv + Webpack.DefinePlugin = dotenv-webpack
+  // 아래 코드 process.env.NODE_ENV 부분은 순환참조된 것이 아님.
+  // 이 코드는 Webpack의 DefinePlugin을 사용하여 단순히 현재 실행 중인 노드 애플리케이션의 환경(process.env 객체)을 정의
+  new webpack.DefinePlugin({
+    "process.env": JSON.stringify(dotenv.config().parsed),
+    "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+  }),
+  new HtmlWebpackPlugin({
+    template: "./index.html",
+    // .env에서 읽은 설정을 HTML 문서에 주입 가능
+    title: process.env.SITE_TITLE,
+    meta: {
+      viewport: "width=device-width, initial-scale=1",
+      "theme-color": process.env.SITE_THEME_COLOR!,
+    },
+    favicon: process.env.SITE_FAVICON,
+    minify: prod
+      ? {
+          removeComments: true,
+          collapseWhitespace: true,
+          removeRedundantAttributes: true,
+          useShortDoctype: true,
+          removeEmptyAttributes: true,
+          removeStyleLinkTypeAttributes: true,
+          keepClosingSlash: true,
+          minifyJS: true,
+          minifyCSS: true,
+          minifyURLs: true,
+        }
+      : false,
+  }),
+  new MiniCssExtractPlugin({
+    filename: prod ? "css/[name].[contenthash].css" : "[name].css",
+  }),
+].filter(Boolean) /* falsy 값 제거 */ as WebpackPlugin[];
+
+if (analyze) {
+  plugins.push(new BundleAnalyzerPlugin());
+}
+
+if (prod) {
+  plugins.push(
+    new CompressionPlugin({
+      test: /\.(js|css|html|svg)$/,
+      algorithm: "gzip",
+    }),
+  );
+}
 
 const config: webpack.Configuration = {
   mode: prod ? "production" : "development",
@@ -33,6 +94,8 @@ const config: webpack.Configuration = {
     clean: true,
   },
   optimization: {
+    usedExports: true, // tree shaking for react-icons ...
+    sideEffects: false, // 순수 함수 외의 모듈에서 부작용을 제거
     minimize: prod,
     minimizer: [
       new TerserPlugin({
@@ -114,7 +177,7 @@ const config: webpack.Configuration = {
                   [
                     "@babel/preset-env",
                     {
-                      modules: false,
+                      modules: false, // ES6 모듈 구문 유지하여 웹팩 Tree Shaking 기능을 보다 효과적으로 활용
                       useBuiltIns: "usage",
                       corejs: 3,
                       targets: {
@@ -145,53 +208,10 @@ const config: webpack.Configuration = {
       },
     ],
   },
-  plugins: [
-    // dotenv + Webpack.DefinePlugin = dotenv-webpack
-    // 아래 코드 process.env.NODE_ENV 부분은 순환참조된 것이 아님.
-    // 이 코드는 Webpack의 DefinePlugin을 사용하여 단순히 현재 실행 중인 노드 애플리케이션의 환경(process.env 객체)을 정의
-    new webpack.DefinePlugin({
-      "process.env": JSON.stringify(dotenv.config().parsed),
-      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
-    }),
-    new HtmlWebpackPlugin({
-      template: "./index.html",
-      // .env에서 읽은 설정을 HTML 문서에 주입 가능
-      title: process.env.SITE_TITLE,
-      meta: {
-        viewport: "width=device-width, initial-scale=1",
-        "theme-color": process.env.SITE_THEME_COLOR!,
-      },
-      favicon: process.env.SITE_FAVICON,
-      minify: prod
-        ? {
-            removeComments: true,
-            collapseWhitespace: true,
-            removeRedundantAttributes: true,
-            useShortDoctype: true,
-            removeEmptyAttributes: true,
-            removeStyleLinkTypeAttributes: true,
-            keepClosingSlash: true,
-            minifyJS: true,
-            minifyCSS: true,
-            minifyURLs: true,
-          }
-        : false,
-    }),
-    new MiniCssExtractPlugin({
-      filename: prod ? "css/[name].[contenthash].css" : "[name].css",
-    }),
-    ...(prod
-      ? [
-          new CompressionPlugin({
-            // Gzip 압축
-            test: /\.(js|css|html|svg)$/,
-            algorithm: "gzip",
-          }),
-        ]
-      : []),
-  ],
+  plugins,
   devServer,
   stats: {
+    // 출력정보
     chunks: true,
     modules: false,
     chunkModules: false,

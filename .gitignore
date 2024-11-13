@@ -130,3 +130,6 @@ dist
 
 # jetbrains
 .idea/
+
+# Analyzer
+stats.json
