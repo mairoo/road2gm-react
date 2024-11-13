@@ -147,6 +147,8 @@ const config: webpack.Configuration = {
   },
   plugins: [
     // dotenv + Webpack.DefinePlugin = dotenv-webpack
+    // 아래 코드 process.env.NODE_ENV 부분은 순환참조된 것이 아님.
+    // 이 코드는 Webpack의 DefinePlugin을 사용하여 단순히 현재 실행 중인 노드 애플리케이션의 환경(process.env 객체)을 정의
     new webpack.DefinePlugin({
       "process.env": JSON.stringify(dotenv.config().parsed),
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
